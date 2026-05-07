@@ -348,6 +348,7 @@ public class StatusTest : TestBase
     [InlineData(Status.Retry)]
     [InlineData(Status.Challenged)]
     [InlineData(Status.Blocked)]
+    [InlineData(Status.ShadowBlocked)]
     public void Validation_Works(Status rawValue)
     {
         // force implicit conversion because Theory can't do that for us
@@ -372,6 +373,7 @@ public class StatusTest : TestBase
     [InlineData(Status.Retry)]
     [InlineData(Status.Challenged)]
     [InlineData(Status.Blocked)]
+    [InlineData(Status.ShadowBlocked)]
     public void SerializationRoundtrip_Works(Status rawValue)
     {
         // force implicit conversion because Theory can't do that for us
