@@ -8,9 +8,10 @@ The REST API documentation can be found on [docs.prelude.so](https://docs.prelud
 
 ## Installation
 
+Install the package from [NuGet](https://www.nuget.org/packages/PreludeSdk):
+
 ```bash
-git clone git@github.com:prelude-so/csharp-sdk.git
-dotnet add reference csharp-sdk/src/Prelude
+dotnet add package PreludeSdk
 ```
 
 ## Requirements
@@ -23,8 +24,8 @@ See the [`examples`](examples) directory for complete and runnable examples.
 
 ```csharp
 using System;
-using Prelude;
-using Verification = Prelude.Models.Verification;
+using PreludeSdk;
+using Verification = PreludeSdk.Models.Verification;
 
 PreludeClient client = new();
 
@@ -47,7 +48,7 @@ Console.WriteLine(verification);
 Configure the client using environment variables:
 
 ```csharp
-using Prelude;
+using PreludeSdk;
 
 // Configured using the API_TOKEN and PRELUDE_BASE_URL environment variables
 PreludeClient client = new();
@@ -56,7 +57,7 @@ PreludeClient client = new();
 Or manually:
 
 ```csharp
-using Prelude;
+using PreludeSdk;
 
 PreludeClient client = new() { ApiToken = "My API Token" };
 ```
@@ -118,7 +119,7 @@ For non-streaming responses, you can deserialize the response into an instance o
 
 ```csharp
 using System;
-using Prelude.Models.Verification;
+using PreludeSdk.Models.Verification;
 
 var response = await client.WithRawResponse.Verification.Create(parameters);
 VerificationCreateResponse deserialized = await response.Deserialize();
@@ -169,7 +170,7 @@ The API may also explicitly instruct the SDK to retry or not retry a request.
 To set a custom number of retries, configure the client using the `MaxRetries` method:
 
 ```csharp
-using Prelude;
+using PreludeSdk;
 
 PreludeClient client = new() { MaxRetries = 3 };
 ```
@@ -196,7 +197,7 @@ To set a custom timeout, configure the client using the `Timeout` option:
 
 ```csharp
 using System;
-using Prelude;
+using PreludeSdk;
 
 PreludeClient client = new() { Timeout = TimeSpan.FromSeconds(42) };
 ```
@@ -222,7 +223,7 @@ To route requests through a proxy, configure your client with a custom [`HttpCli
 ```csharp
 using System.Net;
 using System.Net.Http;
-using Prelude;
+using PreludeSdk;
 
 var httpClient = new HttpClient
 (
@@ -246,7 +247,7 @@ To set undocumented parameters, a constructor exists that accepts dictionaries f
 ```csharp
 using System.Collections.Generic;
 using System.Text.Json;
-using Prelude.Models.Verification;
+using PreludeSdk.Models.Verification;
 
 VerificationCreateParams parameters = new
 (
@@ -283,7 +284,7 @@ This can also be used to set a documented parameter to an undocumented or not ye
 ```csharp
 using System.Collections.Generic;
 using System.Text.Json;
-using Prelude.Models.Verification;
+using PreludeSdk.Models.Verification;
 
 var parameters = VerificationCreateParams.FromRawUnchecked
 (
@@ -307,7 +308,7 @@ Undocumented properties, or undocumented values of documented properties, on nes
 ```csharp
 using System.Collections.Generic;
 using System.Text.Json;
-using Prelude.Models.Verification;
+using PreludeSdk.Models.Verification;
 
 VerificationCreateParams parameters = new()
 {
@@ -326,7 +327,7 @@ Required properties on the nested parameter can also be changed or omitted using
 ```csharp
 using System.Collections.Generic;
 using System.Text.Json;
-using Prelude.Models.Verification;
+using PreludeSdk.Models.Verification;
 
 VerificationCreateParams parameters = new()
 {
@@ -372,7 +373,7 @@ verification.Validate();
 Or configure the client using the `ResponseValidation` option:
 
 ```csharp
-using Prelude;
+using PreludeSdk;
 
 PreludeClient client = new() { ResponseValidation = true };
 ```
