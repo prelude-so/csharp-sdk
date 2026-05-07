@@ -49,6 +49,9 @@ public sealed record class VerificationCreateResponse : JsonModel
     /// window.  * `challenged` - The verification is suspicious and is restricted
     /// to non-SMS and non-voice channels only. This mode must be enabled for your
     /// customer account by Prelude support.  * `blocked` - The verification was blocked.
+    ///  * `shadow_blocked` - The verification triggered a block rule but the decision
+    /// was not enforced; this is used to dry-run anti-fraud configuration. This mode
+    /// must be enabled for your customer account by Prelude support.
     /// </summary>
     public required ApiEnum<string, Status> Status
     {
@@ -109,15 +112,15 @@ public sealed record class VerificationCreateResponse : JsonModel
 
     /// <summary>
     /// The reason why the verification was blocked. Only present when status is
-    /// "blocked".  * `expired_signature` - The signature of the SDK signals is expired.
-    /// They should be sent within    the hour following their collection.  * `in_block_list`
-    /// - The phone number is part of the configured block list.  * `invalid_phone_line`
-    /// - The phone number is not a valid line number (e.g. landline).  * `invalid_phone_number`
-    /// - The phone number is not a valid phone number (e.g. unallocated range).
-    ///  * `invalid_signature` - The signature of the SDK signals is invalid.  *
-    /// `repeated_attempts` - The phone number has made too many verification attempts.
-    ///  * `suspicious` - The verification attempt was deemed suspicious by the anti-fraud
-    /// system.
+    /// "blocked" or "shadow_blocked".  * `expired_signature` - The signature of the
+    /// SDK signals is expired. They should be sent within    the hour following
+    /// their collection.  * `in_block_list` - The phone number is part of the configured
+    /// block list.  * `invalid_phone_line` - The phone number is not a valid line
+    /// number (e.g. landline).  * `invalid_phone_number` - The phone number is not
+    /// a valid phone number (e.g. unallocated range).  * `invalid_signature` - The
+    /// signature of the SDK signals is invalid.  * `repeated_attempts` - The phone
+    /// number has made too many verification attempts.  * `suspicious` - The verification
+    /// attempt was deemed suspicious by the anti-fraud system.
     /// </summary>
     public ApiEnum<string, Reason>? Reason
     {
@@ -157,12 +160,12 @@ public sealed record class VerificationCreateResponse : JsonModel
 
     /// <summary>
     /// The risk factors that contributed to the verification being blocked. Only
-    /// present when status is "blocked" and the anti-fraud system detected specific
-    /// risk signals.  * `behavioral_pattern` - The phone number past behavior during
-    /// verification flows exhibits suspicious patterns.  * `device_attribute` - The
-    /// device exhibits characteristics associated with suspicious activity patterns.
-    ///  * `fraud_database` - The phone number has been flagged as suspicious in
-    /// one or more of our fraud databases.  * `location_discrepancy` - The phone
+    /// present when status is "blocked" or "shadow_blocked" and the anti-fraud system
+    /// detected specific risk signals.  * `behavioral_pattern` - The phone number
+    /// past behavior during verification flows exhibits suspicious patterns.  * `device_attribute`
+    /// - The device exhibits characteristics associated with suspicious activity
+    /// patterns.  * `fraud_database` - The phone number has been flagged as suspicious
+    /// in one or more of our fraud databases.  * `location_discrepancy` - The phone
     /// number prefix and IP address discrepancy indicates potential fraud.  * `network_fingerprint`
     /// - The network connection exhibits characteristics associated with suspicious
     /// activity patterns.  * `poor_conversion_history` - The phone number has a
@@ -335,7 +338,10 @@ sealed class VerificationCreateResponseMethodConverter
 ///  * `retry` - A new attempt was created for an existing verification window.  *
 /// `challenged` - The verification is suspicious and is restricted to non-SMS and
 /// non-voice channels only. This mode must be enabled for your customer account
-/// by Prelude support.  * `blocked` - The verification was blocked.
+/// by Prelude support.  * `blocked` - The verification was blocked.  * `shadow_blocked`
+/// - The verification triggered a block rule but the decision was not enforced; this
+/// is used to dry-run anti-fraud configuration. This mode must be enabled for your
+/// customer account by Prelude support.
 /// </summary>
 [JsonConverter(typeof(StatusConverter))]
 public enum Status
@@ -344,6 +350,7 @@ public enum Status
     Retry,
     Challenged,
     Blocked,
+    ShadowBlocked,
 }
 
 sealed class StatusConverter : JsonConverter<Status>
@@ -360,6 +367,7 @@ sealed class StatusConverter : JsonConverter<Status>
             "retry" => Status.Retry,
             "challenged" => Status.Challenged,
             "blocked" => Status.Blocked,
+            "shadow_blocked" => Status.ShadowBlocked,
             _ => (Status)(-1),
         };
     }
@@ -374,6 +382,7 @@ sealed class StatusConverter : JsonConverter<Status>
                 Status.Retry => "retry",
                 Status.Challenged => "challenged",
                 Status.Blocked => "blocked",
+                Status.ShadowBlocked => "shadow_blocked",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
@@ -521,15 +530,16 @@ class VerificationCreateResponseMetadataFromRaw : IFromRawJson<VerificationCreat
 }
 
 /// <summary>
-/// The reason why the verification was blocked. Only present when status is "blocked".
-///  * `expired_signature` - The signature of the SDK signals is expired. They should
-/// be sent within    the hour following their collection.  * `in_block_list` - The
-/// phone number is part of the configured block list.  * `invalid_phone_line` -
-/// The phone number is not a valid line number (e.g. landline).  * `invalid_phone_number`
-/// - The phone number is not a valid phone number (e.g. unallocated range).  * `invalid_signature`
-/// - The signature of the SDK signals is invalid.  * `repeated_attempts` - The phone
-/// number has made too many verification attempts.  * `suspicious` - The verification
-/// attempt was deemed suspicious by the anti-fraud system.
+/// The reason why the verification was blocked. Only present when status is "blocked"
+/// or "shadow_blocked".  * `expired_signature` - The signature of the SDK signals
+/// is expired. They should be sent within    the hour following their collection.
+///  * `in_block_list` - The phone number is part of the configured block list.  *
+/// `invalid_phone_line` - The phone number is not a valid line number (e.g. landline).
+///  * `invalid_phone_number` - The phone number is not a valid phone number (e.g.
+/// unallocated range).  * `invalid_signature` - The signature of the SDK signals
+/// is invalid.  * `repeated_attempts` - The phone number has made too many verification
+/// attempts.  * `suspicious` - The verification attempt was deemed suspicious by
+/// the anti-fraud system.
 /// </summary>
 [JsonConverter(typeof(ReasonConverter))]
 public enum Reason
