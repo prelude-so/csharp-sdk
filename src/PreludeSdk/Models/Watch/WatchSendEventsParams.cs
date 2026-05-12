@@ -161,7 +161,11 @@ public record class WatchSendEventsParams : ParamsBase
 public sealed record class Event : JsonModel
 {
     /// <summary>
-    /// A confidence level you want to assign to the event.
+    /// The level of trust you place in this event, in increasing order of trust:
+    /// `minimum`, `low`, `neutral`, `high`, `maximum`. Prelude uses this value to
+    /// weight your signals when scoring traffic — events flagged with `minimum` confidence
+    /// indicate end-users you trust the least to be legitimate, and the pipeline
+    /// will use these signals to filter them out.
     /// </summary>
     public required ApiEnum<string, Confidence> Confidence
     {
@@ -243,7 +247,11 @@ class EventFromRaw : IFromRawJson<Event>
 }
 
 /// <summary>
-/// A confidence level you want to assign to the event.
+/// The level of trust you place in this event, in increasing order of trust: `minimum`,
+/// `low`, `neutral`, `high`, `maximum`. Prelude uses this value to weight your signals
+/// when scoring traffic — events flagged with `minimum` confidence indicate end-users
+/// you trust the least to be legitimate, and the pipeline will use these signals
+/// to filter them out.
 /// </summary>
 [JsonConverter(typeof(ConfidenceConverter))]
 public enum Confidence
