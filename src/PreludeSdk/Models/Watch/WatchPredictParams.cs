@@ -12,7 +12,12 @@ using System = System;
 namespace PreludeSdk.Models.Watch;
 
 /// <summary>
-/// Predict the outcome of a verification based on Prelude’s anti-fraud system.
+/// At signup, score the user's phone number or email address (target) as legitimate
+/// or suspicious. Scoring-only — does not update counters by itself. When using Feedback,
+/// call predict before verification.started on the same target (and correlation_id
+/// when used) so feedback can warm Watch auth-start counters. Use Events for product
+/// fraud labels; use Feedback only if you run your own phone verification funnel
+/// outside Prelude Verify.
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -27,7 +32,7 @@ public record class WatchPredictParams : ParamsBase
     }
 
     /// <summary>
-    /// The prediction target. Only supports phone numbers for now.
+    /// The signup identifier to score — a phone number or email address.
     /// </summary>
     public required Target Target
     {
@@ -213,7 +218,7 @@ public record class WatchPredictParams : ParamsBase
 }
 
 /// <summary>
-/// The prediction target. Only supports phone numbers for now.
+/// The signup identifier to score — a phone number or email address.
 /// </summary>
 [JsonConverter(typeof(JsonModelConverter<Target, TargetFromRaw>))]
 public sealed record class Target : JsonModel

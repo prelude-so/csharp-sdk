@@ -13,8 +13,11 @@ using System = System;
 namespace PreludeSdk.Models.Watch;
 
 /// <summary>
-/// Send real-time event data from end-user interactions within your application.
-/// Events will be analyzed for proactive fraud prevention and risk scoring.
+/// Send custom fraud signals from your application (labels and confidence levels).
+/// Events capture product-specific risk patterns and are weighted when scoring traffic.
+/// Use without Predict or Feedback if you only need to report product-side abuse
+/// (for example account.banned). Feedback is a separate, optional endpoint for self-hosted
+/// phone verification funnels.
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
