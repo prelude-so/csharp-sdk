@@ -15,7 +15,9 @@ namespace PreludeSdk.Models.Verification;
 public sealed record class VerificationCheckResponse : JsonModel
 {
     /// <summary>
-    /// The status of the check.
+    /// The status of the check. For `prelude:psd2` codes, `transaction_missing` is
+    /// returned when the `psd2` block is omitted, and `transaction_mismatch` when
+    /// the submitted variables differ from those provided at issuance.
     /// </summary>
     public required ApiEnum<string, VerificationCheckResponseStatus> Status
     {
@@ -144,7 +146,9 @@ class VerificationCheckResponseFromRaw : IFromRawJson<VerificationCheckResponse>
 }
 
 /// <summary>
-/// The status of the check.
+/// The status of the check. For `prelude:psd2` codes, `transaction_missing` is returned
+/// when the `psd2` block is omitted, and `transaction_mismatch` when the submitted
+/// variables differ from those provided at issuance.
 /// </summary>
 [JsonConverter(typeof(VerificationCheckResponseStatusConverter))]
 public enum VerificationCheckResponseStatus
@@ -152,6 +156,8 @@ public enum VerificationCheckResponseStatus
     Success,
     Failure,
     ExpiredOrNotFound,
+    TransactionMissing,
+    TransactionMismatch,
 }
 
 sealed class VerificationCheckResponseStatusConverter
@@ -168,6 +174,8 @@ sealed class VerificationCheckResponseStatusConverter
             "success" => VerificationCheckResponseStatus.Success,
             "failure" => VerificationCheckResponseStatus.Failure,
             "expired_or_not_found" => VerificationCheckResponseStatus.ExpiredOrNotFound,
+            "transaction_missing" => VerificationCheckResponseStatus.TransactionMissing,
+            "transaction_mismatch" => VerificationCheckResponseStatus.TransactionMismatch,
             _ => (VerificationCheckResponseStatus)(-1),
         };
     }
@@ -185,6 +193,8 @@ sealed class VerificationCheckResponseStatusConverter
                 VerificationCheckResponseStatus.Success => "success",
                 VerificationCheckResponseStatus.Failure => "failure",
                 VerificationCheckResponseStatus.ExpiredOrNotFound => "expired_or_not_found",
+                VerificationCheckResponseStatus.TransactionMissing => "transaction_missing",
+                VerificationCheckResponseStatus.TransactionMismatch => "transaction_mismatch",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
