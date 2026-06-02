@@ -187,6 +187,8 @@ public class VerificationCheckResponseStatusTest : TestBase
     [InlineData(VerificationCheckResponseStatus.Success)]
     [InlineData(VerificationCheckResponseStatus.Failure)]
     [InlineData(VerificationCheckResponseStatus.ExpiredOrNotFound)]
+    [InlineData(VerificationCheckResponseStatus.TransactionMissing)]
+    [InlineData(VerificationCheckResponseStatus.TransactionMismatch)]
     public void Validation_Works(VerificationCheckResponseStatus rawValue)
     {
         // force implicit conversion because Theory can't do that for us
@@ -210,6 +212,8 @@ public class VerificationCheckResponseStatusTest : TestBase
     [InlineData(VerificationCheckResponseStatus.Success)]
     [InlineData(VerificationCheckResponseStatus.Failure)]
     [InlineData(VerificationCheckResponseStatus.ExpiredOrNotFound)]
+    [InlineData(VerificationCheckResponseStatus.TransactionMissing)]
+    [InlineData(VerificationCheckResponseStatus.TransactionMismatch)]
     public void SerializationRoundtrip_Works(VerificationCheckResponseStatus rawValue)
     {
         // force implicit conversion because Theory can't do that for us
