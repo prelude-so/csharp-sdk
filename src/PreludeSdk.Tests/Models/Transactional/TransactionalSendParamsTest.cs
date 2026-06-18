@@ -22,6 +22,7 @@ public class TransactionalSendParamsTest : TestBase
             ExpiresAt = "expires_at",
             From = "from",
             Locale = "el-GR",
+            MaxAutoRetries = 2,
             PreferredChannel = PreferredChannel.Whatsapp,
             Variables = new Dictionary<string, string>() { { "foo", "bar" } },
         };
@@ -38,6 +39,7 @@ public class TransactionalSendParamsTest : TestBase
         string expectedExpiresAt = "expires_at";
         string expectedFrom = "from";
         string expectedLocale = "el-GR";
+        long expectedMaxAutoRetries = 2;
         ApiEnum<string, PreferredChannel> expectedPreferredChannel = PreferredChannel.Whatsapp;
         Dictionary<string, string> expectedVariables = new() { { "foo", "bar" } };
 
@@ -49,6 +51,7 @@ public class TransactionalSendParamsTest : TestBase
         Assert.Equal(expectedExpiresAt, parameters.ExpiresAt);
         Assert.Equal(expectedFrom, parameters.From);
         Assert.Equal(expectedLocale, parameters.Locale);
+        Assert.Equal(expectedMaxAutoRetries, parameters.MaxAutoRetries);
         Assert.Equal(expectedPreferredChannel, parameters.PreferredChannel);
         Assert.NotNull(parameters.Variables);
         Assert.Equal(expectedVariables.Count, parameters.Variables.Count);
@@ -81,6 +84,8 @@ public class TransactionalSendParamsTest : TestBase
         Assert.False(parameters.RawBodyData.ContainsKey("from"));
         Assert.Null(parameters.Locale);
         Assert.False(parameters.RawBodyData.ContainsKey("locale"));
+        Assert.Null(parameters.MaxAutoRetries);
+        Assert.False(parameters.RawBodyData.ContainsKey("max_auto_retries"));
         Assert.Null(parameters.PreferredChannel);
         Assert.False(parameters.RawBodyData.ContainsKey("preferred_channel"));
         Assert.Null(parameters.Variables);
@@ -102,6 +107,7 @@ public class TransactionalSendParamsTest : TestBase
             ExpiresAt = null,
             From = null,
             Locale = null,
+            MaxAutoRetries = null,
             PreferredChannel = null,
             Variables = null,
         };
@@ -118,6 +124,8 @@ public class TransactionalSendParamsTest : TestBase
         Assert.False(parameters.RawBodyData.ContainsKey("from"));
         Assert.Null(parameters.Locale);
         Assert.False(parameters.RawBodyData.ContainsKey("locale"));
+        Assert.Null(parameters.MaxAutoRetries);
+        Assert.False(parameters.RawBodyData.ContainsKey("max_auto_retries"));
         Assert.Null(parameters.PreferredChannel);
         Assert.False(parameters.RawBodyData.ContainsKey("preferred_channel"));
         Assert.Null(parameters.Variables);
@@ -151,6 +159,7 @@ public class TransactionalSendParamsTest : TestBase
             ExpiresAt = "expires_at",
             From = "from",
             Locale = "el-GR",
+            MaxAutoRetries = 2,
             PreferredChannel = PreferredChannel.Whatsapp,
             Variables = new Dictionary<string, string>() { { "foo", "bar" } },
         };

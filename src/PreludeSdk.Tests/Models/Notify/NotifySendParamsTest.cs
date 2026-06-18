@@ -22,6 +22,7 @@ public class NotifySendParamsTest : TestBase
             ExpiresAt = DateTimeOffset.Parse("2025-12-25T18:00:00Z"),
             From = "from",
             Locale = "el-GR",
+            MaxAutoRetries = 2,
             PreferredChannel = PreferredChannel.Whatsapp,
             ScheduleAt = DateTimeOffset.Parse("2025-12-25T10:00:00Z"),
             Variables = new Dictionary<string, string>()
@@ -43,6 +44,7 @@ public class NotifySendParamsTest : TestBase
         DateTimeOffset expectedExpiresAt = DateTimeOffset.Parse("2025-12-25T18:00:00Z");
         string expectedFrom = "from";
         string expectedLocale = "el-GR";
+        long expectedMaxAutoRetries = 2;
         ApiEnum<string, PreferredChannel> expectedPreferredChannel = PreferredChannel.Whatsapp;
         DateTimeOffset expectedScheduleAt = DateTimeOffset.Parse("2025-12-25T10:00:00Z");
         Dictionary<string, string> expectedVariables = new()
@@ -59,6 +61,7 @@ public class NotifySendParamsTest : TestBase
         Assert.Equal(expectedExpiresAt, parameters.ExpiresAt);
         Assert.Equal(expectedFrom, parameters.From);
         Assert.Equal(expectedLocale, parameters.Locale);
+        Assert.Equal(expectedMaxAutoRetries, parameters.MaxAutoRetries);
         Assert.Equal(expectedPreferredChannel, parameters.PreferredChannel);
         Assert.Equal(expectedScheduleAt, parameters.ScheduleAt);
         Assert.NotNull(parameters.Variables);
@@ -92,6 +95,8 @@ public class NotifySendParamsTest : TestBase
         Assert.False(parameters.RawBodyData.ContainsKey("from"));
         Assert.Null(parameters.Locale);
         Assert.False(parameters.RawBodyData.ContainsKey("locale"));
+        Assert.Null(parameters.MaxAutoRetries);
+        Assert.False(parameters.RawBodyData.ContainsKey("max_auto_retries"));
         Assert.Null(parameters.PreferredChannel);
         Assert.False(parameters.RawBodyData.ContainsKey("preferred_channel"));
         Assert.Null(parameters.ScheduleAt);
@@ -115,6 +120,7 @@ public class NotifySendParamsTest : TestBase
             ExpiresAt = null,
             From = null,
             Locale = null,
+            MaxAutoRetries = null,
             PreferredChannel = null,
             ScheduleAt = null,
             Variables = null,
@@ -132,6 +138,8 @@ public class NotifySendParamsTest : TestBase
         Assert.False(parameters.RawBodyData.ContainsKey("from"));
         Assert.Null(parameters.Locale);
         Assert.False(parameters.RawBodyData.ContainsKey("locale"));
+        Assert.Null(parameters.MaxAutoRetries);
+        Assert.False(parameters.RawBodyData.ContainsKey("max_auto_retries"));
         Assert.Null(parameters.PreferredChannel);
         Assert.False(parameters.RawBodyData.ContainsKey("preferred_channel"));
         Assert.Null(parameters.ScheduleAt);
@@ -167,6 +175,7 @@ public class NotifySendParamsTest : TestBase
             ExpiresAt = DateTimeOffset.Parse("2025-12-25T18:00:00Z"),
             From = "from",
             Locale = "el-GR",
+            MaxAutoRetries = 2,
             PreferredChannel = PreferredChannel.Whatsapp,
             ScheduleAt = DateTimeOffset.Parse("2025-12-25T10:00:00Z"),
             Variables = new Dictionary<string, string>()

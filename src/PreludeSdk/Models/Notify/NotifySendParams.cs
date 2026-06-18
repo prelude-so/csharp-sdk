@@ -193,6 +193,31 @@ public record class NotifySendParams : ParamsBase
     }
 
     /// <summary>
+    /// Maximum number of automatic retry attempts across channels for this send,
+    /// in addition to the first attempt. For example, `2` allows up to 3 total delivery
+    /// attempts. Lower values reduce delivery cost on hard-to-reach numbers at the
+    /// expense of deliverability. When omitted, your account's configured default
+    /// applies.
+    /// </summary>
+    public long? MaxAutoRetries
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("max_auto_retries");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("max_auto_retries", value);
+        }
+    }
+
+    /// <summary>
     /// The preferred channel to be used in priority for message delivery. If the
     /// channel is unavailable, the system will fallback to other available channels.
     /// </summary>
