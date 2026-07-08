@@ -604,7 +604,12 @@ public sealed record class Options : JsonModel
     }
 
     /// <summary>
-    /// The preferred channel to be used in priority for verification.
+    /// The channel to prioritize when delivering the verification. Prelude prioritizes
+    /// this channel on the first attempt and continues to prefer it on retries while
+    /// an untried route on that channel remains; once those are exhausted, retries
+    /// fall back to the next best available route. If the channel is unavailable
+    /// (for example, when a verification is challenged), Prelude uses the best available
+    /// route instead.
     /// </summary>
     public ApiEnum<string, PreferredChannel>? PreferredChannel
     {
@@ -919,7 +924,11 @@ sealed class MethodConverter : JsonConverter<Method>
 }
 
 /// <summary>
-/// The preferred channel to be used in priority for verification.
+/// The channel to prioritize when delivering the verification. Prelude prioritizes
+/// this channel on the first attempt and continues to prefer it on retries while
+/// an untried route on that channel remains; once those are exhausted, retries fall
+/// back to the next best available route. If the channel is unavailable (for example,
+/// when a verification is challenged), Prelude uses the best available route instead.
 /// </summary>
 [JsonConverter(typeof(PreferredChannelConverter))]
 public enum PreferredChannel
