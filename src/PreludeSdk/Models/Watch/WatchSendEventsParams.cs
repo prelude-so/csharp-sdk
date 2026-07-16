@@ -164,11 +164,15 @@ public record class WatchSendEventsParams : ParamsBase
 public sealed record class Event : JsonModel
 {
     /// <summary>
-    /// The level of trust you place in this event, in increasing order of trust:
-    /// `minimum`, `low`, `neutral`, `high`, `maximum`. Prelude uses this value to
-    /// weight your signals when scoring traffic — events flagged with `minimum` confidence
-    /// indicate end-users you trust the least to be legitimate, and the pipeline
-    /// will use these signals to filter them out.
+    /// How much this event tells us to trust the end-user's legitimacy — not how
+    /// certain you are that the event occurred. In increasing order of trust: `minimum`,
+    /// `low`, `neutral`, `high`, `maximum`.
+    ///
+    /// <para>Use `minimum` for an event tied to a user you trust the least to be
+    /// legitimate (e.g. a `payment.chargeback`), and `maximum` for an event tied
+    /// to a highly trustworthy user (e.g. a confirmed 3DS payment). Prelude weights
+    /// these signals when scoring traffic: it filters out users tied to low-confidence
+    /// events while preserving the experience for users tied to high-confidence ones. </para>
     /// </summary>
     public required ApiEnum<string, Confidence> Confidence
     {
@@ -250,11 +254,15 @@ class EventFromRaw : IFromRawJson<Event>
 }
 
 /// <summary>
-/// The level of trust you place in this event, in increasing order of trust: `minimum`,
-/// `low`, `neutral`, `high`, `maximum`. Prelude uses this value to weight your signals
-/// when scoring traffic — events flagged with `minimum` confidence indicate end-users
-/// you trust the least to be legitimate, and the pipeline will use these signals
-/// to filter them out.
+/// How much this event tells us to trust the end-user's legitimacy — not how certain
+/// you are that the event occurred. In increasing order of trust: `minimum`, `low`,
+/// `neutral`, `high`, `maximum`.
+///
+/// <para>Use `minimum` for an event tied to a user you trust the least to be legitimate
+/// (e.g. a `payment.chargeback`), and `maximum` for an event tied to a highly trustworthy
+/// user (e.g. a confirmed 3DS payment). Prelude weights these signals when scoring
+/// traffic: it filters out users tied to low-confidence events while preserving
+/// the experience for users tied to high-confidence ones. </para>
 /// </summary>
 [JsonConverter(typeof(ConfidenceConverter))]
 public enum Confidence
