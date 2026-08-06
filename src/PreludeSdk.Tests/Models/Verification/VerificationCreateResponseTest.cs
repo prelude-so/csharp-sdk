@@ -16,7 +16,7 @@ public class VerificationCreateResponseTest : TestBase
             ID = "vrf_01jc0t6fwwfgfsq1md24mhyztj",
             Method = VerificationCreateResponseMethod.Email,
             Status = Status.Success,
-            Channels = [Channel.Rcs],
+            Channels = [VerificationCreateResponseChannel.Rcs],
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
@@ -28,7 +28,10 @@ public class VerificationCreateResponseTest : TestBase
         ApiEnum<string, VerificationCreateResponseMethod> expectedMethod =
             VerificationCreateResponseMethod.Email;
         ApiEnum<string, Status> expectedStatus = Status.Success;
-        List<ApiEnum<string, Channel>> expectedChannels = [Channel.Rcs];
+        List<ApiEnum<string, VerificationCreateResponseChannel>> expectedChannels =
+        [
+            VerificationCreateResponseChannel.Rcs,
+        ];
         VerificationCreateResponseMetadata expectedMetadata = new()
         {
             CorrelationID = "correlation_id",
@@ -71,7 +74,7 @@ public class VerificationCreateResponseTest : TestBase
             ID = "vrf_01jc0t6fwwfgfsq1md24mhyztj",
             Method = VerificationCreateResponseMethod.Email,
             Status = Status.Success,
-            Channels = [Channel.Rcs],
+            Channels = [VerificationCreateResponseChannel.Rcs],
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
@@ -96,7 +99,7 @@ public class VerificationCreateResponseTest : TestBase
             ID = "vrf_01jc0t6fwwfgfsq1md24mhyztj",
             Method = VerificationCreateResponseMethod.Email,
             Status = Status.Success,
-            Channels = [Channel.Rcs],
+            Channels = [VerificationCreateResponseChannel.Rcs],
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
@@ -115,7 +118,10 @@ public class VerificationCreateResponseTest : TestBase
         ApiEnum<string, VerificationCreateResponseMethod> expectedMethod =
             VerificationCreateResponseMethod.Email;
         ApiEnum<string, Status> expectedStatus = Status.Success;
-        List<ApiEnum<string, Channel>> expectedChannels = [Channel.Rcs];
+        List<ApiEnum<string, VerificationCreateResponseChannel>> expectedChannels =
+        [
+            VerificationCreateResponseChannel.Rcs,
+        ];
         VerificationCreateResponseMetadata expectedMetadata = new()
         {
             CorrelationID = "correlation_id",
@@ -158,7 +164,7 @@ public class VerificationCreateResponseTest : TestBase
             ID = "vrf_01jc0t6fwwfgfsq1md24mhyztj",
             Method = VerificationCreateResponseMethod.Email,
             Status = Status.Success,
-            Channels = [Channel.Rcs],
+            Channels = [VerificationCreateResponseChannel.Rcs],
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
@@ -267,7 +273,7 @@ public class VerificationCreateResponseTest : TestBase
             ID = "vrf_01jc0t6fwwfgfsq1md24mhyztj",
             Method = VerificationCreateResponseMethod.Email,
             Status = Status.Success,
-            Channels = [Channel.Rcs],
+            Channels = [VerificationCreateResponseChannel.Rcs],
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
@@ -405,28 +411,28 @@ public class StatusTest : TestBase
     }
 }
 
-public class ChannelTest : TestBase
+public class VerificationCreateResponseChannelTest : TestBase
 {
     [Theory]
-    [InlineData(Channel.Rcs)]
-    [InlineData(Channel.Silent)]
-    [InlineData(Channel.Sms)]
-    [InlineData(Channel.Telegram)]
-    [InlineData(Channel.Viber)]
-    [InlineData(Channel.Voice)]
-    [InlineData(Channel.Whatsapp)]
-    [InlineData(Channel.Zalo)]
-    public void Validation_Works(Channel rawValue)
+    [InlineData(VerificationCreateResponseChannel.Rcs)]
+    [InlineData(VerificationCreateResponseChannel.Silent)]
+    [InlineData(VerificationCreateResponseChannel.Sms)]
+    [InlineData(VerificationCreateResponseChannel.Telegram)]
+    [InlineData(VerificationCreateResponseChannel.Viber)]
+    [InlineData(VerificationCreateResponseChannel.Voice)]
+    [InlineData(VerificationCreateResponseChannel.Whatsapp)]
+    [InlineData(VerificationCreateResponseChannel.Zalo)]
+    public void Validation_Works(VerificationCreateResponseChannel rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Channel> value = rawValue;
+        ApiEnum<string, VerificationCreateResponseChannel> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Channel>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, VerificationCreateResponseChannel>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -436,24 +442,23 @@ public class ChannelTest : TestBase
     }
 
     [Theory]
-    [InlineData(Channel.Rcs)]
-    [InlineData(Channel.Silent)]
-    [InlineData(Channel.Sms)]
-    [InlineData(Channel.Telegram)]
-    [InlineData(Channel.Viber)]
-    [InlineData(Channel.Voice)]
-    [InlineData(Channel.Whatsapp)]
-    [InlineData(Channel.Zalo)]
-    public void SerializationRoundtrip_Works(Channel rawValue)
+    [InlineData(VerificationCreateResponseChannel.Rcs)]
+    [InlineData(VerificationCreateResponseChannel.Silent)]
+    [InlineData(VerificationCreateResponseChannel.Sms)]
+    [InlineData(VerificationCreateResponseChannel.Telegram)]
+    [InlineData(VerificationCreateResponseChannel.Viber)]
+    [InlineData(VerificationCreateResponseChannel.Voice)]
+    [InlineData(VerificationCreateResponseChannel.Whatsapp)]
+    [InlineData(VerificationCreateResponseChannel.Zalo)]
+    public void SerializationRoundtrip_Works(VerificationCreateResponseChannel rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, Channel> value = rawValue;
+        ApiEnum<string, VerificationCreateResponseChannel> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Channel>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, VerificationCreateResponseChannel>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }
@@ -461,15 +466,14 @@ public class ChannelTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, Channel>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, VerificationCreateResponseChannel>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Channel>>(
-            json,
-            ModelBase.SerializerOptions
-        );
+        var deserialized = JsonSerializer.Deserialize<
+            ApiEnum<string, VerificationCreateResponseChannel>
+        >(json, ModelBase.SerializerOptions);
 
         Assert.Equal(value, deserialized);
     }

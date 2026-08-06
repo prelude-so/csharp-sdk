@@ -1,5 +1,6 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
@@ -483,6 +484,38 @@ public sealed record class Options : JsonModel
     }
 
     /// <summary>
+    /// The channels this verification may use, in the order they are tried. Channels
+    /// you omit are never used, including on retries. Every channel you list must
+    /// be enabled on your account and active in the destination country, otherwise
+    /// the request fails with `channel_not_enabled_in_region`. Prelude still picks
+    /// the best provider within each channel. Cannot be combined with `preferred_channel`.
+    /// Voice is requested through `method` instead. Disabled by default — contact
+    /// support to enable it.
+    /// </summary>
+    public IReadOnlyList<ApiEnum<string, Channel>>? Channels
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<ApiEnum<string, Channel>>>(
+                "channels"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<ApiEnum<string, Channel>>?>(
+                "channels",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
     /// The size of the code generated. It should be between 4 and 8. Defaults to
     /// the code size specified from the Dashboard.
     /// </summary>
@@ -609,7 +642,7 @@ public sealed record class Options : JsonModel
     /// an untried route on that channel remains; once those are exhausted, retries
     /// fall back to the next best available route. If the channel is unavailable
     /// (for example, when a verification is challenged), Prelude uses the best available
-    /// route instead.
+    /// route instead. Cannot be combined with `channels`.
     /// </summary>
     public ApiEnum<string, PreferredChannel>? PreferredChannel
     {
@@ -703,6 +736,10 @@ public sealed record class Options : JsonModel
     {
         this.AppRealm?.Validate();
         _ = this.CallbackUrl;
+        foreach (var item in this.Channels ?? [])
+        {
+            item.Validate();
+        }
         _ = this.CodeSize;
         _ = this.CustomCode;
         _ = this.ForceChallenge;
@@ -872,6 +909,58 @@ sealed class PlatformConverter : JsonConverter<Platform>
     }
 }
 
+[JsonConverter(typeof(ChannelConverter))]
+public enum Channel
+{
+    Sms,
+    Rcs,
+    Whatsapp,
+    Viber,
+    Zalo,
+    Telegram,
+}
+
+sealed class ChannelConverter : JsonConverter<Channel>
+{
+    public override Channel Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "sms" => Channel.Sms,
+            "rcs" => Channel.Rcs,
+            "whatsapp" => Channel.Whatsapp,
+            "viber" => Channel.Viber,
+            "zalo" => Channel.Zalo,
+            "telegram" => Channel.Telegram,
+            _ => (Channel)(-1),
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, Channel value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                Channel.Sms => "sms",
+                Channel.Rcs => "rcs",
+                Channel.Whatsapp => "whatsapp",
+                Channel.Viber => "viber",
+                Channel.Zalo => "zalo",
+                Channel.Telegram => "telegram",
+                _ => throw new PreludeInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
 /// <summary>
 /// The method used for verifying this phone number. The 'voice' option provides
 /// an accessible alternative for visually impaired users by delivering the verification
@@ -929,6 +1018,7 @@ sealed class MethodConverter : JsonConverter<Method>
 /// an untried route on that channel remains; once those are exhausted, retries fall
 /// back to the next best available route. If the channel is unavailable (for example,
 /// when a verification is challenged), Prelude uses the best available route instead.
+/// Cannot be combined with `channels`.
 /// </summary>
 [JsonConverter(typeof(PreferredChannelConverter))]
 public enum PreferredChannel
