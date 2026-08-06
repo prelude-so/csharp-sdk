@@ -66,14 +66,14 @@ public sealed record class VerificationCreateResponse : JsonModel
     /// <summary>
     /// The ordered sequence of channels to be used for verification
     /// </summary>
-    public IReadOnlyList<ApiEnum<string, Channel>>? Channels
+    public IReadOnlyList<ApiEnum<string, VerificationCreateResponseChannel>>? Channels
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<ImmutableArray<ApiEnum<string, Channel>>>(
-                "channels"
-            );
+            return this._rawData.GetNullableStruct<
+                ImmutableArray<ApiEnum<string, VerificationCreateResponseChannel>>
+            >("channels");
         }
         init
         {
@@ -82,7 +82,7 @@ public sealed record class VerificationCreateResponse : JsonModel
                 return;
             }
 
-            this._rawData.Set<ImmutableArray<ApiEnum<string, Channel>>?>(
+            this._rawData.Set<ImmutableArray<ApiEnum<string, VerificationCreateResponseChannel>>?>(
                 "channels",
                 value == null ? null : ImmutableArray.ToImmutableArray(value)
             );
@@ -392,8 +392,8 @@ sealed class StatusConverter : JsonConverter<Status>
     }
 }
 
-[JsonConverter(typeof(ChannelConverter))]
-public enum Channel
+[JsonConverter(typeof(VerificationCreateResponseChannelConverter))]
+public enum VerificationCreateResponseChannel
 {
     Rcs,
     Silent,
@@ -405,9 +405,10 @@ public enum Channel
     Zalo,
 }
 
-sealed class ChannelConverter : JsonConverter<Channel>
+sealed class VerificationCreateResponseChannelConverter
+    : JsonConverter<VerificationCreateResponseChannel>
 {
-    public override Channel Read(
+    public override VerificationCreateResponseChannel Read(
         ref Utf8JsonReader reader,
         System::Type typeToConvert,
         JsonSerializerOptions options
@@ -415,32 +416,36 @@ sealed class ChannelConverter : JsonConverter<Channel>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "rcs" => Channel.Rcs,
-            "silent" => Channel.Silent,
-            "sms" => Channel.Sms,
-            "telegram" => Channel.Telegram,
-            "viber" => Channel.Viber,
-            "voice" => Channel.Voice,
-            "whatsapp" => Channel.Whatsapp,
-            "zalo" => Channel.Zalo,
-            _ => (Channel)(-1),
+            "rcs" => VerificationCreateResponseChannel.Rcs,
+            "silent" => VerificationCreateResponseChannel.Silent,
+            "sms" => VerificationCreateResponseChannel.Sms,
+            "telegram" => VerificationCreateResponseChannel.Telegram,
+            "viber" => VerificationCreateResponseChannel.Viber,
+            "voice" => VerificationCreateResponseChannel.Voice,
+            "whatsapp" => VerificationCreateResponseChannel.Whatsapp,
+            "zalo" => VerificationCreateResponseChannel.Zalo,
+            _ => (VerificationCreateResponseChannel)(-1),
         };
     }
 
-    public override void Write(Utf8JsonWriter writer, Channel value, JsonSerializerOptions options)
+    public override void Write(
+        Utf8JsonWriter writer,
+        VerificationCreateResponseChannel value,
+        JsonSerializerOptions options
+    )
     {
         JsonSerializer.Serialize(
             writer,
             value switch
             {
-                Channel.Rcs => "rcs",
-                Channel.Silent => "silent",
-                Channel.Sms => "sms",
-                Channel.Telegram => "telegram",
-                Channel.Viber => "viber",
-                Channel.Voice => "voice",
-                Channel.Whatsapp => "whatsapp",
-                Channel.Zalo => "zalo",
+                VerificationCreateResponseChannel.Rcs => "rcs",
+                VerificationCreateResponseChannel.Silent => "silent",
+                VerificationCreateResponseChannel.Sms => "sms",
+                VerificationCreateResponseChannel.Telegram => "telegram",
+                VerificationCreateResponseChannel.Viber => "viber",
+                VerificationCreateResponseChannel.Voice => "voice",
+                VerificationCreateResponseChannel.Whatsapp => "whatsapp",
+                VerificationCreateResponseChannel.Zalo => "zalo",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
