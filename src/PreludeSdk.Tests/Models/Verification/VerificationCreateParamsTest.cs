@@ -26,6 +26,7 @@ public class VerificationCreateParamsTest : TestBase
                 CustomCode = "123456",
                 ForceChallenge = true,
                 Locale = "el-GR",
+                MaxAutoFallbacks = 0,
                 Method = Verification::Method.Auto,
                 PreferredChannel = Verification::PreferredChannel.Sms,
                 SenderID = "sender_id",
@@ -63,6 +64,7 @@ public class VerificationCreateParamsTest : TestBase
             CustomCode = "123456",
             ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -162,6 +164,7 @@ public class VerificationCreateParamsTest : TestBase
                 CustomCode = "123456",
                 ForceChallenge = true,
                 Locale = "el-GR",
+                MaxAutoFallbacks = 0,
                 Method = Verification::Method.Auto,
                 PreferredChannel = Verification::PreferredChannel.Sms,
                 SenderID = "sender_id",
@@ -451,6 +454,7 @@ public class OptionsTest : TestBase
             CustomCode = "123456",
             ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -473,6 +477,7 @@ public class OptionsTest : TestBase
         string expectedCustomCode = "123456";
         bool expectedForceChallenge = true;
         string expectedLocale = "el-GR";
+        long expectedMaxAutoFallbacks = 0;
         ApiEnum<string, Verification::Method> expectedMethod = Verification::Method.Auto;
         ApiEnum<string, Verification::PreferredChannel> expectedPreferredChannel =
             Verification::PreferredChannel.Sms;
@@ -492,6 +497,7 @@ public class OptionsTest : TestBase
         Assert.Equal(expectedCustomCode, model.CustomCode);
         Assert.Equal(expectedForceChallenge, model.ForceChallenge);
         Assert.Equal(expectedLocale, model.Locale);
+        Assert.Equal(expectedMaxAutoFallbacks, model.MaxAutoFallbacks);
         Assert.Equal(expectedMethod, model.Method);
         Assert.Equal(expectedPreferredChannel, model.PreferredChannel);
         Assert.Equal(expectedSenderID, model.SenderID);
@@ -518,6 +524,7 @@ public class OptionsTest : TestBase
             CustomCode = "123456",
             ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -546,6 +553,7 @@ public class OptionsTest : TestBase
             CustomCode = "123456",
             ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -575,6 +583,7 @@ public class OptionsTest : TestBase
         string expectedCustomCode = "123456";
         bool expectedForceChallenge = true;
         string expectedLocale = "el-GR";
+        long expectedMaxAutoFallbacks = 0;
         ApiEnum<string, Verification::Method> expectedMethod = Verification::Method.Auto;
         ApiEnum<string, Verification::PreferredChannel> expectedPreferredChannel =
             Verification::PreferredChannel.Sms;
@@ -594,6 +603,7 @@ public class OptionsTest : TestBase
         Assert.Equal(expectedCustomCode, deserialized.CustomCode);
         Assert.Equal(expectedForceChallenge, deserialized.ForceChallenge);
         Assert.Equal(expectedLocale, deserialized.Locale);
+        Assert.Equal(expectedMaxAutoFallbacks, deserialized.MaxAutoFallbacks);
         Assert.Equal(expectedMethod, deserialized.Method);
         Assert.Equal(expectedPreferredChannel, deserialized.PreferredChannel);
         Assert.Equal(expectedSenderID, deserialized.SenderID);
@@ -620,6 +630,7 @@ public class OptionsTest : TestBase
             CustomCode = "123456",
             ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -649,6 +660,8 @@ public class OptionsTest : TestBase
         Assert.False(model.RawData.ContainsKey("force_challenge"));
         Assert.Null(model.Locale);
         Assert.False(model.RawData.ContainsKey("locale"));
+        Assert.Null(model.MaxAutoFallbacks);
+        Assert.False(model.RawData.ContainsKey("max_auto_fallbacks"));
         Assert.Null(model.Method);
         Assert.False(model.RawData.ContainsKey("method"));
         Assert.Null(model.PreferredChannel);
@@ -682,6 +695,7 @@ public class OptionsTest : TestBase
             CustomCode = null,
             ForceChallenge = null,
             Locale = null,
+            MaxAutoFallbacks = null,
             Method = null,
             PreferredChannel = null,
             SenderID = null,
@@ -703,6 +717,8 @@ public class OptionsTest : TestBase
         Assert.False(model.RawData.ContainsKey("force_challenge"));
         Assert.Null(model.Locale);
         Assert.False(model.RawData.ContainsKey("locale"));
+        Assert.Null(model.MaxAutoFallbacks);
+        Assert.False(model.RawData.ContainsKey("max_auto_fallbacks"));
         Assert.Null(model.Method);
         Assert.False(model.RawData.ContainsKey("method"));
         Assert.Null(model.PreferredChannel);
@@ -728,6 +744,7 @@ public class OptionsTest : TestBase
             CustomCode = null,
             ForceChallenge = null,
             Locale = null,
+            MaxAutoFallbacks = null,
             Method = null,
             PreferredChannel = null,
             SenderID = null,
@@ -750,6 +767,7 @@ public class OptionsTest : TestBase
             CustomCode = "123456",
             ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
