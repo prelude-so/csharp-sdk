@@ -192,6 +192,29 @@ public record class TransactionalSendParams : ParamsBase
     }
 
     /// <summary>
+    /// Maximum number of automatic retry attempts across channels for this send,
+    /// in addition to the first attempt. For example, `2` allows up to 3 total delivery
+    /// attempts. When omitted, your account's configured default applies.
+    /// </summary>
+    public long? MaxAutoRetries
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableStruct<long>("max_auto_retries");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("max_auto_retries", value);
+        }
+    }
+
+    /// <summary>
     /// The preferred delivery channel for the message. When specified, the system
     /// will prioritize sending via the requested channel if the template is configured
     /// for it.

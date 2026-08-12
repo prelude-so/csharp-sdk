@@ -53,6 +53,29 @@ public record class VerificationCheckParams : ParamsBase
         init { this._rawBodyData.Set("target", value); }
     }
 
+    /// <summary>
+    /// Required when checking a code issued under the `prelude:psd2` template. The
+    /// submitted variables must match those provided at issuance; any mismatch invalidates
+    /// the code (PSD2 SCA RTS Article 5 dynamic linking). Ignored on non-PSD2 verifications.
+    /// </summary>
+    public Psd2? Psd2
+    {
+        get
+        {
+            this._rawBodyData.Freeze();
+            return this._rawBodyData.GetNullableClass<Psd2>("psd2");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawBodyData.Set("psd2", value);
+        }
+    }
+
     public VerificationCheckParams() { }
 
 #pragma warning disable CS8618
@@ -295,4 +318,94 @@ sealed class VerificationCheckParamsTargetTypeConverter
             options
         );
     }
+}
+
+/// <summary>
+/// Required when checking a code issued under the `prelude:psd2` template. The submitted
+/// variables must match those provided at issuance; any mismatch invalidates the
+/// code (PSD2 SCA RTS Article 5 dynamic linking). Ignored on non-PSD2 verifications.
+/// </summary>
+[JsonConverter(typeof(JsonModelConverter<Psd2, Psd2FromRaw>))]
+public sealed record class Psd2 : JsonModel
+{
+    /// <summary>
+    /// Decimal amount of the transaction.
+    /// </summary>
+    public required string Amount
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("amount");
+        }
+        init { this._rawData.Set("amount", value); }
+    }
+
+    /// <summary>
+    /// ISO 4217 currency code.
+    /// </summary>
+    public required string Currency
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("currency");
+        }
+        init { this._rawData.Set("currency", value); }
+    }
+
+    /// <summary>
+    /// Payee name displayed to the payer.
+    /// </summary>
+    public required string Recipient
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<string>("recipient");
+        }
+        init { this._rawData.Set("recipient", value); }
+    }
+
+    /// <inheritdoc/>
+    public override void Validate()
+    {
+        _ = this.Amount;
+        _ = this.Currency;
+        _ = this.Recipient;
+    }
+
+    public Psd2() { }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    public Psd2(Psd2 psd2)
+        : base(psd2) { }
+#pragma warning restore CS8618
+
+    public Psd2(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+
+#pragma warning disable CS8618
+    [SetsRequiredMembers]
+    Psd2(FrozenDictionary<string, JsonElement> rawData)
+    {
+        this._rawData = new(rawData);
+    }
+#pragma warning restore CS8618
+
+    /// <inheritdoc cref="Psd2FromRaw.FromRawUnchecked"/>
+    public static Psd2 FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
+    {
+        return new(FrozenDictionary.ToFrozenDictionary(rawData));
+    }
+}
+
+class Psd2FromRaw : IFromRawJson<Psd2>
+{
+    /// <inheritdoc/>
+    public Psd2 FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
+        Psd2.FromRawUnchecked(rawData);
 }

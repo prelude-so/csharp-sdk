@@ -19,7 +19,7 @@ public class WatchSendEventsParamsTest : TestBase
                 new()
                 {
                     Confidence = Confidence.Maximum,
-                    Label = "onboarding.start",
+                    Label = "account.banned",
                     Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
                 },
             ],
@@ -30,7 +30,7 @@ public class WatchSendEventsParamsTest : TestBase
             new()
             {
                 Confidence = Confidence.Maximum,
-                Label = "onboarding.start",
+                Label = "account.banned",
                 Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
             },
         ];
@@ -52,7 +52,7 @@ public class WatchSendEventsParamsTest : TestBase
                 new()
                 {
                     Confidence = Confidence.Maximum,
-                    Label = "onboarding.start",
+                    Label = "account.banned",
                     Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
                 },
             ],
@@ -73,7 +73,7 @@ public class WatchSendEventsParamsTest : TestBase
                 new()
                 {
                     Confidence = Confidence.Maximum,
-                    Label = "onboarding.start",
+                    Label = "account.banned",
                     Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
                 },
             ],
@@ -93,12 +93,12 @@ public class EventTest : TestBase
         var model = new Event
         {
             Confidence = Confidence.Maximum,
-            Label = "onboarding.start",
+            Label = "account.banned",
             Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
         };
 
         ApiEnum<string, Confidence> expectedConfidence = Confidence.Maximum;
-        string expectedLabel = "onboarding.start";
+        string expectedLabel = "account.banned";
         EventTarget expectedTarget = new()
         {
             Type = EventTargetType.PhoneNumber,
@@ -116,7 +116,7 @@ public class EventTest : TestBase
         var model = new Event
         {
             Confidence = Confidence.Maximum,
-            Label = "onboarding.start",
+            Label = "account.banned",
             Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
         };
 
@@ -132,7 +132,7 @@ public class EventTest : TestBase
         var model = new Event
         {
             Confidence = Confidence.Maximum,
-            Label = "onboarding.start",
+            Label = "account.banned",
             Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
         };
 
@@ -141,7 +141,7 @@ public class EventTest : TestBase
         Assert.NotNull(deserialized);
 
         ApiEnum<string, Confidence> expectedConfidence = Confidence.Maximum;
-        string expectedLabel = "onboarding.start";
+        string expectedLabel = "account.banned";
         EventTarget expectedTarget = new()
         {
             Type = EventTargetType.PhoneNumber,
@@ -159,7 +159,7 @@ public class EventTest : TestBase
         var model = new Event
         {
             Confidence = Confidence.Maximum,
-            Label = "onboarding.start",
+            Label = "account.banned",
             Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
         };
 
@@ -172,7 +172,7 @@ public class EventTest : TestBase
         var model = new Event
         {
             Confidence = Confidence.Maximum,
-            Label = "onboarding.start",
+            Label = "account.banned",
             Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
         };
 

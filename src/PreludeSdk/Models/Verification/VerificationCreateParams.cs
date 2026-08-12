@@ -1,5 +1,6 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
@@ -483,6 +484,41 @@ public sealed record class Options : JsonModel
     }
 
     /// <summary>
+    /// The channels this verification may use, in the order they are tried. Channels
+    /// you omit are never used, including on retries. This option can only be set
+    /// when the verification is created. The list is recorded on the verification
+    /// and applies for its whole lifecycle, so `channels` sent while retrying an
+    /// existing verification is ignored — unlike `preferred_channel`, which is honored
+    /// on every retry. Every channel you list must be enabled on your account and
+    /// active in the destination country, otherwise the request fails with `channel_not_enabled_in_region`.
+    /// Prelude still picks the best provider within each channel. Cannot be combined
+    /// with `preferred_channel`. Voice is requested through `method` instead. Disabled
+    /// by default — contact support to enable it.
+    /// </summary>
+    public IReadOnlyList<ApiEnum<string, Channel>>? Channels
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<ImmutableArray<ApiEnum<string, Channel>>>(
+                "channels"
+            );
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set<ImmutableArray<ApiEnum<string, Channel>>?>(
+                "channels",
+                value == null ? null : ImmutableArray.ToImmutableArray(value)
+            );
+        }
+    }
+
+    /// <summary>
     /// The size of the code generated. It should be between 4 and 8. Defaults to
     /// the code size specified from the Dashboard.
     /// </summary>
@@ -527,6 +563,33 @@ public sealed record class Options : JsonModel
     }
 
     /// <summary>
+    /// When `true`, the verification is routed through challenge-safe channels (non-SMS/Voice)
+    /// regardless of country eligibility or any antispam outcome. The resulting
+    /// verification has `status: "challenged"`. Use this when you have your own signal
+    /// that the request is suspicious and want stricter routing — the verification
+    /// is **not** classified as fraud and does not contribute to anti-fraud counters
+    /// or risk factors. This feature is disabled by default — contact Prelude support
+    /// to enable it on your account.
+    /// </summary>
+    public bool? ForceChallenge
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("force_challenge");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("force_challenge", value);
+        }
+    }
+
+    /// <summary>
     /// A BCP-47 formatted locale string with the language the text message will
     /// be sent to. If there's no locale set, the language will be determined by
     /// the country code of the phone number. If the language specified doesn't exist,
@@ -547,6 +610,41 @@ public sealed record class Options : JsonModel
             }
 
             this._rawData.Set("locale", value);
+        }
+    }
+
+    /// <summary>
+    /// Maximum number of delivery attempts Prelude may add on its own after the one
+    /// you requested. `0` means a single attempt: if it cannot be delivered, Prelude
+    /// neither tries another provider nor another channel, and does not retry automatically.
+    /// `1` allows one additional attempt, and so on — a value larger than the number
+    /// of routes available for the destination simply behaves like the default. When
+    /// omitted, Prelude retries as your account is configured, across as many channels
+    /// as the route offers.
+    ///
+    /// <para>This option can only be set when the verification is created. The value
+    /// is recorded on the verification and applies for its whole lifecycle, so a
+    /// `max_auto_fallbacks` sent while retrying an existing verification is ignored
+    /// — the limit cannot be raised or lowered after the fact. A retry you ask for
+    /// is not an automatic attempt, so it gets a fresh allowance of the same limit.
+    /// This option is disabled by default — contact Prelude support to enable it
+    /// on your account. </para>
+    /// </summary>
+    public long? MaxAutoFallbacks
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<long>("max_auto_fallbacks");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("max_auto_fallbacks", value);
         }
     }
 
@@ -577,7 +675,12 @@ public sealed record class Options : JsonModel
     }
 
     /// <summary>
-    /// The preferred channel to be used in priority for verification.
+    /// The channel to prioritize when delivering the verification. Prelude prioritizes
+    /// this channel on the first attempt and continues to prefer it on retries while
+    /// an untried route on that channel remains; once those are exhausted, retries
+    /// fall back to the next best available route. If the channel is unavailable
+    /// (for example, when a verification is challenged), Prelude uses the best available
+    /// route instead. Cannot be combined with `channels`.
     /// </summary>
     public ApiEnum<string, PreferredChannel>? PreferredChannel
     {
@@ -671,9 +774,15 @@ public sealed record class Options : JsonModel
     {
         this.AppRealm?.Validate();
         _ = this.CallbackUrl;
+        foreach (var item in this.Channels ?? [])
+        {
+            item.Validate();
+        }
         _ = this.CodeSize;
         _ = this.CustomCode;
+        _ = this.ForceChallenge;
         _ = this.Locale;
+        _ = this.MaxAutoFallbacks;
         this.Method?.Validate();
         this.PreferredChannel?.Validate();
         _ = this.SenderID;
@@ -839,6 +948,58 @@ sealed class PlatformConverter : JsonConverter<Platform>
     }
 }
 
+[JsonConverter(typeof(ChannelConverter))]
+public enum Channel
+{
+    Sms,
+    Rcs,
+    Whatsapp,
+    Viber,
+    Zalo,
+    Telegram,
+}
+
+sealed class ChannelConverter : JsonConverter<Channel>
+{
+    public override Channel Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "sms" => Channel.Sms,
+            "rcs" => Channel.Rcs,
+            "whatsapp" => Channel.Whatsapp,
+            "viber" => Channel.Viber,
+            "zalo" => Channel.Zalo,
+            "telegram" => Channel.Telegram,
+            _ => (Channel)(-1),
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, Channel value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                Channel.Sms => "sms",
+                Channel.Rcs => "rcs",
+                Channel.Whatsapp => "whatsapp",
+                Channel.Viber => "viber",
+                Channel.Zalo => "zalo",
+                Channel.Telegram => "telegram",
+                _ => throw new PreludeInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
 /// <summary>
 /// The method used for verifying this phone number. The 'voice' option provides
 /// an accessible alternative for visually impaired users by delivering the verification
@@ -891,7 +1052,12 @@ sealed class MethodConverter : JsonConverter<Method>
 }
 
 /// <summary>
-/// The preferred channel to be used in priority for verification.
+/// The channel to prioritize when delivering the verification. Prelude prioritizes
+/// this channel on the first attempt and continues to prefer it on retries while
+/// an untried route on that channel remains; once those are exhausted, retries fall
+/// back to the next best available route. If the channel is unavailable (for example,
+/// when a verification is challenged), Prelude uses the best available route instead.
+/// Cannot be combined with `channels`.
 /// </summary>
 [JsonConverter(typeof(PreferredChannelConverter))]
 public enum PreferredChannel

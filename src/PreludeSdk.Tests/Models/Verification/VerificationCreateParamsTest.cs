@@ -21,9 +21,12 @@ public class VerificationCreateParamsTest : TestBase
             {
                 AppRealm = new() { Platform = Verification::Platform.Android, Value = "value" },
                 CallbackUrl = "callback_url",
+                Channels = [Verification::Channel.Whatsapp, Verification::Channel.Sms],
                 CodeSize = 5,
                 CustomCode = "123456",
+                ForceChallenge = true,
                 Locale = "el-GR",
+                MaxAutoFallbacks = 0,
                 Method = Verification::Method.Auto,
                 PreferredChannel = Verification::PreferredChannel.Sms,
                 SenderID = "sender_id",
@@ -56,9 +59,12 @@ public class VerificationCreateParamsTest : TestBase
         {
             AppRealm = new() { Platform = Verification::Platform.Android, Value = "value" },
             CallbackUrl = "callback_url",
+            Channels = [Verification::Channel.Whatsapp, Verification::Channel.Sms],
             CodeSize = 5,
             CustomCode = "123456",
+            ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -153,9 +159,12 @@ public class VerificationCreateParamsTest : TestBase
             {
                 AppRealm = new() { Platform = Verification::Platform.Android, Value = "value" },
                 CallbackUrl = "callback_url",
+                Channels = [Verification::Channel.Whatsapp, Verification::Channel.Sms],
                 CodeSize = 5,
                 CustomCode = "123456",
+                ForceChallenge = true,
                 Locale = "el-GR",
+                MaxAutoFallbacks = 0,
                 Method = Verification::Method.Auto,
                 PreferredChannel = Verification::PreferredChannel.Sms,
                 SenderID = "sender_id",
@@ -440,9 +449,12 @@ public class OptionsTest : TestBase
         {
             AppRealm = new() { Platform = Verification::Platform.Android, Value = "value" },
             CallbackUrl = "callback_url",
+            Channels = [Verification::Channel.Whatsapp, Verification::Channel.Sms],
             CodeSize = 5,
             CustomCode = "123456",
+            ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -456,9 +468,16 @@ public class OptionsTest : TestBase
             Value = "value",
         };
         string expectedCallbackUrl = "callback_url";
+        List<ApiEnum<string, Verification::Channel>> expectedChannels =
+        [
+            Verification::Channel.Whatsapp,
+            Verification::Channel.Sms,
+        ];
         long expectedCodeSize = 5;
         string expectedCustomCode = "123456";
+        bool expectedForceChallenge = true;
         string expectedLocale = "el-GR";
+        long expectedMaxAutoFallbacks = 0;
         ApiEnum<string, Verification::Method> expectedMethod = Verification::Method.Auto;
         ApiEnum<string, Verification::PreferredChannel> expectedPreferredChannel =
             Verification::PreferredChannel.Sms;
@@ -468,9 +487,17 @@ public class OptionsTest : TestBase
 
         Assert.Equal(expectedAppRealm, model.AppRealm);
         Assert.Equal(expectedCallbackUrl, model.CallbackUrl);
+        Assert.NotNull(model.Channels);
+        Assert.Equal(expectedChannels.Count, model.Channels.Count);
+        for (int i = 0; i < expectedChannels.Count; i++)
+        {
+            Assert.Equal(expectedChannels[i], model.Channels[i]);
+        }
         Assert.Equal(expectedCodeSize, model.CodeSize);
         Assert.Equal(expectedCustomCode, model.CustomCode);
+        Assert.Equal(expectedForceChallenge, model.ForceChallenge);
         Assert.Equal(expectedLocale, model.Locale);
+        Assert.Equal(expectedMaxAutoFallbacks, model.MaxAutoFallbacks);
         Assert.Equal(expectedMethod, model.Method);
         Assert.Equal(expectedPreferredChannel, model.PreferredChannel);
         Assert.Equal(expectedSenderID, model.SenderID);
@@ -492,9 +519,12 @@ public class OptionsTest : TestBase
         {
             AppRealm = new() { Platform = Verification::Platform.Android, Value = "value" },
             CallbackUrl = "callback_url",
+            Channels = [Verification::Channel.Whatsapp, Verification::Channel.Sms],
             CodeSize = 5,
             CustomCode = "123456",
+            ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -518,9 +548,12 @@ public class OptionsTest : TestBase
         {
             AppRealm = new() { Platform = Verification::Platform.Android, Value = "value" },
             CallbackUrl = "callback_url",
+            Channels = [Verification::Channel.Whatsapp, Verification::Channel.Sms],
             CodeSize = 5,
             CustomCode = "123456",
+            ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -541,9 +574,16 @@ public class OptionsTest : TestBase
             Value = "value",
         };
         string expectedCallbackUrl = "callback_url";
+        List<ApiEnum<string, Verification::Channel>> expectedChannels =
+        [
+            Verification::Channel.Whatsapp,
+            Verification::Channel.Sms,
+        ];
         long expectedCodeSize = 5;
         string expectedCustomCode = "123456";
+        bool expectedForceChallenge = true;
         string expectedLocale = "el-GR";
+        long expectedMaxAutoFallbacks = 0;
         ApiEnum<string, Verification::Method> expectedMethod = Verification::Method.Auto;
         ApiEnum<string, Verification::PreferredChannel> expectedPreferredChannel =
             Verification::PreferredChannel.Sms;
@@ -553,9 +593,17 @@ public class OptionsTest : TestBase
 
         Assert.Equal(expectedAppRealm, deserialized.AppRealm);
         Assert.Equal(expectedCallbackUrl, deserialized.CallbackUrl);
+        Assert.NotNull(deserialized.Channels);
+        Assert.Equal(expectedChannels.Count, deserialized.Channels.Count);
+        for (int i = 0; i < expectedChannels.Count; i++)
+        {
+            Assert.Equal(expectedChannels[i], deserialized.Channels[i]);
+        }
         Assert.Equal(expectedCodeSize, deserialized.CodeSize);
         Assert.Equal(expectedCustomCode, deserialized.CustomCode);
+        Assert.Equal(expectedForceChallenge, deserialized.ForceChallenge);
         Assert.Equal(expectedLocale, deserialized.Locale);
+        Assert.Equal(expectedMaxAutoFallbacks, deserialized.MaxAutoFallbacks);
         Assert.Equal(expectedMethod, deserialized.Method);
         Assert.Equal(expectedPreferredChannel, deserialized.PreferredChannel);
         Assert.Equal(expectedSenderID, deserialized.SenderID);
@@ -577,9 +625,12 @@ public class OptionsTest : TestBase
         {
             AppRealm = new() { Platform = Verification::Platform.Android, Value = "value" },
             CallbackUrl = "callback_url",
+            Channels = [Verification::Channel.Whatsapp, Verification::Channel.Sms],
             CodeSize = 5,
             CustomCode = "123456",
+            ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -599,12 +650,18 @@ public class OptionsTest : TestBase
         Assert.False(model.RawData.ContainsKey("app_realm"));
         Assert.Null(model.CallbackUrl);
         Assert.False(model.RawData.ContainsKey("callback_url"));
+        Assert.Null(model.Channels);
+        Assert.False(model.RawData.ContainsKey("channels"));
         Assert.Null(model.CodeSize);
         Assert.False(model.RawData.ContainsKey("code_size"));
         Assert.Null(model.CustomCode);
         Assert.False(model.RawData.ContainsKey("custom_code"));
+        Assert.Null(model.ForceChallenge);
+        Assert.False(model.RawData.ContainsKey("force_challenge"));
         Assert.Null(model.Locale);
         Assert.False(model.RawData.ContainsKey("locale"));
+        Assert.Null(model.MaxAutoFallbacks);
+        Assert.False(model.RawData.ContainsKey("max_auto_fallbacks"));
         Assert.Null(model.Method);
         Assert.False(model.RawData.ContainsKey("method"));
         Assert.Null(model.PreferredChannel);
@@ -633,9 +690,12 @@ public class OptionsTest : TestBase
             // Null should be interpreted as omitted for these properties
             AppRealm = null,
             CallbackUrl = null,
+            Channels = null,
             CodeSize = null,
             CustomCode = null,
+            ForceChallenge = null,
             Locale = null,
+            MaxAutoFallbacks = null,
             Method = null,
             PreferredChannel = null,
             SenderID = null,
@@ -647,12 +707,18 @@ public class OptionsTest : TestBase
         Assert.False(model.RawData.ContainsKey("app_realm"));
         Assert.Null(model.CallbackUrl);
         Assert.False(model.RawData.ContainsKey("callback_url"));
+        Assert.Null(model.Channels);
+        Assert.False(model.RawData.ContainsKey("channels"));
         Assert.Null(model.CodeSize);
         Assert.False(model.RawData.ContainsKey("code_size"));
         Assert.Null(model.CustomCode);
         Assert.False(model.RawData.ContainsKey("custom_code"));
+        Assert.Null(model.ForceChallenge);
+        Assert.False(model.RawData.ContainsKey("force_challenge"));
         Assert.Null(model.Locale);
         Assert.False(model.RawData.ContainsKey("locale"));
+        Assert.Null(model.MaxAutoFallbacks);
+        Assert.False(model.RawData.ContainsKey("max_auto_fallbacks"));
         Assert.Null(model.Method);
         Assert.False(model.RawData.ContainsKey("method"));
         Assert.Null(model.PreferredChannel);
@@ -673,9 +739,12 @@ public class OptionsTest : TestBase
             // Null should be interpreted as omitted for these properties
             AppRealm = null,
             CallbackUrl = null,
+            Channels = null,
             CodeSize = null,
             CustomCode = null,
+            ForceChallenge = null,
             Locale = null,
+            MaxAutoFallbacks = null,
             Method = null,
             PreferredChannel = null,
             SenderID = null,
@@ -693,9 +762,12 @@ public class OptionsTest : TestBase
         {
             AppRealm = new() { Platform = Verification::Platform.Android, Value = "value" },
             CallbackUrl = "callback_url",
+            Channels = [Verification::Channel.Whatsapp, Verification::Channel.Sms],
             CodeSize = 5,
             CustomCode = "123456",
+            ForceChallenge = true,
             Locale = "el-GR",
+            MaxAutoFallbacks = 0,
             Method = Verification::Method.Auto,
             PreferredChannel = Verification::PreferredChannel.Sms,
             SenderID = "sender_id",
@@ -845,6 +917,72 @@ public class PlatformTest : TestBase
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Verification::Platform>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class ChannelTest : TestBase
+{
+    [Theory]
+    [InlineData(Verification::Channel.Sms)]
+    [InlineData(Verification::Channel.Rcs)]
+    [InlineData(Verification::Channel.Whatsapp)]
+    [InlineData(Verification::Channel.Viber)]
+    [InlineData(Verification::Channel.Zalo)]
+    [InlineData(Verification::Channel.Telegram)]
+    public void Validation_Works(Verification::Channel rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, Verification::Channel> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, Verification::Channel>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<PreludeInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(Verification::Channel.Sms)]
+    [InlineData(Verification::Channel.Rcs)]
+    [InlineData(Verification::Channel.Whatsapp)]
+    [InlineData(Verification::Channel.Viber)]
+    [InlineData(Verification::Channel.Zalo)]
+    [InlineData(Verification::Channel.Telegram)]
+    public void SerializationRoundtrip_Works(Verification::Channel rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, Verification::Channel> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Verification::Channel>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, Verification::Channel>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Verification::Channel>>(
             json,
             ModelBase.SerializerOptions
         );

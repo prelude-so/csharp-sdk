@@ -29,7 +29,7 @@ public class WatchServiceTest : TestBase
                     new()
                     {
                         Confidence = Confidence.Maximum,
-                        Label = "onboarding.start",
+                        Label = "account.banned",
                         Target = new()
                         {
                             Type = EventTargetType.PhoneNumber,

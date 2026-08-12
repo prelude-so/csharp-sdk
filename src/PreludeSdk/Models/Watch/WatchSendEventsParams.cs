@@ -13,8 +13,11 @@ using System = System;
 namespace PreludeSdk.Models.Watch;
 
 /// <summary>
-/// Send real-time event data from end-user interactions within your application.
-/// Events will be analyzed for proactive fraud prevention and risk scoring.
+/// Send custom fraud signals from your application (labels and confidence levels).
+/// Events capture product-specific risk patterns and are weighted when scoring traffic.
+/// Use without Predict or Feedback if you only need to report product-side abuse
+/// (for example account.banned). Feedback is a separate, optional endpoint for self-hosted
+/// phone verification funnels.
 ///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
@@ -161,7 +164,15 @@ public record class WatchSendEventsParams : ParamsBase
 public sealed record class Event : JsonModel
 {
     /// <summary>
-    /// A confidence level you want to assign to the event.
+    /// How much this event tells us to trust the end-user's legitimacy — not how
+    /// certain you are that the event occurred. In increasing order of trust: `minimum`,
+    /// `low`, `neutral`, `high`, `maximum`.
+    ///
+    /// <para>Use `minimum` for an event tied to a user you trust the least to be
+    /// legitimate (e.g. a `payment.chargeback`), and `maximum` for an event tied
+    /// to a highly trustworthy user (e.g. a confirmed 3DS payment). Prelude weights
+    /// these signals when scoring traffic: it filters out users tied to low-confidence
+    /// events while preserving the experience for users tied to high-confidence ones. </para>
     /// </summary>
     public required ApiEnum<string, Confidence> Confidence
     {
@@ -243,7 +254,15 @@ class EventFromRaw : IFromRawJson<Event>
 }
 
 /// <summary>
-/// A confidence level you want to assign to the event.
+/// How much this event tells us to trust the end-user's legitimacy — not how certain
+/// you are that the event occurred. In increasing order of trust: `minimum`, `low`,
+/// `neutral`, `high`, `maximum`.
+///
+/// <para>Use `minimum` for an event tied to a user you trust the least to be legitimate
+/// (e.g. a `payment.chargeback`), and `maximum` for an event tied to a highly trustworthy
+/// user (e.g. a confirmed 3DS payment). Prelude weights these signals when scoring
+/// traffic: it filters out users tied to low-confidence events while preserving
+/// the experience for users tied to high-confidence ones. </para>
 /// </summary>
 [JsonConverter(typeof(ConfidenceConverter))]
 public enum Confidence
