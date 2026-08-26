@@ -22,6 +22,7 @@ public class WatchPredictParamsTest : TestBase
                 DeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2",
                 DeviceModel = "iPhone17,2",
                 DevicePlatform = Watch::DevicePlatform.Ios,
+                ExistingUser = false,
                 IP = "203.0.113.123",
                 IsTrustedUser = false,
                 Ja4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1",
@@ -44,6 +45,7 @@ public class WatchPredictParamsTest : TestBase
             DeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2",
             DeviceModel = "iPhone17,2",
             DevicePlatform = Watch::DevicePlatform.Ios,
+            ExistingUser = false,
             IP = "203.0.113.123",
             IsTrustedUser = false,
             Ja4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1",
@@ -122,6 +124,7 @@ public class WatchPredictParamsTest : TestBase
                 DeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2",
                 DeviceModel = "iPhone17,2",
                 DevicePlatform = Watch::DevicePlatform.Ios,
+                ExistingUser = false,
                 IP = "203.0.113.123",
                 IsTrustedUser = false,
                 Ja4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1",
@@ -376,6 +379,7 @@ public class SignalsTest : TestBase
             DeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2",
             DeviceModel = "iPhone17,2",
             DevicePlatform = Watch::DevicePlatform.Ios,
+            ExistingUser = false,
             IP = "203.0.113.123",
             IsTrustedUser = false,
             Ja4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1",
@@ -388,6 +392,7 @@ public class SignalsTest : TestBase
         string expectedDeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2";
         string expectedDeviceModel = "iPhone17,2";
         ApiEnum<string, Watch::DevicePlatform> expectedDevicePlatform = Watch::DevicePlatform.Ios;
+        bool expectedExistingUser = false;
         string expectedIP = "203.0.113.123";
         bool expectedIsTrustedUser = false;
         string expectedJa4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1";
@@ -399,6 +404,7 @@ public class SignalsTest : TestBase
         Assert.Equal(expectedDeviceID, model.DeviceID);
         Assert.Equal(expectedDeviceModel, model.DeviceModel);
         Assert.Equal(expectedDevicePlatform, model.DevicePlatform);
+        Assert.Equal(expectedExistingUser, model.ExistingUser);
         Assert.Equal(expectedIP, model.IP);
         Assert.Equal(expectedIsTrustedUser, model.IsTrustedUser);
         Assert.Equal(expectedJa4Fingerprint, model.Ja4Fingerprint);
@@ -415,6 +421,7 @@ public class SignalsTest : TestBase
             DeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2",
             DeviceModel = "iPhone17,2",
             DevicePlatform = Watch::DevicePlatform.Ios,
+            ExistingUser = false,
             IP = "203.0.113.123",
             IsTrustedUser = false,
             Ja4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1",
@@ -441,6 +448,7 @@ public class SignalsTest : TestBase
             DeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2",
             DeviceModel = "iPhone17,2",
             DevicePlatform = Watch::DevicePlatform.Ios,
+            ExistingUser = false,
             IP = "203.0.113.123",
             IsTrustedUser = false,
             Ja4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1",
@@ -460,6 +468,7 @@ public class SignalsTest : TestBase
         string expectedDeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2";
         string expectedDeviceModel = "iPhone17,2";
         ApiEnum<string, Watch::DevicePlatform> expectedDevicePlatform = Watch::DevicePlatform.Ios;
+        bool expectedExistingUser = false;
         string expectedIP = "203.0.113.123";
         bool expectedIsTrustedUser = false;
         string expectedJa4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1";
@@ -471,6 +480,7 @@ public class SignalsTest : TestBase
         Assert.Equal(expectedDeviceID, deserialized.DeviceID);
         Assert.Equal(expectedDeviceModel, deserialized.DeviceModel);
         Assert.Equal(expectedDevicePlatform, deserialized.DevicePlatform);
+        Assert.Equal(expectedExistingUser, deserialized.ExistingUser);
         Assert.Equal(expectedIP, deserialized.IP);
         Assert.Equal(expectedIsTrustedUser, deserialized.IsTrustedUser);
         Assert.Equal(expectedJa4Fingerprint, deserialized.Ja4Fingerprint);
@@ -487,6 +497,7 @@ public class SignalsTest : TestBase
             DeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2",
             DeviceModel = "iPhone17,2",
             DevicePlatform = Watch::DevicePlatform.Ios,
+            ExistingUser = false,
             IP = "203.0.113.123",
             IsTrustedUser = false,
             Ja4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1",
@@ -511,6 +522,8 @@ public class SignalsTest : TestBase
         Assert.False(model.RawData.ContainsKey("device_model"));
         Assert.Null(model.DevicePlatform);
         Assert.False(model.RawData.ContainsKey("device_platform"));
+        Assert.Null(model.ExistingUser);
+        Assert.False(model.RawData.ContainsKey("existing_user"));
         Assert.Null(model.IP);
         Assert.False(model.RawData.ContainsKey("ip"));
         Assert.Null(model.IsTrustedUser);
@@ -541,6 +554,7 @@ public class SignalsTest : TestBase
             DeviceID = null,
             DeviceModel = null,
             DevicePlatform = null,
+            ExistingUser = null,
             IP = null,
             IsTrustedUser = null,
             Ja4Fingerprint = null,
@@ -556,6 +570,8 @@ public class SignalsTest : TestBase
         Assert.False(model.RawData.ContainsKey("device_model"));
         Assert.Null(model.DevicePlatform);
         Assert.False(model.RawData.ContainsKey("device_platform"));
+        Assert.Null(model.ExistingUser);
+        Assert.False(model.RawData.ContainsKey("existing_user"));
         Assert.Null(model.IP);
         Assert.False(model.RawData.ContainsKey("ip"));
         Assert.Null(model.IsTrustedUser);
@@ -578,6 +594,7 @@ public class SignalsTest : TestBase
             DeviceID = null,
             DeviceModel = null,
             DevicePlatform = null,
+            ExistingUser = null,
             IP = null,
             IsTrustedUser = null,
             Ja4Fingerprint = null,
@@ -597,6 +614,7 @@ public class SignalsTest : TestBase
             DeviceID = "8F0B8FDD-C2CB-4387-B20A-56E9B2E5A0D2",
             DeviceModel = "iPhone17,2",
             DevicePlatform = Watch::DevicePlatform.Ios,
+            ExistingUser = false,
             IP = "203.0.113.123",
             IsTrustedUser = false,
             Ja4Fingerprint = "t13d1516h2_8daaf6152771_e5627efa2ab1",
