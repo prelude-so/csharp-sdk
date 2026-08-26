@@ -1210,6 +1210,30 @@ public sealed record class Signals : JsonModel
     }
 
     /// <summary>
+    /// Whether the end-user already exists in your system, for example an existing
+    /// account signing in again rather than a first-time signup. Unlike `is_trusted_user`,
+    /// this signal does not bypass fraud checks; it is taken into account as one
+    /// additional anti-fraud signal. For more details, refer to [Signals](/verify/v2/documentation/prevent-fraud#signals).
+    /// </summary>
+    public bool? ExistingUser
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableStruct<bool>("existing_user");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("existing_user", value);
+        }
+    }
+
+    /// <summary>
     /// The public IP v4 or v6 address of the end-user's device. You should collect
     /// this from your backend. If your backend is behind a proxy, use the `X-Forwarded-For`,
     /// `Forwarded`, `True-Client-IP`, `CF-Connecting-IP` or an equivalent header
@@ -1330,6 +1354,7 @@ public sealed record class Signals : JsonModel
         _ = this.DeviceID;
         _ = this.DeviceModel;
         this.DevicePlatform?.Validate();
+        _ = this.ExistingUser;
         _ = this.IP;
         _ = this.IsTrustedUser;
         _ = this.Ja4Fingerprint;
