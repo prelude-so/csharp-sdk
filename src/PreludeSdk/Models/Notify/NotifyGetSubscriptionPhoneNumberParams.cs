@@ -12,6 +12,8 @@ namespace PreludeSdk.Models.Notify;
 /// Retrieve the current subscription status for a specific phone number within a
 /// subscription configuration.
 ///
+/// <para>In order to get access to this endpoint, contact our support team.</para>
+///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
 /// cause existing derived classes to break.</para>
