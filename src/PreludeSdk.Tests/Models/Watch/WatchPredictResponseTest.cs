@@ -249,6 +249,7 @@ public class PredictionTest : TestBase
 public class RiskFactorTest : TestBase
 {
     [Theory]
+    [InlineData(RiskFactor.AccountRiskProfile)]
     [InlineData(RiskFactor.BehavioralPattern)]
     [InlineData(RiskFactor.DeviceAttribute)]
     [InlineData(RiskFactor.FraudDatabase)]
@@ -279,6 +280,7 @@ public class RiskFactorTest : TestBase
     }
 
     [Theory]
+    [InlineData(RiskFactor.AccountRiskProfile)]
     [InlineData(RiskFactor.BehavioralPattern)]
     [InlineData(RiskFactor.DeviceAttribute)]
     [InlineData(RiskFactor.FraudDatabase)]

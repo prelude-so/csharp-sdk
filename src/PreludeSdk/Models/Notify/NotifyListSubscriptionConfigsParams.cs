@@ -14,6 +14,8 @@ namespace PreludeSdk.Models.Notify;
 /// <para>Each configuration represents a subscription management setup with phone
 /// numbers for receiving opt-out/opt-in requests and a callback URL for webhook events.</para>
 ///
+/// <para>In order to get access to this endpoint, contact our support team.</para>
+///
 /// <para>NOTE: Do not inherit from this type outside the SDK unless you're okay with
 /// breaking changes in non-major versions. We may add new methods in the future that
 /// cause existing derived classes to break.</para>
