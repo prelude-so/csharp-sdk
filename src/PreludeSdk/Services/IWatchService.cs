@@ -29,9 +29,9 @@ public interface IWatchService
     IWatchService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>
-    /// **Beta.** The request and response shapes may still change, and flows and
-    /// recipes are configured by Prelude on your behalf for now. Talk to us before you
-    /// build against it.
+    /// **Beta.** The request and response shapes may still change. Talk to us before
+    /// you build against it. Flows, recipes and rules are authored through the Watch
+    /// Management API, or configured by Prelude on your behalf.
     ///
     /// <para>Score a target against the rules configured for one moment in your product
     /// — signup, checkout, password reset. The flow selects which recipes run; each

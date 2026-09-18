@@ -27,10 +27,12 @@ public class WatchEvaluateResponseTest : TestBase
                         {
                             Outcome = Outcome.Triggered,
                             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                            Type = RuleType.Managed,
                             Weight = 10,
                             BlockedBy = "missing_data",
                             Name = "high_value_cart_new_account",
                             Unavailable = true,
+                            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                         },
                     ],
                     Score = 20,
@@ -56,10 +58,12 @@ public class WatchEvaluateResponseTest : TestBase
                     {
                         Outcome = Outcome.Triggered,
                         RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                        Type = RuleType.Managed,
                         Weight = 10,
                         BlockedBy = "missing_data",
                         Name = "high_value_cart_new_account",
                         Unavailable = true,
+                        VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                     },
                 ],
                 Score = 20,
@@ -100,10 +104,12 @@ public class WatchEvaluateResponseTest : TestBase
                         {
                             Outcome = Outcome.Triggered,
                             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                            Type = RuleType.Managed,
                             Weight = 10,
                             BlockedBy = "missing_data",
                             Name = "high_value_cart_new_account",
                             Unavailable = true,
+                            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                         },
                     ],
                     Score = 20,
@@ -143,10 +149,12 @@ public class WatchEvaluateResponseTest : TestBase
                         {
                             Outcome = Outcome.Triggered,
                             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                            Type = RuleType.Managed,
                             Weight = 10,
                             BlockedBy = "missing_data",
                             Name = "high_value_cart_new_account",
                             Unavailable = true,
+                            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                         },
                     ],
                     Score = 20,
@@ -179,10 +187,12 @@ public class WatchEvaluateResponseTest : TestBase
                     {
                         Outcome = Outcome.Triggered,
                         RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                        Type = RuleType.Managed,
                         Weight = 10,
                         BlockedBy = "missing_data",
                         Name = "high_value_cart_new_account",
                         Unavailable = true,
+                        VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                     },
                 ],
                 Score = 20,
@@ -223,10 +233,12 @@ public class WatchEvaluateResponseTest : TestBase
                         {
                             Outcome = Outcome.Triggered,
                             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                            Type = RuleType.Managed,
                             Weight = 10,
                             BlockedBy = "missing_data",
                             Name = "high_value_cart_new_account",
                             Unavailable = true,
+                            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                         },
                     ],
                     Score = 20,
@@ -260,10 +272,12 @@ public class WatchEvaluateResponseTest : TestBase
                         {
                             Outcome = Outcome.Triggered,
                             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                            Type = RuleType.Managed,
                             Weight = 10,
                             BlockedBy = "missing_data",
                             Name = "high_value_cart_new_account",
                             Unavailable = true,
+                            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                         },
                     ],
                     Score = 20,
@@ -356,10 +370,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -376,10 +392,12 @@ public class RecipeTest : TestBase
             {
                 Outcome = Outcome.Triggered,
                 RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                Type = RuleType.Managed,
                 Weight = 10,
                 BlockedBy = "missing_data",
                 Name = "high_value_cart_new_account",
                 Unavailable = true,
+                VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
             },
         ];
         long expectedScore = 20;
@@ -413,10 +431,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -444,10 +464,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -468,10 +490,12 @@ public class RecipeTest : TestBase
             {
                 Outcome = Outcome.Triggered,
                 RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                Type = RuleType.Managed,
                 Weight = 10,
                 BlockedBy = "missing_data",
                 Name = "high_value_cart_new_account",
                 Unavailable = true,
+                VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
             },
         ];
         long expectedScore = 20;
@@ -505,10 +529,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -533,10 +559,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -561,10 +589,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -588,10 +618,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -619,10 +651,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -649,10 +683,12 @@ public class RecipeTest : TestBase
                 {
                     Outcome = Outcome.Triggered,
                     RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+                    Type = RuleType.Managed,
                     Weight = 10,
                     BlockedBy = "missing_data",
                     Name = "high_value_cart_new_account",
                     Unavailable = true,
+                    VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
                 },
             ],
             Score = 20,
@@ -676,25 +712,31 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
             BlockedBy = "missing_data",
             Name = "high_value_cart_new_account",
             Unavailable = true,
+            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
         };
 
         ApiEnum<string, Outcome> expectedOutcome = Outcome.Triggered;
         string expectedRuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj";
+        ApiEnum<string, RuleType> expectedType = RuleType.Managed;
         long expectedWeight = 10;
         string expectedBlockedBy = "missing_data";
         string expectedName = "high_value_cart_new_account";
         bool expectedUnavailable = true;
+        string expectedVersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6";
 
         Assert.Equal(expectedOutcome, model.Outcome);
         Assert.Equal(expectedRuleID, model.RuleID);
+        Assert.Equal(expectedType, model.Type);
         Assert.Equal(expectedWeight, model.Weight);
         Assert.Equal(expectedBlockedBy, model.BlockedBy);
         Assert.Equal(expectedName, model.Name);
         Assert.Equal(expectedUnavailable, model.Unavailable);
+        Assert.Equal(expectedVersionID, model.VersionID);
     }
 
     [Fact]
@@ -704,10 +746,12 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
             BlockedBy = "missing_data",
             Name = "high_value_cart_new_account",
             Unavailable = true,
+            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -723,10 +767,12 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
             BlockedBy = "missing_data",
             Name = "high_value_cart_new_account",
             Unavailable = true,
+            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -735,17 +781,21 @@ public class RuleTest : TestBase
 
         ApiEnum<string, Outcome> expectedOutcome = Outcome.Triggered;
         string expectedRuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj";
+        ApiEnum<string, RuleType> expectedType = RuleType.Managed;
         long expectedWeight = 10;
         string expectedBlockedBy = "missing_data";
         string expectedName = "high_value_cart_new_account";
         bool expectedUnavailable = true;
+        string expectedVersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6";
 
         Assert.Equal(expectedOutcome, deserialized.Outcome);
         Assert.Equal(expectedRuleID, deserialized.RuleID);
+        Assert.Equal(expectedType, deserialized.Type);
         Assert.Equal(expectedWeight, deserialized.Weight);
         Assert.Equal(expectedBlockedBy, deserialized.BlockedBy);
         Assert.Equal(expectedName, deserialized.Name);
         Assert.Equal(expectedUnavailable, deserialized.Unavailable);
+        Assert.Equal(expectedVersionID, deserialized.VersionID);
     }
 
     [Fact]
@@ -755,10 +805,12 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
             BlockedBy = "missing_data",
             Name = "high_value_cart_new_account",
             Unavailable = true,
+            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
         };
 
         model.Validate();
@@ -771,6 +823,7 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
         };
 
@@ -780,6 +833,8 @@ public class RuleTest : TestBase
         Assert.False(model.RawData.ContainsKey("name"));
         Assert.Null(model.Unavailable);
         Assert.False(model.RawData.ContainsKey("unavailable"));
+        Assert.Null(model.VersionID);
+        Assert.False(model.RawData.ContainsKey("version_id"));
     }
 
     [Fact]
@@ -789,6 +844,7 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
         };
 
@@ -802,12 +858,14 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
 
             // Null should be interpreted as omitted for these properties
             BlockedBy = null,
             Name = null,
             Unavailable = null,
+            VersionID = null,
         };
 
         Assert.Null(model.BlockedBy);
@@ -816,6 +874,8 @@ public class RuleTest : TestBase
         Assert.False(model.RawData.ContainsKey("name"));
         Assert.Null(model.Unavailable);
         Assert.False(model.RawData.ContainsKey("unavailable"));
+        Assert.Null(model.VersionID);
+        Assert.False(model.RawData.ContainsKey("version_id"));
     }
 
     [Fact]
@@ -825,12 +885,14 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
 
             // Null should be interpreted as omitted for these properties
             BlockedBy = null,
             Name = null,
             Unavailable = null,
+            VersionID = null,
         };
 
         model.Validate();
@@ -843,10 +905,12 @@ public class RuleTest : TestBase
         {
             Outcome = Outcome.Triggered,
             RuleID = "rul_01jc0t6fwwfgfsq1md24mhyztj",
+            Type = RuleType.Managed,
             Weight = 10,
             BlockedBy = "missing_data",
             Name = "high_value_cart_new_account",
             Unavailable = true,
+            VersionID = "3sL4kqtJlcpXroDTDmJ.o.Jj7bB5dGH6",
         };
 
         Rule copied = new(model);
@@ -861,6 +925,7 @@ public class OutcomeTest : TestBase
     [InlineData(Outcome.Triggered)]
     [InlineData(Outcome.NotTriggered)]
     [InlineData(Outcome.NotEvaluated)]
+    [InlineData(Outcome.Skipped)]
     public void Validation_Works(Outcome rawValue)
     {
         // force implicit conversion because Theory can't do that for us
@@ -884,6 +949,7 @@ public class OutcomeTest : TestBase
     [InlineData(Outcome.Triggered)]
     [InlineData(Outcome.NotTriggered)]
     [InlineData(Outcome.NotEvaluated)]
+    [InlineData(Outcome.Skipped)]
     public void SerializationRoundtrip_Works(Outcome rawValue)
     {
         // force implicit conversion because Theory can't do that for us
@@ -907,6 +973,64 @@ public class OutcomeTest : TestBase
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Outcome>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+}
+
+public class RuleTypeTest : TestBase
+{
+    [Theory]
+    [InlineData(RuleType.Managed)]
+    [InlineData(RuleType.Custom)]
+    public void Validation_Works(RuleType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, RuleType> value = rawValue;
+        value.Validate();
+    }
+
+    [Fact]
+    public void InvalidEnumValidationThrows_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, RuleType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+
+        Assert.NotNull(value);
+        Assert.Throws<PreludeInvalidDataException>(() => value.Validate());
+    }
+
+    [Theory]
+    [InlineData(RuleType.Managed)]
+    [InlineData(RuleType.Custom)]
+    public void SerializationRoundtrip_Works(RuleType rawValue)
+    {
+        // force implicit conversion because Theory can't do that for us
+        ApiEnum<string, RuleType> value = rawValue;
+
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, RuleType>>(
+            json,
+            ModelBase.SerializerOptions
+        );
+
+        Assert.Equal(value, deserialized);
+    }
+
+    [Fact]
+    public void InvalidEnumSerializationRoundtrip_Works()
+    {
+        var value = JsonSerializer.Deserialize<ApiEnum<string, RuleType>>(
+            JsonSerializer.SerializeToElement("invalid value"),
+            ModelBase.SerializerOptions
+        );
+        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, RuleType>>(
             json,
             ModelBase.SerializerOptions
         );

@@ -20,7 +20,7 @@ public class HistoryRetrieveResponseTest : TestBase
             PhoneNumber = "+33612345678",
             Status = History::HistoryRetrieveResponseStatus.Converted,
             AppVersion = "app_version",
-            BlockReasons = [History::BlockReason.BehavioralPattern],
+            BlockReasons = [History::BlockReason.AutomationSignature],
             Carrier = new() { Mccmnc = "208-01", Name = "Orange" },
             CorrelationID = "correlation_id",
             DeviceModel = "iPhone15,2",
@@ -117,7 +117,7 @@ public class HistoryRetrieveResponseTest : TestBase
         string expectedAppVersion = "app_version";
         List<ApiEnum<string, History::BlockReason>> expectedBlockReasons =
         [
-            History::BlockReason.BehavioralPattern,
+            History::BlockReason.AutomationSignature,
         ];
         History::PhoneVerificationCarrier expectedCarrier = new()
         {
@@ -252,7 +252,7 @@ public class HistoryRetrieveResponseTest : TestBase
             PhoneNumber = "+33612345678",
             Status = History::HistoryRetrieveResponseStatus.Converted,
             AppVersion = "app_version",
-            BlockReasons = [History::BlockReason.BehavioralPattern],
+            BlockReasons = [History::BlockReason.AutomationSignature],
             Carrier = new() { Mccmnc = "208-01", Name = "Orange" },
             CorrelationID = "correlation_id",
             DeviceModel = "iPhone15,2",
@@ -360,7 +360,7 @@ public class HistoryRetrieveResponseTest : TestBase
             PhoneNumber = "+33612345678",
             Status = History::HistoryRetrieveResponseStatus.Converted,
             AppVersion = "app_version",
-            BlockReasons = [History::BlockReason.BehavioralPattern],
+            BlockReasons = [History::BlockReason.AutomationSignature],
             Carrier = new() { Mccmnc = "208-01", Name = "Orange" },
             CorrelationID = "correlation_id",
             DeviceModel = "iPhone15,2",
@@ -464,7 +464,7 @@ public class HistoryRetrieveResponseTest : TestBase
         string expectedAppVersion = "app_version";
         List<ApiEnum<string, History::BlockReason>> expectedBlockReasons =
         [
-            History::BlockReason.BehavioralPattern,
+            History::BlockReason.AutomationSignature,
         ];
         History::PhoneVerificationCarrier expectedCarrier = new()
         {
@@ -599,7 +599,7 @@ public class HistoryRetrieveResponseTest : TestBase
             PhoneNumber = "+33612345678",
             Status = History::HistoryRetrieveResponseStatus.Converted,
             AppVersion = "app_version",
-            BlockReasons = [History::BlockReason.BehavioralPattern],
+            BlockReasons = [History::BlockReason.AutomationSignature],
             Carrier = new() { Mccmnc = "208-01", Name = "Orange" },
             CorrelationID = "correlation_id",
             DeviceModel = "iPhone15,2",
@@ -859,7 +859,7 @@ public class HistoryRetrieveResponseTest : TestBase
             PhoneNumber = "+33612345678",
             Status = History::HistoryRetrieveResponseStatus.Converted,
             AppVersion = "app_version",
-            BlockReasons = [History::BlockReason.BehavioralPattern],
+            BlockReasons = [History::BlockReason.AutomationSignature],
             Carrier = new() { Mccmnc = "208-01", Name = "Orange" },
             CorrelationID = "correlation_id",
             DeviceModel = "iPhone15,2",
@@ -1030,17 +1030,24 @@ public class HistoryRetrieveResponseStatusTest : TestBase
 public class BlockReasonTest : TestBase
 {
     [Theory]
-    [InlineData(History::BlockReason.BehavioralPattern)]
-    [InlineData(History::BlockReason.DeviceAttribute)]
+    [InlineData(History::BlockReason.AutomationSignature)]
+    [InlineData(History::BlockReason.CarrierNotPermitted)]
+    [InlineData(History::BlockReason.ClientFingerprintMismatch)]
+    [InlineData(History::BlockReason.CustomPolicy)]
+    [InlineData(History::BlockReason.DeviceEmulator)]
+    [InlineData(History::BlockReason.DeviceNotPermitted)]
+    [InlineData(History::BlockReason.DeviceReuse)]
+    [InlineData(History::BlockReason.ExpiredSignals)]
     [InlineData(History::BlockReason.FraudDatabase)]
-    [InlineData(History::BlockReason.LocationDiscrepancy)]
+    [InlineData(History::BlockReason.InvalidSignature)]
+    [InlineData(History::BlockReason.IPConcentration)]
+    [InlineData(History::BlockReason.IPReputation)]
+    [InlineData(History::BlockReason.LocationMismatch)]
     [InlineData(History::BlockReason.MissingSignals)]
-    [InlineData(History::BlockReason.NetworkFingerprint)]
+    [InlineData(History::BlockReason.NumberRangeAbuse)]
     [InlineData(History::BlockReason.PoorConversionHistory)]
-    [InlineData(History::BlockReason.PrefixConcentration)]
-    [InlineData(History::BlockReason.RepeatedNumber)]
-    [InlineData(History::BlockReason.SuspectedRequestTampering)]
-    [InlineData(History::BlockReason.SuspiciousIPAddress)]
+    [InlineData(History::BlockReason.ProxyNetwork)]
+    [InlineData(History::BlockReason.RepeatedAttempts)]
     [InlineData(History::BlockReason.TemporaryPhoneNumber)]
     public void Validation_Works(History::BlockReason rawValue)
     {
@@ -1062,17 +1069,24 @@ public class BlockReasonTest : TestBase
     }
 
     [Theory]
-    [InlineData(History::BlockReason.BehavioralPattern)]
-    [InlineData(History::BlockReason.DeviceAttribute)]
+    [InlineData(History::BlockReason.AutomationSignature)]
+    [InlineData(History::BlockReason.CarrierNotPermitted)]
+    [InlineData(History::BlockReason.ClientFingerprintMismatch)]
+    [InlineData(History::BlockReason.CustomPolicy)]
+    [InlineData(History::BlockReason.DeviceEmulator)]
+    [InlineData(History::BlockReason.DeviceNotPermitted)]
+    [InlineData(History::BlockReason.DeviceReuse)]
+    [InlineData(History::BlockReason.ExpiredSignals)]
     [InlineData(History::BlockReason.FraudDatabase)]
-    [InlineData(History::BlockReason.LocationDiscrepancy)]
+    [InlineData(History::BlockReason.InvalidSignature)]
+    [InlineData(History::BlockReason.IPConcentration)]
+    [InlineData(History::BlockReason.IPReputation)]
+    [InlineData(History::BlockReason.LocationMismatch)]
     [InlineData(History::BlockReason.MissingSignals)]
-    [InlineData(History::BlockReason.NetworkFingerprint)]
+    [InlineData(History::BlockReason.NumberRangeAbuse)]
     [InlineData(History::BlockReason.PoorConversionHistory)]
-    [InlineData(History::BlockReason.PrefixConcentration)]
-    [InlineData(History::BlockReason.RepeatedNumber)]
-    [InlineData(History::BlockReason.SuspectedRequestTampering)]
-    [InlineData(History::BlockReason.SuspiciousIPAddress)]
+    [InlineData(History::BlockReason.ProxyNetwork)]
+    [InlineData(History::BlockReason.RepeatedAttempts)]
     [InlineData(History::BlockReason.TemporaryPhoneNumber)]
     public void SerializationRoundtrip_Works(History::BlockReason rawValue)
     {

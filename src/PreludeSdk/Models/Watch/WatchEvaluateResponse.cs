@@ -212,7 +212,9 @@ public sealed record class Recipe : JsonModel
     /// <summary>
     /// One result per rule in the recipe, in membership order. Every rule runs —
     /// a score is only meaningful when complete, so there is no short-circuit on
-    /// the first trigger.
+    /// the first trigger. The exception is a recipe whose verdict a preempting rule
+    /// has already determined, where a rule that could no longer change it may report
+    /// `SKIPPED` instead.
     /// </summary>
     public required IReadOnlyList<Rule> Rules
     {
@@ -352,7 +354,11 @@ public sealed record class Rule : JsonModel
     /// added to the score.  * `NOT_TRIGGERED` - The condition did not hold.  * `NOT_EVALUATED`
     /// - The rule could not run, because something it reads never arrived. This is
     /// not a quieter `NOT_TRIGGERED`: it contributed nothing either way, and it is
-    /// why `partial_evidence` is set on the recipe.
+    /// why `partial_evidence` is set on the recipe.  * `SKIPPED` - The rule was not
+    /// run, because another rule had already determined the recipe's verdict — see
+    /// `determined_by`. Nothing was missing and nothing failed, so `partial_evidence`
+    /// is not set: `determined_by` is what accounts for the recipe's score resting
+    /// on fewer rules.
     /// </summary>
     public required ApiEnum<string, Outcome> Outcome
     {
@@ -377,6 +383,22 @@ public sealed record class Rule : JsonModel
             return this._rawData.GetNotNullClass<string>("rule_id");
         }
         init { this._rawData.Set("rule_id", value); }
+    }
+
+    /// <summary>
+    /// Who authored the rule, which is what says how much of the rest of this result
+    /// you get.  * `MANAGED` - Prelude-owned, shared with customers: `name` and `version_id`
+    /// are omitted, and `blocked_by` reports only `missing_data`.  * `CUSTOM` -
+    /// Yours: every field is returned.
+    /// </summary>
+    public required ApiEnum<string, RuleType> Type
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNotNullClass<ApiEnum<string, RuleType>>("type");
+        }
+        init { this._rawData.Set("type", value); }
     }
 
     /// <summary>
@@ -463,15 +485,40 @@ public sealed record class Rule : JsonModel
         }
     }
 
+    /// <summary>
+    /// The version of the rule that scored — the one this recipe is pinned to, or
+    /// the version current at evaluation time when it is not pinned. Present for
+    /// a rule you authored, and omitted for a Prelude-managed one.
+    /// </summary>
+    public string? VersionID
+    {
+        get
+        {
+            this._rawData.Freeze();
+            return this._rawData.GetNullableClass<string>("version_id");
+        }
+        init
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            this._rawData.Set("version_id", value);
+        }
+    }
+
     /// <inheritdoc/>
     public override void Validate()
     {
         this.Outcome.Validate();
         _ = this.RuleID;
+        this.Type.Validate();
         _ = this.Weight;
         _ = this.BlockedBy;
         _ = this.Name;
         _ = this.Unavailable;
+        _ = this.VersionID;
     }
 
     public Rule() { }
@@ -514,7 +561,10 @@ class RuleFromRaw : IFromRawJson<Rule>
 /// to the score.  * `NOT_TRIGGERED` - The condition did not hold.  * `NOT_EVALUATED`
 /// - The rule could not run, because something it reads never arrived. This is not
 /// a quieter `NOT_TRIGGERED`: it contributed nothing either way, and it is why `partial_evidence`
-/// is set on the recipe.
+/// is set on the recipe.  * `SKIPPED` - The rule was not run, because another rule
+/// had already determined the recipe's verdict — see `determined_by`. Nothing was
+/// missing and nothing failed, so `partial_evidence` is not set: `determined_by`
+/// is what accounts for the recipe's score resting on fewer rules.
 /// </summary>
 [JsonConverter(typeof(OutcomeConverter))]
 public enum Outcome
@@ -522,6 +572,7 @@ public enum Outcome
     Triggered,
     NotTriggered,
     NotEvaluated,
+    Skipped,
 }
 
 sealed class OutcomeConverter : JsonConverter<Outcome>
@@ -537,6 +588,7 @@ sealed class OutcomeConverter : JsonConverter<Outcome>
             "TRIGGERED" => Outcome.Triggered,
             "NOT_TRIGGERED" => Outcome.NotTriggered,
             "NOT_EVALUATED" => Outcome.NotEvaluated,
+            "SKIPPED" => Outcome.Skipped,
             _ => (Outcome)(-1),
         };
     }
@@ -550,6 +602,53 @@ sealed class OutcomeConverter : JsonConverter<Outcome>
                 Outcome.Triggered => "TRIGGERED",
                 Outcome.NotTriggered => "NOT_TRIGGERED",
                 Outcome.NotEvaluated => "NOT_EVALUATED",
+                Outcome.Skipped => "SKIPPED",
+                _ => throw new PreludeInvalidDataException(
+                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
+                ),
+            },
+            options
+        );
+    }
+}
+
+/// <summary>
+/// Who authored the rule, which is what says how much of the rest of this result
+/// you get.  * `MANAGED` - Prelude-owned, shared with customers: `name` and `version_id`
+/// are omitted, and `blocked_by` reports only `missing_data`.  * `CUSTOM` - Yours:
+/// every field is returned.
+/// </summary>
+[JsonConverter(typeof(RuleTypeConverter))]
+public enum RuleType
+{
+    Managed,
+    Custom,
+}
+
+sealed class RuleTypeConverter : JsonConverter<RuleType>
+{
+    public override RuleType Read(
+        ref Utf8JsonReader reader,
+        System::Type typeToConvert,
+        JsonSerializerOptions options
+    )
+    {
+        return JsonSerializer.Deserialize<string>(ref reader, options) switch
+        {
+            "MANAGED" => RuleType.Managed,
+            "CUSTOM" => RuleType.Custom,
+            _ => (RuleType)(-1),
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, RuleType value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(
+            writer,
+            value switch
+            {
+                RuleType.Managed => "MANAGED",
+                RuleType.Custom => "CUSTOM",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
