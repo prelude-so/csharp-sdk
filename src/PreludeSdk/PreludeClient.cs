@@ -108,6 +108,12 @@ public sealed class PreludeClient : IPreludeClient
         get { return _watch.Value; }
     }
 
+    readonly Lazy<IIntelService> _intel;
+    public IIntelService Intel
+    {
+        get { return _intel.Value; }
+    }
+
     public void Dispose() => this.HttpClient.Dispose();
 
     public PreludeClient()
@@ -121,6 +127,7 @@ public sealed class PreludeClient : IPreludeClient
         _verification = new(() => new VerificationService(this));
         _verificationManagement = new(() => new VerificationManagementService(this));
         _watch = new(() => new WatchService(this));
+        _intel = new(() => new IntelService(this));
     }
 
     public PreludeClient(ClientOptions options)
@@ -228,6 +235,12 @@ public sealed class PreludeClientWithRawResponse : IPreludeClientWithRawResponse
     public IWatchServiceWithRawResponse Watch
     {
         get { return _watch.Value; }
+    }
+
+    readonly Lazy<IIntelServiceWithRawResponse> _intel;
+    public IIntelServiceWithRawResponse Intel
+    {
+        get { return _intel.Value; }
     }
 
     /// <inheritdoc/>
@@ -434,6 +447,7 @@ public sealed class PreludeClientWithRawResponse : IPreludeClientWithRawResponse
         _verification = new(() => new VerificationServiceWithRawResponse(this));
         _verificationManagement = new(() => new VerificationManagementServiceWithRawResponse(this));
         _watch = new(() => new WatchServiceWithRawResponse(this));
+        _intel = new(() => new IntelServiceWithRawResponse(this));
     }
 
     public PreludeClientWithRawResponse(ClientOptions options)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -7,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 
 namespace PreludeSdk.Models.VerificationManagement;
 
@@ -200,7 +200,7 @@ sealed class StatusConverter : JsonConverter<Status>
 {
     public override Status Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

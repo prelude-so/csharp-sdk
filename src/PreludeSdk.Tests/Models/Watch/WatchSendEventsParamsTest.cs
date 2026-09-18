@@ -4,6 +4,7 @@ using System.Text.Json;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
 using PreludeSdk.Models.Watch;
+using Models = PreludeSdk.Models;
 
 namespace PreludeSdk.Tests.Models.Watch;
 
@@ -20,7 +21,7 @@ public class WatchSendEventsParamsTest : TestBase
                 {
                     Confidence = Confidence.Maximum,
                     Label = "account.banned",
-                    Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+                    Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
                 },
             ],
         };
@@ -31,7 +32,7 @@ public class WatchSendEventsParamsTest : TestBase
             {
                 Confidence = Confidence.Maximum,
                 Label = "account.banned",
-                Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+                Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
             },
         ];
 
@@ -53,7 +54,7 @@ public class WatchSendEventsParamsTest : TestBase
                 {
                     Confidence = Confidence.Maximum,
                     Label = "account.banned",
-                    Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+                    Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
                 },
             ],
         };
@@ -74,7 +75,7 @@ public class WatchSendEventsParamsTest : TestBase
                 {
                     Confidence = Confidence.Maximum,
                     Label = "account.banned",
-                    Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+                    Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
                 },
             ],
         };
@@ -94,14 +95,14 @@ public class EventTest : TestBase
         {
             Confidence = Confidence.Maximum,
             Label = "account.banned",
-            Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
         };
 
         ApiEnum<string, Confidence> expectedConfidence = Confidence.Maximum;
         string expectedLabel = "account.banned";
-        EventTarget expectedTarget = new()
+        Models::Target expectedTarget = new()
         {
-            Type = EventTargetType.PhoneNumber,
+            Type = Models::Type.PhoneNumber,
             Value = "+30123456789",
         };
 
@@ -117,7 +118,7 @@ public class EventTest : TestBase
         {
             Confidence = Confidence.Maximum,
             Label = "account.banned",
-            Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -133,7 +134,7 @@ public class EventTest : TestBase
         {
             Confidence = Confidence.Maximum,
             Label = "account.banned",
-            Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -142,9 +143,9 @@ public class EventTest : TestBase
 
         ApiEnum<string, Confidence> expectedConfidence = Confidence.Maximum;
         string expectedLabel = "account.banned";
-        EventTarget expectedTarget = new()
+        Models::Target expectedTarget = new()
         {
-            Type = EventTargetType.PhoneNumber,
+            Type = Models::Type.PhoneNumber,
             Value = "+30123456789",
         };
 
@@ -160,7 +161,7 @@ public class EventTest : TestBase
         {
             Confidence = Confidence.Maximum,
             Label = "account.banned",
-            Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
         };
 
         model.Validate();
@@ -173,7 +174,7 @@ public class EventTest : TestBase
         {
             Confidence = Confidence.Maximum,
             Label = "account.banned",
-            Target = new() { Type = EventTargetType.PhoneNumber, Value = "+30123456789" },
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
         };
 
         Event copied = new(model);
@@ -238,130 +239,6 @@ public class ConfidenceTest : TestBase
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
         var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Confidence>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class EventTargetTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new EventTarget { Type = EventTargetType.PhoneNumber, Value = "+30123456789" };
-
-        ApiEnum<string, EventTargetType> expectedType = EventTargetType.PhoneNumber;
-        string expectedValue = "+30123456789";
-
-        Assert.Equal(expectedType, model.Type);
-        Assert.Equal(expectedValue, model.Value);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new EventTarget { Type = EventTargetType.PhoneNumber, Value = "+30123456789" };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<EventTarget>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new EventTarget { Type = EventTargetType.PhoneNumber, Value = "+30123456789" };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<EventTarget>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        ApiEnum<string, EventTargetType> expectedType = EventTargetType.PhoneNumber;
-        string expectedValue = "+30123456789";
-
-        Assert.Equal(expectedType, deserialized.Type);
-        Assert.Equal(expectedValue, deserialized.Value);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new EventTarget { Type = EventTargetType.PhoneNumber, Value = "+30123456789" };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new EventTarget { Type = EventTargetType.PhoneNumber, Value = "+30123456789" };
-
-        EventTarget copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class EventTargetTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(EventTargetType.PhoneNumber)]
-    [InlineData(EventTargetType.EmailAddress)]
-    public void Validation_Works(EventTargetType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, EventTargetType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, EventTargetType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<PreludeInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(EventTargetType.PhoneNumber)]
-    [InlineData(EventTargetType.EmailAddress)]
-    public void SerializationRoundtrip_Works(EventTargetType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, EventTargetType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, EventTargetType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, EventTargetType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, EventTargetType>>(
             json,
             ModelBase.SerializerOptions
         );

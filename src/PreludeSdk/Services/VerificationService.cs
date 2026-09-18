@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PreludeSdk.Core;
 using PreludeSdk.Models.Verification;
+using PreludeSdk.Services.Verification;
 
 namespace PreludeSdk.Services;
 
@@ -33,6 +34,13 @@ public sealed class VerificationService : IVerificationService
         _withRawResponse = new(() =>
             new VerificationServiceWithRawResponse(client.WithRawResponse)
         );
+        _phone = new(() => new PhoneService(client));
+    }
+
+    readonly Lazy<IPhoneService> _phone;
+    public IPhoneService Phone
+    {
+        get { return _phone.Value; }
     }
 
     /// <inheritdoc/>
@@ -76,6 +84,14 @@ public sealed class VerificationServiceWithRawResponse : IVerificationServiceWit
     public VerificationServiceWithRawResponse(IPreludeClientWithRawResponse client)
     {
         _client = client;
+
+        _phone = new(() => new PhoneServiceWithRawResponse(client));
+    }
+
+    readonly Lazy<IPhoneServiceWithRawResponse> _phone;
+    public IPhoneServiceWithRawResponse Phone
+    {
+        get { return _phone.Value; }
     }
 
     /// <inheritdoc/>

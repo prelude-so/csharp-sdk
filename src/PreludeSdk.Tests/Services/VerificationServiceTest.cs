@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using PreludeSdk.Models.Verification;
+using PreludeSdk.Models;
 
 namespace PreludeSdk.Tests.Services;
 
@@ -25,11 +25,7 @@ public class VerificationServiceTest : TestBase
             new()
             {
                 Code = "12345",
-                Target = new()
-                {
-                    Type = VerificationCheckParamsTargetType.PhoneNumber,
-                    Value = "+30123456789",
-                },
+                Target = new() { Type = Type.PhoneNumber, Value = "+30123456789" },
             },
             TestContext.Current.CancellationToken
         );

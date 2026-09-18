@@ -163,6 +163,18 @@ public sealed class NotifyService : INotifyService
     }
 
     /// <inheritdoc/>
+    public async Task<NotifyReplyResponse> Reply(
+        NotifyReplyParams parameters,
+        CancellationToken cancellationToken = default
+    )
+    {
+        using var response = await this
+            .WithRawResponse.Reply(parameters, cancellationToken)
+            .ConfigureAwait(false);
+        return await response.Deserialize(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc/>
     public async Task<NotifySendResponse> Send(
         NotifySendParams parameters,
         CancellationToken cancellationToken = default
@@ -440,6 +452,34 @@ public sealed class NotifyServiceWithRawResponse : INotifyServiceWithRawResponse
                 ConfigID = configID,
             },
             cancellationToken
+        );
+    }
+
+    /// <inheritdoc/>
+    public async Task<HttpResponse<NotifyReplyResponse>> Reply(
+        NotifyReplyParams parameters,
+        CancellationToken cancellationToken = default
+    )
+    {
+        HttpRequest<NotifyReplyParams> request = new()
+        {
+            Method = HttpMethod.Post,
+            Params = parameters,
+        };
+        var response = await this._client.Execute(request, cancellationToken).ConfigureAwait(false);
+        return new(
+            response,
+            async (token) =>
+            {
+                var deserializedResponse = await response
+                    .Deserialize<NotifyReplyResponse>(token)
+                    .ConfigureAwait(false);
+                if (this._client.ResponseValidation)
+                {
+                    deserializedResponse.Validate();
+                }
+                return deserializedResponse;
+            }
         );
     }
 

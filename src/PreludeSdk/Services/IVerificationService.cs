@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PreludeSdk.Core;
 using PreludeSdk.Models.Verification;
+using PreludeSdk.Services.Verification;
 
 namespace PreludeSdk.Services;
 
@@ -27,6 +28,8 @@ public interface IVerificationService
     /// <para>The original service is not modified.</para>
     /// </summary>
     IVerificationService WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    IPhoneService Phone { get; }
 
     /// <summary>
     /// Create a new verification for a specific phone number. If another non-expired
@@ -59,6 +62,8 @@ public interface IVerificationServiceWithRawResponse
     /// <para>The original service is not modified.</para>
     /// </summary>
     IVerificationServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    IPhoneServiceWithRawResponse Phone { get; }
 
     /// <summary>
     /// Returns a raw HTTP response for <c>post /v2/verification</c>, but is otherwise the

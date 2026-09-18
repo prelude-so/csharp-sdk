@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -7,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 
 namespace PreludeSdk.Models.Notify;
 
@@ -468,12 +468,12 @@ public sealed record class Message : JsonModel
     /// <summary>
     /// The message creation date in RFC3339 format.
     /// </summary>
-    public DateTimeOffset? CreatedAt
+    public System::DateTimeOffset? CreatedAt
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<DateTimeOffset>("created_at");
+            return this._rawData.GetNullableStruct<System::DateTimeOffset>("created_at");
         }
         init
         {
@@ -535,12 +535,12 @@ public sealed record class Message : JsonModel
     /// <summary>
     /// The message expiration date in RFC3339 format.
     /// </summary>
-    public DateTimeOffset? ExpiresAt
+    public System::DateTimeOffset? ExpiresAt
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<DateTimeOffset>("expires_at");
+            return this._rawData.GetNullableStruct<System::DateTimeOffset>("expires_at");
         }
         init
         {
@@ -598,12 +598,12 @@ public sealed record class Message : JsonModel
     /// <summary>
     /// When the message will actually be sent in RFC3339 format with timezone offset.
     /// </summary>
-    public DateTimeOffset? ScheduleAt
+    public System::DateTimeOffset? ScheduleAt
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<DateTimeOffset>("schedule_at");
+            return this._rawData.GetNullableStruct<System::DateTimeOffset>("schedule_at");
         }
         init
         {
@@ -703,7 +703,7 @@ sealed class MessageEncodingConverter : JsonConverter<MessageEncoding>
 {
     public override MessageEncoding Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

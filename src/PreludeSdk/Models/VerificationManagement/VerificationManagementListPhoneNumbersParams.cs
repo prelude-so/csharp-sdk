@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -7,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 
 namespace PreludeSdk.Models.VerificationManagement;
 
@@ -104,9 +104,9 @@ public record class VerificationManagementListPhoneNumbersParams : ParamsBase
             && this._rawQueryData.Equals(other._rawQueryData);
     }
 
-    public override Uri Url(ClientOptions options)
+    public override System::Uri Url(ClientOptions options)
     {
-        return new UriBuilder(
+        return new System::UriBuilder(
             options.BaseUrl.ToString().TrimEnd('/')
                 + string.Format("/v2/verification/management/phone-numbers/{0}", this.Action?.Raw())
         )
@@ -142,7 +142,7 @@ sealed class VerificationManagementListPhoneNumbersParamsActionConverter
 {
     public override VerificationManagementListPhoneNumbersParamsAction Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

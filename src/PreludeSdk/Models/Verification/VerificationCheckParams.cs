@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -6,8 +7,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
-using PreludeSdk.Exceptions;
-using System = System;
 
 namespace PreludeSdk.Models.Verification;
 
@@ -43,12 +42,12 @@ public record class VerificationCheckParams : ParamsBase
     /// The verification target. Either a phone number or an email address. To use
     /// the email verification feature contact us to discuss your use case.
     /// </summary>
-    public required VerificationCheckParamsTarget Target
+    public required Target Target
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNotNullClass<VerificationCheckParamsTarget>("target");
+            return this._rawBodyData.GetNotNullClass<Target>("target");
         }
         init { this._rawBodyData.Set("target", value); }
     }
@@ -154,11 +153,9 @@ public record class VerificationCheckParams : ParamsBase
             && this._rawBodyData.Equals(other._rawBodyData);
     }
 
-    public override System::Uri Url(ClientOptions options)
+    public override Uri Url(ClientOptions options)
     {
-        return new System::UriBuilder(
-            options.BaseUrl.ToString().TrimEnd('/') + "/v2/verification/check"
-        )
+        return new UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v2/verification/check")
         {
             Query = this.QueryString(options),
         }.Uri;
@@ -185,138 +182,6 @@ public record class VerificationCheckParams : ParamsBase
     public override int GetHashCode()
     {
         return 0;
-    }
-}
-
-/// <summary>
-/// The verification target. Either a phone number or an email address. To use the
-/// email verification feature contact us to discuss your use case.
-/// </summary>
-[JsonConverter(
-    typeof(JsonModelConverter<VerificationCheckParamsTarget, VerificationCheckParamsTargetFromRaw>)
-)]
-public sealed record class VerificationCheckParamsTarget : JsonModel
-{
-    /// <summary>
-    /// The type of the target. Either "phone_number" or "email_address".
-    /// </summary>
-    public required ApiEnum<string, VerificationCheckParamsTargetType> Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<
-                ApiEnum<string, VerificationCheckParamsTargetType>
-            >("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <summary>
-    /// An E.164 formatted phone number or an email address.
-    /// </summary>
-    public required string Value
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("value");
-        }
-        init { this._rawData.Set("value", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.Type.Validate();
-        _ = this.Value;
-    }
-
-    public VerificationCheckParamsTarget() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public VerificationCheckParamsTarget(
-        VerificationCheckParamsTarget verificationCheckParamsTarget
-    )
-        : base(verificationCheckParamsTarget) { }
-#pragma warning restore CS8618
-
-    public VerificationCheckParamsTarget(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    VerificationCheckParamsTarget(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="VerificationCheckParamsTargetFromRaw.FromRawUnchecked"/>
-    public static VerificationCheckParamsTarget FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    )
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class VerificationCheckParamsTargetFromRaw : IFromRawJson<VerificationCheckParamsTarget>
-{
-    /// <inheritdoc/>
-    public VerificationCheckParamsTarget FromRawUnchecked(
-        IReadOnlyDictionary<string, JsonElement> rawData
-    ) => VerificationCheckParamsTarget.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// The type of the target. Either "phone_number" or "email_address".
-/// </summary>
-[JsonConverter(typeof(VerificationCheckParamsTargetTypeConverter))]
-public enum VerificationCheckParamsTargetType
-{
-    PhoneNumber,
-    EmailAddress,
-}
-
-sealed class VerificationCheckParamsTargetTypeConverter
-    : JsonConverter<VerificationCheckParamsTargetType>
-{
-    public override VerificationCheckParamsTargetType Read(
-        ref Utf8JsonReader reader,
-        System::Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "phone_number" => VerificationCheckParamsTargetType.PhoneNumber,
-            "email_address" => VerificationCheckParamsTargetType.EmailAddress,
-            _ => (VerificationCheckParamsTargetType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        VerificationCheckParamsTargetType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                VerificationCheckParamsTargetType.PhoneNumber => "phone_number",
-                VerificationCheckParamsTargetType.EmailAddress => "email_address",
-                _ => throw new PreludeInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
     }
 }
 
