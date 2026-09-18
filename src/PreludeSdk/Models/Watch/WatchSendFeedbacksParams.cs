@@ -171,12 +171,12 @@ public sealed record class Feedback : JsonModel
     /// <summary>
     /// The feedback target. Only supports phone numbers for now.
     /// </summary>
-    public required FeedbackTarget Target
+    public required Target Target
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<FeedbackTarget>("target");
+            return this._rawData.GetNotNullClass<Target>("target");
         }
         init { this._rawData.Set("target", value); }
     }
@@ -184,12 +184,14 @@ public sealed record class Feedback : JsonModel
     /// <summary>
     /// The type of feedback.
     /// </summary>
-    public required ApiEnum<string, FeedbackType> Type
+    public required ApiEnum<string, global::PreludeSdk.Models.Watch.Type> Type
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, FeedbackType>>("type");
+            return this._rawData.GetNotNullClass<
+                ApiEnum<string, global::PreludeSdk.Models.Watch.Type>
+            >("type");
         }
         init { this._rawData.Set("type", value); }
     }
@@ -259,139 +261,18 @@ class FeedbackFromRaw : IFromRawJson<Feedback>
 }
 
 /// <summary>
-/// The feedback target. Only supports phone numbers for now.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<FeedbackTarget, FeedbackTargetFromRaw>))]
-public sealed record class FeedbackTarget : JsonModel
-{
-    /// <summary>
-    /// The type of the target. Either "phone_number" or "email_address".
-    /// </summary>
-    public required ApiEnum<string, FeedbackTargetType> Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, FeedbackTargetType>>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <summary>
-    /// An E.164 formatted phone number or an email address.
-    /// </summary>
-    public required string Value
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("value");
-        }
-        init { this._rawData.Set("value", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.Type.Validate();
-        _ = this.Value;
-    }
-
-    public FeedbackTarget() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public FeedbackTarget(FeedbackTarget feedbackTarget)
-        : base(feedbackTarget) { }
-#pragma warning restore CS8618
-
-    public FeedbackTarget(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    FeedbackTarget(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="FeedbackTargetFromRaw.FromRawUnchecked"/>
-    public static FeedbackTarget FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class FeedbackTargetFromRaw : IFromRawJson<FeedbackTarget>
-{
-    /// <inheritdoc/>
-    public FeedbackTarget FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        FeedbackTarget.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// The type of the target. Either "phone_number" or "email_address".
-/// </summary>
-[JsonConverter(typeof(FeedbackTargetTypeConverter))]
-public enum FeedbackTargetType
-{
-    PhoneNumber,
-    EmailAddress,
-}
-
-sealed class FeedbackTargetTypeConverter : JsonConverter<FeedbackTargetType>
-{
-    public override FeedbackTargetType Read(
-        ref Utf8JsonReader reader,
-        System::Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "phone_number" => FeedbackTargetType.PhoneNumber,
-            "email_address" => FeedbackTargetType.EmailAddress,
-            _ => (FeedbackTargetType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        FeedbackTargetType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                FeedbackTargetType.PhoneNumber => "phone_number",
-                FeedbackTargetType.EmailAddress => "email_address",
-                _ => throw new PreludeInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
 /// The type of feedback.
 /// </summary>
-[JsonConverter(typeof(FeedbackTypeConverter))]
-public enum FeedbackType
+[JsonConverter(typeof(TypeConverter))]
+public enum Type
 {
     VerificationStarted,
     VerificationCompleted,
 }
 
-sealed class FeedbackTypeConverter : JsonConverter<FeedbackType>
+sealed class TypeConverter : JsonConverter<global::PreludeSdk.Models.Watch.Type>
 {
-    public override FeedbackType Read(
+    public override global::PreludeSdk.Models.Watch.Type Read(
         ref Utf8JsonReader reader,
         System::Type typeToConvert,
         JsonSerializerOptions options
@@ -399,15 +280,15 @@ sealed class FeedbackTypeConverter : JsonConverter<FeedbackType>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "verification.started" => FeedbackType.VerificationStarted,
-            "verification.completed" => FeedbackType.VerificationCompleted,
-            _ => (FeedbackType)(-1),
+            "verification.started" => global::PreludeSdk.Models.Watch.Type.VerificationStarted,
+            "verification.completed" => global::PreludeSdk.Models.Watch.Type.VerificationCompleted,
+            _ => (global::PreludeSdk.Models.Watch.Type)(-1),
         };
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        FeedbackType value,
+        global::PreludeSdk.Models.Watch.Type value,
         JsonSerializerOptions options
     )
     {
@@ -415,8 +296,9 @@ sealed class FeedbackTypeConverter : JsonConverter<FeedbackType>
             writer,
             value switch
             {
-                FeedbackType.VerificationStarted => "verification.started",
-                FeedbackType.VerificationCompleted => "verification.completed",
+                global::PreludeSdk.Models.Watch.Type.VerificationStarted => "verification.started",
+                global::PreludeSdk.Models.Watch.Type.VerificationCompleted =>
+                    "verification.completed",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

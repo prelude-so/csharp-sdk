@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -7,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 
 namespace PreludeSdk.Models.Notify;
 
@@ -180,12 +180,12 @@ public sealed record class PhoneNumber : JsonModel
     /// <summary>
     /// The date and time when the subscription status was last updated.
     /// </summary>
-    public required DateTimeOffset UpdatedAt
+    public required System::DateTimeOffset UpdatedAt
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<DateTimeOffset>("updated_at");
+            return this._rawData.GetNotNullStruct<System::DateTimeOffset>("updated_at");
         }
         init { this._rawData.Set("updated_at", value); }
     }
@@ -275,7 +275,7 @@ sealed class PhoneNumberSourceConverter : JsonConverter<PhoneNumberSource>
 {
     public override PhoneNumberSource Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {
@@ -327,7 +327,7 @@ sealed class PhoneNumberStateConverter : JsonConverter<PhoneNumberState>
 {
     public override PhoneNumberState Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

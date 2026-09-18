@@ -59,6 +59,21 @@ public class NotifyServiceTest : TestBase
     }
 
     [Fact]
+    public async Task Reply_Works()
+    {
+        var response = await this.client.Notify.Reply(
+            new()
+            {
+                ReplyTo = "im_01k8aq2zggeyssvt53zgvpx63a",
+                Text = "Thanks for reaching out! We'll look into your request.",
+                To = "+33612345678",
+            },
+            TestContext.Current.CancellationToken
+        );
+        response.Validate();
+    }
+
+    [Fact]
     public async Task Send_Works()
     {
         var response = await this.client.Notify.Send(

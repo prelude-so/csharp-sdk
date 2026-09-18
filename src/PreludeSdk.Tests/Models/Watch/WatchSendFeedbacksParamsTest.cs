@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text.Json;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
-using PreludeSdk.Models.Watch;
+using Models = PreludeSdk.Models;
+using Watch = PreludeSdk.Models.Watch;
 
 namespace PreludeSdk.Tests.Models.Watch;
 
@@ -12,29 +13,25 @@ public class WatchSendFeedbacksParamsTest : TestBase
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var parameters = new WatchSendFeedbacksParams
+        var parameters = new Watch::WatchSendFeedbacksParams
         {
             Feedbacks =
             [
                 new()
                 {
-                    Target = new()
-                    {
-                        Type = FeedbackTargetType.PhoneNumber,
-                        Value = "+30123456789",
-                    },
-                    Type = FeedbackType.VerificationStarted,
+                    Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+                    Type = Watch::Type.VerificationStarted,
                     Metadata = new() { CorrelationID = "correlation_id" },
                 },
             ],
         };
 
-        List<Feedback> expectedFeedbacks =
+        List<Watch::Feedback> expectedFeedbacks =
         [
             new()
             {
-                Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-                Type = FeedbackType.VerificationStarted,
+                Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+                Type = Watch::Type.VerificationStarted,
                 Metadata = new() { CorrelationID = "correlation_id" },
             },
         ];
@@ -49,18 +46,14 @@ public class WatchSendFeedbacksParamsTest : TestBase
     [Fact]
     public void Url_Works()
     {
-        WatchSendFeedbacksParams parameters = new()
+        Watch::WatchSendFeedbacksParams parameters = new()
         {
             Feedbacks =
             [
                 new()
                 {
-                    Target = new()
-                    {
-                        Type = FeedbackTargetType.PhoneNumber,
-                        Value = "+30123456789",
-                    },
-                    Type = FeedbackType.VerificationStarted,
+                    Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+                    Type = Watch::Type.VerificationStarted,
                     Metadata = new() { CorrelationID = "correlation_id" },
                 },
             ],
@@ -74,24 +67,20 @@ public class WatchSendFeedbacksParamsTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var parameters = new WatchSendFeedbacksParams
+        var parameters = new Watch::WatchSendFeedbacksParams
         {
             Feedbacks =
             [
                 new()
                 {
-                    Target = new()
-                    {
-                        Type = FeedbackTargetType.PhoneNumber,
-                        Value = "+30123456789",
-                    },
-                    Type = FeedbackType.VerificationStarted,
+                    Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+                    Type = Watch::Type.VerificationStarted,
                     Metadata = new() { CorrelationID = "correlation_id" },
                 },
             ],
         };
 
-        WatchSendFeedbacksParams copied = new(parameters);
+        Watch::WatchSendFeedbacksParams copied = new(parameters);
 
         Assert.Equal(parameters, copied);
     }
@@ -102,20 +91,20 @@ public class FeedbackTest : TestBase
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
             Metadata = new() { CorrelationID = "correlation_id" },
         };
 
-        FeedbackTarget expectedTarget = new()
+        Models::Target expectedTarget = new()
         {
-            Type = FeedbackTargetType.PhoneNumber,
+            Type = Models::Type.PhoneNumber,
             Value = "+30123456789",
         };
-        ApiEnum<string, FeedbackType> expectedType = FeedbackType.VerificationStarted;
-        FeedbackMetadata expectedMetadata = new() { CorrelationID = "correlation_id" };
+        ApiEnum<string, Watch::Type> expectedType = Watch::Type.VerificationStarted;
+        Watch::FeedbackMetadata expectedMetadata = new() { CorrelationID = "correlation_id" };
 
         Assert.Equal(expectedTarget, model.Target);
         Assert.Equal(expectedType, model.Type);
@@ -125,15 +114,18 @@ public class FeedbackTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
             Metadata = new() { CorrelationID = "correlation_id" },
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Feedback>(json, ModelBase.SerializerOptions);
+        var deserialized = JsonSerializer.Deserialize<Watch::Feedback>(
+            json,
+            ModelBase.SerializerOptions
+        );
 
         Assert.Equal(model, deserialized);
     }
@@ -141,27 +133,27 @@ public class FeedbackTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
             Metadata = new() { CorrelationID = "correlation_id" },
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<Feedback>(
+        var deserialized = JsonSerializer.Deserialize<Watch::Feedback>(
             element,
             ModelBase.SerializerOptions
         );
         Assert.NotNull(deserialized);
 
-        FeedbackTarget expectedTarget = new()
+        Models::Target expectedTarget = new()
         {
-            Type = FeedbackTargetType.PhoneNumber,
+            Type = Models::Type.PhoneNumber,
             Value = "+30123456789",
         };
-        ApiEnum<string, FeedbackType> expectedType = FeedbackType.VerificationStarted;
-        FeedbackMetadata expectedMetadata = new() { CorrelationID = "correlation_id" };
+        ApiEnum<string, Watch::Type> expectedType = Watch::Type.VerificationStarted;
+        Watch::FeedbackMetadata expectedMetadata = new() { CorrelationID = "correlation_id" };
 
         Assert.Equal(expectedTarget, deserialized.Target);
         Assert.Equal(expectedType, deserialized.Type);
@@ -171,10 +163,10 @@ public class FeedbackTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
             Metadata = new() { CorrelationID = "correlation_id" },
         };
 
@@ -184,10 +176,10 @@ public class FeedbackTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
         };
 
         Assert.Null(model.Metadata);
@@ -197,10 +189,10 @@ public class FeedbackTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
         };
 
         model.Validate();
@@ -209,10 +201,10 @@ public class FeedbackTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
 
             // Null should be interpreted as omitted for these properties
             Metadata = null,
@@ -225,10 +217,10 @@ public class FeedbackTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
 
             // Null should be interpreted as omitted for these properties
             Metadata = null,
@@ -240,121 +232,35 @@ public class FeedbackTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new Feedback
+        var model = new Watch::Feedback
         {
-            Target = new() { Type = FeedbackTargetType.PhoneNumber, Value = "+30123456789" },
-            Type = FeedbackType.VerificationStarted,
+            Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            Type = Watch::Type.VerificationStarted,
             Metadata = new() { CorrelationID = "correlation_id" },
         };
 
-        Feedback copied = new(model);
+        Watch::Feedback copied = new(model);
 
         Assert.Equal(model, copied);
     }
 }
 
-public class FeedbackTargetTest : TestBase
-{
-    [Fact]
-    public void FieldRoundtrip_Works()
-    {
-        var model = new FeedbackTarget
-        {
-            Type = FeedbackTargetType.PhoneNumber,
-            Value = "+30123456789",
-        };
-
-        ApiEnum<string, FeedbackTargetType> expectedType = FeedbackTargetType.PhoneNumber;
-        string expectedValue = "+30123456789";
-
-        Assert.Equal(expectedType, model.Type);
-        Assert.Equal(expectedValue, model.Value);
-    }
-
-    [Fact]
-    public void SerializationRoundtrip_Works()
-    {
-        var model = new FeedbackTarget
-        {
-            Type = FeedbackTargetType.PhoneNumber,
-            Value = "+30123456789",
-        };
-
-        string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FeedbackTarget>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(model, deserialized);
-    }
-
-    [Fact]
-    public void FieldRoundtripThroughSerialization_Works()
-    {
-        var model = new FeedbackTarget
-        {
-            Type = FeedbackTargetType.PhoneNumber,
-            Value = "+30123456789",
-        };
-
-        string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FeedbackTarget>(
-            element,
-            ModelBase.SerializerOptions
-        );
-        Assert.NotNull(deserialized);
-
-        ApiEnum<string, FeedbackTargetType> expectedType = FeedbackTargetType.PhoneNumber;
-        string expectedValue = "+30123456789";
-
-        Assert.Equal(expectedType, deserialized.Type);
-        Assert.Equal(expectedValue, deserialized.Value);
-    }
-
-    [Fact]
-    public void Validation_Works()
-    {
-        var model = new FeedbackTarget
-        {
-            Type = FeedbackTargetType.PhoneNumber,
-            Value = "+30123456789",
-        };
-
-        model.Validate();
-    }
-
-    [Fact]
-    public void CopyConstructor_Works()
-    {
-        var model = new FeedbackTarget
-        {
-            Type = FeedbackTargetType.PhoneNumber,
-            Value = "+30123456789",
-        };
-
-        FeedbackTarget copied = new(model);
-
-        Assert.Equal(model, copied);
-    }
-}
-
-public class FeedbackTargetTypeTest : TestBase
+public class TypeTest : TestBase
 {
     [Theory]
-    [InlineData(FeedbackTargetType.PhoneNumber)]
-    [InlineData(FeedbackTargetType.EmailAddress)]
-    public void Validation_Works(FeedbackTargetType rawValue)
+    [InlineData(Watch::Type.VerificationStarted)]
+    [InlineData(Watch::Type.VerificationCompleted)]
+    public void Validation_Works(Watch::Type rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FeedbackTargetType> value = rawValue;
+        ApiEnum<string, Watch::Type> value = rawValue;
         value.Validate();
     }
 
     [Fact]
     public void InvalidEnumValidationThrows_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FeedbackTargetType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, Watch::Type>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
@@ -364,15 +270,15 @@ public class FeedbackTargetTypeTest : TestBase
     }
 
     [Theory]
-    [InlineData(FeedbackTargetType.PhoneNumber)]
-    [InlineData(FeedbackTargetType.EmailAddress)]
-    public void SerializationRoundtrip_Works(FeedbackTargetType rawValue)
+    [InlineData(Watch::Type.VerificationStarted)]
+    [InlineData(Watch::Type.VerificationCompleted)]
+    public void SerializationRoundtrip_Works(Watch::Type rawValue)
     {
         // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FeedbackTargetType> value = rawValue;
+        ApiEnum<string, Watch::Type> value = rawValue;
 
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FeedbackTargetType>>(
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Watch::Type>>(
             json,
             ModelBase.SerializerOptions
         );
@@ -383,70 +289,12 @@ public class FeedbackTargetTypeTest : TestBase
     [Fact]
     public void InvalidEnumSerializationRoundtrip_Works()
     {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FeedbackTargetType>>(
+        var value = JsonSerializer.Deserialize<ApiEnum<string, Watch::Type>>(
             JsonSerializer.SerializeToElement("invalid value"),
             ModelBase.SerializerOptions
         );
         string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FeedbackTargetType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-}
-
-public class FeedbackTypeTest : TestBase
-{
-    [Theory]
-    [InlineData(FeedbackType.VerificationStarted)]
-    [InlineData(FeedbackType.VerificationCompleted)]
-    public void Validation_Works(FeedbackType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FeedbackType> value = rawValue;
-        value.Validate();
-    }
-
-    [Fact]
-    public void InvalidEnumValidationThrows_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FeedbackType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-
-        Assert.NotNull(value);
-        Assert.Throws<PreludeInvalidDataException>(() => value.Validate());
-    }
-
-    [Theory]
-    [InlineData(FeedbackType.VerificationStarted)]
-    [InlineData(FeedbackType.VerificationCompleted)]
-    public void SerializationRoundtrip_Works(FeedbackType rawValue)
-    {
-        // force implicit conversion because Theory can't do that for us
-        ApiEnum<string, FeedbackType> value = rawValue;
-
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FeedbackType>>(
-            json,
-            ModelBase.SerializerOptions
-        );
-
-        Assert.Equal(value, deserialized);
-    }
-
-    [Fact]
-    public void InvalidEnumSerializationRoundtrip_Works()
-    {
-        var value = JsonSerializer.Deserialize<ApiEnum<string, FeedbackType>>(
-            JsonSerializer.SerializeToElement("invalid value"),
-            ModelBase.SerializerOptions
-        );
-        string json = JsonSerializer.Serialize(value, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, FeedbackType>>(
+        var deserialized = JsonSerializer.Deserialize<ApiEnum<string, Watch::Type>>(
             json,
             ModelBase.SerializerOptions
         );
@@ -460,7 +308,7 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void FieldRoundtrip_Works()
     {
-        var model = new FeedbackMetadata { CorrelationID = "correlation_id" };
+        var model = new Watch::FeedbackMetadata { CorrelationID = "correlation_id" };
 
         string expectedCorrelationID = "correlation_id";
 
@@ -470,10 +318,10 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void SerializationRoundtrip_Works()
     {
-        var model = new FeedbackMetadata { CorrelationID = "correlation_id" };
+        var model = new Watch::FeedbackMetadata { CorrelationID = "correlation_id" };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FeedbackMetadata>(
+        var deserialized = JsonSerializer.Deserialize<Watch::FeedbackMetadata>(
             json,
             ModelBase.SerializerOptions
         );
@@ -484,10 +332,10 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void FieldRoundtripThroughSerialization_Works()
     {
-        var model = new FeedbackMetadata { CorrelationID = "correlation_id" };
+        var model = new Watch::FeedbackMetadata { CorrelationID = "correlation_id" };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
-        var deserialized = JsonSerializer.Deserialize<FeedbackMetadata>(
+        var deserialized = JsonSerializer.Deserialize<Watch::FeedbackMetadata>(
             element,
             ModelBase.SerializerOptions
         );
@@ -501,7 +349,7 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void Validation_Works()
     {
-        var model = new FeedbackMetadata { CorrelationID = "correlation_id" };
+        var model = new Watch::FeedbackMetadata { CorrelationID = "correlation_id" };
 
         model.Validate();
     }
@@ -509,7 +357,7 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetAreNotSet_Works()
     {
-        var model = new FeedbackMetadata { };
+        var model = new Watch::FeedbackMetadata { };
 
         Assert.Null(model.CorrelationID);
         Assert.False(model.RawData.ContainsKey("correlation_id"));
@@ -518,7 +366,7 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesUnsetValidation_Works()
     {
-        var model = new FeedbackMetadata { };
+        var model = new Watch::FeedbackMetadata { };
 
         model.Validate();
     }
@@ -526,7 +374,7 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullAreNotSet_Works()
     {
-        var model = new FeedbackMetadata
+        var model = new Watch::FeedbackMetadata
         {
             // Null should be interpreted as omitted for these properties
             CorrelationID = null,
@@ -539,7 +387,7 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void OptionalNonNullablePropertiesSetToNullValidation_Works()
     {
-        var model = new FeedbackMetadata
+        var model = new Watch::FeedbackMetadata
         {
             // Null should be interpreted as omitted for these properties
             CorrelationID = null,
@@ -551,9 +399,9 @@ public class FeedbackMetadataTest : TestBase
     [Fact]
     public void CopyConstructor_Works()
     {
-        var model = new FeedbackMetadata { CorrelationID = "correlation_id" };
+        var model = new Watch::FeedbackMetadata { CorrelationID = "correlation_id" };
 
-        FeedbackMetadata copied = new(model);
+        Watch::FeedbackMetadata copied = new(model);
 
         Assert.Equal(model, copied);
     }

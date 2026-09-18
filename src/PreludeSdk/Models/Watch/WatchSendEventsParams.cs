@@ -200,12 +200,12 @@ public sealed record class Event : JsonModel
     /// <summary>
     /// The event target. Only supports phone numbers for now.
     /// </summary>
-    public required EventTarget Target
+    public required Target Target
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<EventTarget>("target");
+            return this._rawData.GetNotNullClass<Target>("target");
         }
         init { this._rawData.Set("target", value); }
     }
@@ -308,127 +308,6 @@ sealed class ConfidenceConverter : JsonConverter<Confidence>
                 Confidence.Neutral => "neutral",
                 Confidence.Low => "low",
                 Confidence.Minimum => "minimum",
-                _ => throw new PreludeInvalidDataException(
-                    string.Format("Invalid value '{0}' in {1}", value, nameof(value))
-                ),
-            },
-            options
-        );
-    }
-}
-
-/// <summary>
-/// The event target. Only supports phone numbers for now.
-/// </summary>
-[JsonConverter(typeof(JsonModelConverter<EventTarget, EventTargetFromRaw>))]
-public sealed record class EventTarget : JsonModel
-{
-    /// <summary>
-    /// The type of the target. Either "phone_number" or "email_address".
-    /// </summary>
-    public required ApiEnum<string, EventTargetType> Type
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<ApiEnum<string, EventTargetType>>("type");
-        }
-        init { this._rawData.Set("type", value); }
-    }
-
-    /// <summary>
-    /// An E.164 formatted phone number or an email address.
-    /// </summary>
-    public required string Value
-    {
-        get
-        {
-            this._rawData.Freeze();
-            return this._rawData.GetNotNullClass<string>("value");
-        }
-        init { this._rawData.Set("value", value); }
-    }
-
-    /// <inheritdoc/>
-    public override void Validate()
-    {
-        this.Type.Validate();
-        _ = this.Value;
-    }
-
-    public EventTarget() { }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    public EventTarget(EventTarget eventTarget)
-        : base(eventTarget) { }
-#pragma warning restore CS8618
-
-    public EventTarget(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-
-#pragma warning disable CS8618
-    [SetsRequiredMembers]
-    EventTarget(FrozenDictionary<string, JsonElement> rawData)
-    {
-        this._rawData = new(rawData);
-    }
-#pragma warning restore CS8618
-
-    /// <inheritdoc cref="EventTargetFromRaw.FromRawUnchecked"/>
-    public static EventTarget FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData)
-    {
-        return new(FrozenDictionary.ToFrozenDictionary(rawData));
-    }
-}
-
-class EventTargetFromRaw : IFromRawJson<EventTarget>
-{
-    /// <inheritdoc/>
-    public EventTarget FromRawUnchecked(IReadOnlyDictionary<string, JsonElement> rawData) =>
-        EventTarget.FromRawUnchecked(rawData);
-}
-
-/// <summary>
-/// The type of the target. Either "phone_number" or "email_address".
-/// </summary>
-[JsonConverter(typeof(EventTargetTypeConverter))]
-public enum EventTargetType
-{
-    PhoneNumber,
-    EmailAddress,
-}
-
-sealed class EventTargetTypeConverter : JsonConverter<EventTargetType>
-{
-    public override EventTargetType Read(
-        ref Utf8JsonReader reader,
-        System::Type typeToConvert,
-        JsonSerializerOptions options
-    )
-    {
-        return JsonSerializer.Deserialize<string>(ref reader, options) switch
-        {
-            "phone_number" => EventTargetType.PhoneNumber,
-            "email_address" => EventTargetType.EmailAddress,
-            _ => (EventTargetType)(-1),
-        };
-    }
-
-    public override void Write(
-        Utf8JsonWriter writer,
-        EventTargetType value,
-        JsonSerializerOptions options
-    )
-    {
-        JsonSerializer.Serialize(
-            writer,
-            value switch
-            {
-                EventTargetType.PhoneNumber => "phone_number",
-                EventTargetType.EmailAddress => "email_address",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),

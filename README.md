@@ -25,15 +25,16 @@ See the [`examples`](examples) directory for complete and runnable examples.
 ```csharp
 using System;
 using PreludeSdk;
-using Verification = PreludeSdk.Models.Verification;
+using Models = PreludeSdk.Models;
+using PreludeSdk.Models.Verification;
 
 PreludeClient client = new();
 
-Verification::VerificationCreateParams parameters = new()
+VerificationCreateParams parameters = new()
 {
     Target = new()
     {
-        Type = Verification::Type.PhoneNumber,
+        Type = Models::Type.PhoneNumber,
         Value = "+30123456789",
     },
 };
@@ -247,6 +248,7 @@ To set undocumented parameters, a constructor exists that accepts dictionaries f
 ```csharp
 using System.Collections.Generic;
 using System.Text.Json;
+using PreludeSdk.Models;
 using PreludeSdk.Models.Verification;
 
 VerificationCreateParams parameters = new
@@ -327,6 +329,7 @@ Required properties on the nested parameter can also be changed or omitted using
 ```csharp
 using System.Collections.Generic;
 using System.Text.Json;
+using PreludeSdk.Models;
 using PreludeSdk.Models.Verification;
 
 VerificationCreateParams parameters = new()

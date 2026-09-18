@@ -1,8 +1,11 @@
 using System.Text.Json;
 using PreludeSdk.Exceptions;
-using PreludeSdk.Models.Lookup;
+using PreludeSdk.Models;
+using PreludeSdk.Models.Intel.Kyc;
 using PreludeSdk.Models.Notify;
 using PreludeSdk.Models.VerificationManagement;
+using History = PreludeSdk.Models.Verification.Phone.History;
+using Lookup = PreludeSdk.Models.Lookup;
 using Transactional = PreludeSdk.Models.Transactional;
 using Verification = PreludeSdk.Models.Verification;
 using Watch = PreludeSdk.Models.Watch;
@@ -26,9 +29,11 @@ public abstract record class ModelBase
         Converters =
         {
             new FrozenDictionaryConverterFactory(),
-            new ApiEnumConverter<string, Flag>(),
-            new ApiEnumConverter<string, LineType>(),
+            new ApiEnumConverter<string, DevicePlatform>(),
             new ApiEnumConverter<string, Type>(),
+            new ApiEnumConverter<string, Lookup::Flag>(),
+            new ApiEnumConverter<string, Lookup::LineType>(),
+            new ApiEnumConverter<string, Lookup::Type>(),
             new ApiEnumConverter<string, Source>(),
             new ApiEnumConverter<string, NotifyGetSubscriptionPhoneNumberResponseState>(),
             new ApiEnumConverter<string, EventSource>(),
@@ -47,28 +52,64 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, Verification::Reason>(),
             new ApiEnumConverter<string, Verification::RiskFactor>(),
             new ApiEnumConverter<string, Verification::VerificationCheckResponseStatus>(),
-            new ApiEnumConverter<string, Verification::Type>(),
             new ApiEnumConverter<string, Verification::Platform>(),
             new ApiEnumConverter<string, Verification::Channel>(),
             new ApiEnumConverter<string, Verification::Method>(),
             new ApiEnumConverter<string, Verification::PreferredChannel>(),
-            new ApiEnumConverter<string, Verification::DevicePlatform>(),
-            new ApiEnumConverter<string, Verification::VerificationCheckParamsTargetType>(),
+            new ApiEnumConverter<string, History::HistoryRetrieveResponseStatus>(),
+            new ApiEnumConverter<string, History::BlockReason>(),
+            new ApiEnumConverter<string, History::HistoryRetrieveResponseDevicePlatform>(),
+            new ApiEnumConverter<string, History::Type>(),
+            new ApiEnumConverter<string, History::AttemptChannel>(),
+            new ApiEnumConverter<string, History::DeliveryEventStatus>(),
+            new ApiEnumConverter<string, History::DeliveryStatus>(),
+            new ApiEnumConverter<string, History::PreferredChannel>(),
+            new ApiEnumConverter<string, History::AttemptStatus>(),
+            new ApiEnumConverter<string, History::Trigger>(),
+            new ApiEnumConverter<string, History::CheckChannel>(),
+            new ApiEnumConverter<string, History::StatusDetail>(),
+            new ApiEnumConverter<string, History::SignalsStatus>(),
+            new ApiEnumConverter<string, History::PhoneNumberCondition>(),
+            new ApiEnumConverter<string, History::PhoneNumberCurrentCondition>(),
+            new ApiEnumConverter<string, History::SignalsHashStatus>(),
+            new ApiEnumConverter<string, History::HistoryListResponseVerificationChannelChannel>(),
+            new ApiEnumConverter<string, History::HistoryListResponseVerificationStatus>(),
+            new ApiEnumConverter<string, History::HistoryListResponseVerificationDevicePlatform>(),
+            new ApiEnumConverter<
+                string,
+                History::HistoryListResponseVerificationPhoneNumberCondition
+            >(),
+            new ApiEnumConverter<
+                string,
+                History::HistoryListResponseVerificationSignalsHashStatus
+            >(),
+            new ApiEnumConverter<string, History::Channel>(),
+            new ApiEnumConverter<string, History::DevicePlatform>(),
+            new ApiEnumConverter<string, History::Status>(),
             new ApiEnumConverter<string, Status>(),
             new ApiEnumConverter<string, VerificationManagementSubmitSenderIDResponseStatus>(),
             new ApiEnumConverter<string, Action>(),
             new ApiEnumConverter<string, VerificationManagementListPhoneNumbersParamsAction>(),
             new ApiEnumConverter<string, VerificationManagementSetPhoneNumberParamsAction>(),
+            new ApiEnumConverter<string, Watch::Action>(),
+            new ApiEnumConverter<string, Watch::Outcome>(),
+            new ApiEnumConverter<string, Watch::Verdict>(),
+            new ApiEnumConverter<string, Watch::WatchEvaluateResponseVerdict>(),
             new ApiEnumConverter<string, Watch::Prediction>(),
             new ApiEnumConverter<string, Watch::RiskFactor>(),
             new ApiEnumConverter<string, Watch::Status>(),
             new ApiEnumConverter<string, Watch::WatchSendFeedbacksResponseStatus>(),
-            new ApiEnumConverter<string, Watch::Type>(),
-            new ApiEnumConverter<string, Watch::DevicePlatform>(),
             new ApiEnumConverter<string, Watch::Confidence>(),
-            new ApiEnumConverter<string, Watch::EventTargetType>(),
-            new ApiEnumConverter<string, Watch::FeedbackTargetType>(),
-            new ApiEnumConverter<string, Watch::FeedbackType>(),
+            new ApiEnumConverter<string, Watch::Type>(),
+            new ApiEnumConverter<string, AddressMatch>(),
+            new ApiEnumConverter<string, BirthdateMatch>(),
+            new ApiEnumConverter<string, CountryMatch>(),
+            new ApiEnumConverter<string, EmailMatch>(),
+            new ApiEnumConverter<string, FamilyNameMatch>(),
+            new ApiEnumConverter<string, GivenNameMatch>(),
+            new ApiEnumConverter<string, LocalityMatch>(),
+            new ApiEnumConverter<string, PostalCodeMatch>(),
+            new ApiEnumConverter<string, RegionMatch>(),
         },
     };
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -7,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 using Text = System.Text;
 
 namespace PreludeSdk.Models.Notify;
@@ -129,12 +129,12 @@ public record class NotifySendParams : ParamsBase
     /// The message expiration date in RFC3339 format. The message will not be sent
     /// if this time is reached.
     /// </summary>
-    public DateTimeOffset? ExpiresAt
+    public System::DateTimeOffset? ExpiresAt
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableStruct<DateTimeOffset>("expires_at");
+            return this._rawBodyData.GetNullableStruct<System::DateTimeOffset>("expires_at");
         }
         init
         {
@@ -246,12 +246,12 @@ public record class NotifySendParams : ParamsBase
     /// can be scheduled up to 90 days in advance and will be automatically adjusted
     /// for compliance with local time window restrictions.
     /// </summary>
-    public DateTimeOffset? ScheduleAt
+    public System::DateTimeOffset? ScheduleAt
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableStruct<DateTimeOffset>("schedule_at");
+            return this._rawBodyData.GetNullableStruct<System::DateTimeOffset>("schedule_at");
         }
         init
         {
@@ -368,9 +368,9 @@ public record class NotifySendParams : ParamsBase
             && this._rawBodyData.Equals(other._rawBodyData);
     }
 
-    public override Uri Url(ClientOptions options)
+    public override System::Uri Url(ClientOptions options)
     {
-        return new UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v2/notify")
+        return new System::UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v2/notify")
         {
             Query = this.QueryString(options),
         }.Uri;
@@ -515,7 +515,7 @@ sealed class PreferredChannelConverter : JsonConverter<PreferredChannel>
 {
     public override PreferredChannel Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

@@ -29,6 +29,24 @@ public interface IWatchService
     IWatchService WithOptions(Func<ClientOptions, ClientOptions> modifier);
 
     /// <summary>
+    /// **Beta.** The request and response shapes may still change, and flows and
+    /// recipes are configured by Prelude on your behalf for now. Talk to us before you
+    /// build against it.
+    ///
+    /// <para>Score a target against the rules configured for one moment in your product
+    /// — signup, checkout, password reset. The flow selects which recipes run; each
+    /// recipe scores its rules against a threshold and returns its own verdict, and the
+    /// evaluation answers with the most severe verdict and action across them. Where
+    /// Predict returns a single model-derived outcome, Eval returns the full breakdown,
+    /// so you can see which rules fired and which could not run. Scoring-only — it does
+    /// not update counters by itself.</para>
+    /// </summary>
+    Task<WatchEvaluateResponse> Evaluate(
+        WatchEvaluateParams parameters,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
     /// At signup, score the user's phone number or email address (target) as legitimate
     /// or suspicious. Scoring-only — does not update counters by itself. When using
     /// Feedback, call predict before verification.started on the same target (and
@@ -80,6 +98,15 @@ public interface IWatchServiceWithRawResponse
     /// <para>The original service is not modified.</para>
     /// </summary>
     IWatchServiceWithRawResponse WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    /// <summary>
+    /// Returns a raw HTTP response for <c>post /v2/watch/eval</c>, but is otherwise the
+    /// same as <see cref="IWatchService.Evaluate(WatchEvaluateParams, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<WatchEvaluateResponse>> Evaluate(
+        WatchEvaluateParams parameters,
+        CancellationToken cancellationToken = default
+    );
 
     /// <summary>
     /// Returns a raw HTTP response for <c>post /v2/watch/predict</c>, but is otherwise the

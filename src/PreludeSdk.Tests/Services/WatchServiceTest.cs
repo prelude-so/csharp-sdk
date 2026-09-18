@@ -1,17 +1,32 @@
 using System.Threading.Tasks;
 using PreludeSdk.Models.Watch;
+using Models = PreludeSdk.Models;
 
 namespace PreludeSdk.Tests.Services;
 
 public class WatchServiceTest : TestBase
 {
     [Fact]
+    public async Task Evaluate_Works()
+    {
+        var response = await this.client.Watch.Evaluate(
+            new()
+            {
+                FlowID = "flo_01jc0t6fwwfgfsq1md24mhyztj",
+                Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+            },
+            TestContext.Current.CancellationToken
+        );
+        response.Validate();
+    }
+
+    [Fact]
     public async Task Predict_Works()
     {
         var response = await this.client.Watch.Predict(
             new()
             {
-                Target = new() { Type = Type.PhoneNumber, Value = "+30123456789" },
+                Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
             },
             TestContext.Current.CancellationToken
         );
@@ -30,11 +45,7 @@ public class WatchServiceTest : TestBase
                     {
                         Confidence = Confidence.Maximum,
                         Label = "account.banned",
-                        Target = new()
-                        {
-                            Type = EventTargetType.PhoneNumber,
-                            Value = "+30123456789",
-                        },
+                        Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
                     },
                 ],
             },
@@ -53,12 +64,8 @@ public class WatchServiceTest : TestBase
                 [
                     new()
                     {
-                        Target = new()
-                        {
-                            Type = FeedbackTargetType.PhoneNumber,
-                            Value = "+30123456789",
-                        },
-                        Type = FeedbackType.VerificationStarted,
+                        Target = new() { Type = Models::Type.PhoneNumber, Value = "+30123456789" },
+                        Type = Type.VerificationStarted,
                         Metadata = new() { CorrelationID = "correlation_id" },
                     },
                 ],
