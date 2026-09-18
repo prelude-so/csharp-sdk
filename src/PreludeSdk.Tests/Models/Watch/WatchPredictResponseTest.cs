@@ -16,7 +16,7 @@ public class WatchPredictResponseTest : TestBase
             ID = "prd_01jc0t6fwwfgfsq1md24mhyztj",
             Prediction = Prediction.Legitimate,
             RequestID = "3d19215e-2991-4a05-a41a-527314e6ff6a",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
         };
 
         string expectedID = "prd_01jc0t6fwwfgfsq1md24mhyztj";
@@ -24,7 +24,7 @@ public class WatchPredictResponseTest : TestBase
         string expectedRequestID = "3d19215e-2991-4a05-a41a-527314e6ff6a";
         List<ApiEnum<string, RiskFactor>> expectedRiskFactors =
         [
-            RiskFactor.SuspiciousIPAddress,
+            RiskFactor.ProxyNetwork,
             RiskFactor.FraudDatabase,
         ];
 
@@ -47,7 +47,7 @@ public class WatchPredictResponseTest : TestBase
             ID = "prd_01jc0t6fwwfgfsq1md24mhyztj",
             Prediction = Prediction.Legitimate,
             RequestID = "3d19215e-2991-4a05-a41a-527314e6ff6a",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
         };
 
         string json = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -67,7 +67,7 @@ public class WatchPredictResponseTest : TestBase
             ID = "prd_01jc0t6fwwfgfsq1md24mhyztj",
             Prediction = Prediction.Legitimate,
             RequestID = "3d19215e-2991-4a05-a41a-527314e6ff6a",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
         };
 
         string element = JsonSerializer.Serialize(model, ModelBase.SerializerOptions);
@@ -82,7 +82,7 @@ public class WatchPredictResponseTest : TestBase
         string expectedRequestID = "3d19215e-2991-4a05-a41a-527314e6ff6a";
         List<ApiEnum<string, RiskFactor>> expectedRiskFactors =
         [
-            RiskFactor.SuspiciousIPAddress,
+            RiskFactor.ProxyNetwork,
             RiskFactor.FraudDatabase,
         ];
 
@@ -105,7 +105,7 @@ public class WatchPredictResponseTest : TestBase
             ID = "prd_01jc0t6fwwfgfsq1md24mhyztj",
             Prediction = Prediction.Legitimate,
             RequestID = "3d19215e-2991-4a05-a41a-527314e6ff6a",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
         };
 
         model.Validate();
@@ -179,7 +179,7 @@ public class WatchPredictResponseTest : TestBase
             ID = "prd_01jc0t6fwwfgfsq1md24mhyztj",
             Prediction = Prediction.Legitimate,
             RequestID = "3d19215e-2991-4a05-a41a-527314e6ff6a",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
         };
 
         WatchPredictResponse copied = new(model);
@@ -250,15 +250,24 @@ public class RiskFactorTest : TestBase
 {
     [Theory]
     [InlineData(RiskFactor.AccountRiskProfile)]
-    [InlineData(RiskFactor.BehavioralPattern)]
-    [InlineData(RiskFactor.DeviceAttribute)]
+    [InlineData(RiskFactor.AutomationSignature)]
+    [InlineData(RiskFactor.CarrierNotPermitted)]
+    [InlineData(RiskFactor.ClientFingerprintMismatch)]
+    [InlineData(RiskFactor.CustomPolicy)]
+    [InlineData(RiskFactor.DeviceEmulator)]
+    [InlineData(RiskFactor.DeviceNotPermitted)]
+    [InlineData(RiskFactor.DeviceReuse)]
+    [InlineData(RiskFactor.ExpiredSignals)]
     [InlineData(RiskFactor.FraudDatabase)]
-    [InlineData(RiskFactor.LocationDiscrepancy)]
-    [InlineData(RiskFactor.NetworkFingerprint)]
+    [InlineData(RiskFactor.InvalidSignature)]
+    [InlineData(RiskFactor.IPConcentration)]
+    [InlineData(RiskFactor.IPReputation)]
+    [InlineData(RiskFactor.LocationMismatch)]
+    [InlineData(RiskFactor.MissingSignals)]
+    [InlineData(RiskFactor.NumberRangeAbuse)]
     [InlineData(RiskFactor.PoorConversionHistory)]
-    [InlineData(RiskFactor.PrefixConcentration)]
-    [InlineData(RiskFactor.SuspectedRequestTampering)]
-    [InlineData(RiskFactor.SuspiciousIPAddress)]
+    [InlineData(RiskFactor.ProxyNetwork)]
+    [InlineData(RiskFactor.RepeatedAttempts)]
     [InlineData(RiskFactor.TemporaryPhoneNumber)]
     public void Validation_Works(RiskFactor rawValue)
     {
@@ -281,15 +290,24 @@ public class RiskFactorTest : TestBase
 
     [Theory]
     [InlineData(RiskFactor.AccountRiskProfile)]
-    [InlineData(RiskFactor.BehavioralPattern)]
-    [InlineData(RiskFactor.DeviceAttribute)]
+    [InlineData(RiskFactor.AutomationSignature)]
+    [InlineData(RiskFactor.CarrierNotPermitted)]
+    [InlineData(RiskFactor.ClientFingerprintMismatch)]
+    [InlineData(RiskFactor.CustomPolicy)]
+    [InlineData(RiskFactor.DeviceEmulator)]
+    [InlineData(RiskFactor.DeviceNotPermitted)]
+    [InlineData(RiskFactor.DeviceReuse)]
+    [InlineData(RiskFactor.ExpiredSignals)]
     [InlineData(RiskFactor.FraudDatabase)]
-    [InlineData(RiskFactor.LocationDiscrepancy)]
-    [InlineData(RiskFactor.NetworkFingerprint)]
+    [InlineData(RiskFactor.InvalidSignature)]
+    [InlineData(RiskFactor.IPConcentration)]
+    [InlineData(RiskFactor.IPReputation)]
+    [InlineData(RiskFactor.LocationMismatch)]
+    [InlineData(RiskFactor.MissingSignals)]
+    [InlineData(RiskFactor.NumberRangeAbuse)]
     [InlineData(RiskFactor.PoorConversionHistory)]
-    [InlineData(RiskFactor.PrefixConcentration)]
-    [InlineData(RiskFactor.SuspectedRequestTampering)]
-    [InlineData(RiskFactor.SuspiciousIPAddress)]
+    [InlineData(RiskFactor.ProxyNetwork)]
+    [InlineData(RiskFactor.RepeatedAttempts)]
     [InlineData(RiskFactor.TemporaryPhoneNumber)]
     public void SerializationRoundtrip_Works(RiskFactor rawValue)
     {
