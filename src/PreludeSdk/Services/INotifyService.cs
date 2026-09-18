@@ -30,6 +30,8 @@ public interface INotifyService
 
     /// <summary>
     /// Retrieve a specific subscription management configuration by its ID.
+    ///
+    /// <para>In order to get access to this endpoint, contact our support team. </para>
     /// </summary>
     Task<NotifyGetSubscriptionConfigResponse> GetSubscriptionConfig(
         NotifyGetSubscriptionConfigParams parameters,
@@ -46,6 +48,8 @@ public interface INotifyService
     /// <summary>
     /// Retrieve the current subscription status for a specific phone number within a
     /// subscription configuration.
+    ///
+    /// <para>In order to get access to this endpoint, contact our support team. </para>
     /// </summary>
     Task<NotifyGetSubscriptionPhoneNumberResponse> GetSubscriptionPhoneNumber(
         NotifyGetSubscriptionPhoneNumberParams parameters,
@@ -65,7 +69,9 @@ public interface INotifyService
     ///
     /// <para>Each configuration represents a subscription management setup with phone
     /// numbers for receiving opt-out/opt-in requests and a callback URL for webhook
-    /// events. </para>
+    /// events.</para>
+    ///
+    /// <para>In order to get access to this endpoint, contact our support team. </para>
     /// </summary>
     Task<NotifyListSubscriptionConfigsResponse> ListSubscriptionConfigs(
         NotifyListSubscriptionConfigsParams? parameters = null,
@@ -76,7 +82,9 @@ public interface INotifyService
     /// Retrieve a paginated list of subscription events (status changes) for a specific
     /// phone number within a subscription configuration.
     ///
-    /// <para>Events are ordered by timestamp in descending order (most recent first). </para>
+    /// <para>Events are ordered by timestamp in descending order (most recent first).</para>
+    ///
+    /// <para>In order to get access to this endpoint, contact our support team. </para>
     /// </summary>
     Task<NotifyListSubscriptionPhoneNumberEventsResponse> ListSubscriptionPhoneNumberEvents(
         NotifyListSubscriptionPhoneNumberEventsParams parameters,
@@ -94,7 +102,9 @@ public interface INotifyService
     /// Retrieve a paginated list of phone numbers and their subscription statuses for a
     /// specific subscription configuration.
     ///
-    /// <para>You can optionally filter by subscription state (SUB or UNSUB). </para>
+    /// <para>You can optionally filter by subscription state (SUB or UNSUB).</para>
+    ///
+    /// <para>In order to get access to this endpoint, contact our support team. </para>
     /// </summary>
     Task<NotifyListSubscriptionPhoneNumbersResponse> ListSubscriptionPhoneNumbers(
         NotifyListSubscriptionPhoneNumbersParams parameters,

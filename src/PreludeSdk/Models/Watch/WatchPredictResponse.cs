@@ -56,21 +56,23 @@ public sealed record class WatchPredictResponse : JsonModel
     /// <summary>
     /// The risk factors that contributed to the suspicious prediction. Only present
     /// when prediction is "suspicious" and the anti-fraud system detected specific
-    /// risk signals.  * `behavioral_pattern` - The phone number past behavior during
-    /// verification flows exhibits suspicious patterns.  * `device_attribute` -
-    /// The device exhibits characteristics associated with suspicious activity patterns.
-    ///  * `fraud_database` - The phone number has been flagged as suspicious in one
-    /// or more of our fraud databases.  * `location_discrepancy` - The phone number
-    /// prefix and IP address discrepancy indicates potential fraud.  * `network_fingerprint`
-    /// - The network connection exhibits characteristics associated with suspicious
-    /// activity patterns.  * `poor_conversion_history` - The phone number has a history
-    /// of poorly converting to a verified phone number.  * `prefix_concentration`
-    /// - The phone number is part of a range known to be associated with suspicious
-    /// activity patterns.  * `suspected_request_tampering` - The SDK signature is
-    /// invalid and the request is considered to be tampered with.  * `suspicious_ip_address`
-    /// - The IP address is deemed to be associated with suspicious activity patterns.
-    ///  * `temporary_phone_number` - The phone number is known to be a temporary
-    /// or disposable number.
+    /// risk signals.  * `account_risk_profile` - The target matches a risk profile
+    /// derived from the outcomes reported on your own account, rather than from
+    /// a signal shared across accounts.  * `behavioral_pattern` - The phone number
+    /// past behavior during verification flows exhibits suspicious patterns.  *
+    /// `device_attribute` - The device exhibits characteristics associated with
+    /// suspicious activity patterns.  * `fraud_database` - The phone number has
+    /// been flagged as suspicious in one or more of our fraud databases.  * `location_discrepancy`
+    /// - The phone number prefix and IP address discrepancy indicates potential fraud.
+    ///  * `network_fingerprint` - The network connection exhibits characteristics
+    /// associated with suspicious activity patterns.  * `poor_conversion_history`
+    /// - The phone number has a history of poorly converting to a verified phone
+    /// number.  * `prefix_concentration` - The phone number is part of a range known
+    /// to be associated with suspicious activity patterns.  * `suspected_request_tampering`
+    /// - The SDK signature is invalid and the request is considered to be tampered
+    /// with.  * `suspicious_ip_address` - The IP address is deemed to be associated
+    /// with suspicious activity patterns.  * `temporary_phone_number` - The phone
+    /// number is known to be a temporary or disposable number.
     /// </summary>
     public IReadOnlyList<ApiEnum<string, RiskFactor>>? RiskFactors
     {
@@ -195,6 +197,7 @@ sealed class PredictionConverter : JsonConverter<Prediction>
 [JsonConverter(typeof(RiskFactorConverter))]
 public enum RiskFactor
 {
+    AccountRiskProfile,
     BehavioralPattern,
     DeviceAttribute,
     FraudDatabase,
@@ -217,6 +220,7 @@ sealed class RiskFactorConverter : JsonConverter<RiskFactor>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
+            "account_risk_profile" => RiskFactor.AccountRiskProfile,
             "behavioral_pattern" => RiskFactor.BehavioralPattern,
             "device_attribute" => RiskFactor.DeviceAttribute,
             "fraud_database" => RiskFactor.FraudDatabase,
@@ -241,6 +245,7 @@ sealed class RiskFactorConverter : JsonConverter<RiskFactor>
             writer,
             value switch
             {
+                RiskFactor.AccountRiskProfile => "account_risk_profile",
                 RiskFactor.BehavioralPattern => "behavioral_pattern",
                 RiskFactor.DeviceAttribute => "device_attribute",
                 RiskFactor.FraudDatabase => "fraud_database",
