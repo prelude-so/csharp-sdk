@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using PreludeSdk.Core;
+using PreludeSdk.Services.VerificationManagement;
 using VerificationManagement = PreludeSdk.Models.VerificationManagement;
 
 namespace PreludeSdk.Services;
@@ -27,6 +28,8 @@ public interface IVerificationManagementService
     /// <para>The original service is not modified.</para>
     /// </summary>
     IVerificationManagementService WithOptions(Func<ClientOptions, ClientOptions> modifier);
+
+    ISandboxService Sandbox { get; }
 
     /// <summary>
     /// Remove a phone number from the allow or block list.
@@ -128,6 +131,8 @@ public interface IVerificationManagementServiceWithRawResponse
     IVerificationManagementServiceWithRawResponse WithOptions(
         Func<ClientOptions, ClientOptions> modifier
     );
+
+    ISandboxServiceWithRawResponse Sandbox { get; }
 
     /// <summary>
     /// Returns a raw HTTP response for <c>delete /v2/verification/management/phone-numbers/{action}</c>, but is otherwise the

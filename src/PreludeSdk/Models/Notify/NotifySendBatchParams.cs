@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -8,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 using Text = System.Text;
 
 namespace PreludeSdk.Models.Notify;
@@ -134,12 +134,12 @@ public record class NotifySendBatchParams : ParamsBase
     /// The message expiration date in RFC3339 format. Messages will not be sent
     /// after this time.
     /// </summary>
-    public DateTimeOffset? ExpiresAt
+    public System::DateTimeOffset? ExpiresAt
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableStruct<DateTimeOffset>("expires_at");
+            return this._rawBodyData.GetNullableStruct<System::DateTimeOffset>("expires_at");
         }
         init
         {
@@ -246,12 +246,12 @@ public record class NotifySendBatchParams : ParamsBase
     /// Schedule delivery in RFC3339 format. Marketing sends may be adjusted to comply
     /// with local time windows.
     /// </summary>
-    public DateTimeOffset? ScheduleAt
+    public System::DateTimeOffset? ScheduleAt
     {
         get
         {
             this._rawBodyData.Freeze();
-            return this._rawBodyData.GetNullableStruct<DateTimeOffset>("schedule_at");
+            return this._rawBodyData.GetNullableStruct<System::DateTimeOffset>("schedule_at");
         }
         init
         {
@@ -368,9 +368,9 @@ public record class NotifySendBatchParams : ParamsBase
             && this._rawBodyData.Equals(other._rawBodyData);
     }
 
-    public override Uri Url(ClientOptions options)
+    public override System::Uri Url(ClientOptions options)
     {
-        return new UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v2/notify/batch")
+        return new System::UriBuilder(options.BaseUrl.ToString().TrimEnd('/') + "/v2/notify/batch")
         {
             Query = this.QueryString(options),
         }.Uri;
@@ -522,7 +522,7 @@ sealed class NotifySendBatchParamsPreferredChannelConverter
 {
     public override NotifySendBatchParamsPreferredChannel Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

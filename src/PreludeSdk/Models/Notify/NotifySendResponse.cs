@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -6,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 
 namespace PreludeSdk.Models.Notify;
 
@@ -28,12 +28,12 @@ public sealed record class NotifySendResponse : JsonModel
     /// <summary>
     /// The message creation date in RFC3339 format.
     /// </summary>
-    public required DateTimeOffset CreatedAt
+    public required System::DateTimeOffset CreatedAt
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<DateTimeOffset>("created_at");
+            return this._rawData.GetNotNullStruct<System::DateTimeOffset>("created_at");
         }
         init { this._rawData.Set("created_at", value); }
     }
@@ -41,12 +41,12 @@ public sealed record class NotifySendResponse : JsonModel
     /// <summary>
     /// The message expiration date in RFC3339 format.
     /// </summary>
-    public required DateTimeOffset ExpiresAt
+    public required System::DateTimeOffset ExpiresAt
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<DateTimeOffset>("expires_at");
+            return this._rawData.GetNotNullStruct<System::DateTimeOffset>("expires_at");
         }
         init { this._rawData.Set("expires_at", value); }
     }
@@ -210,12 +210,12 @@ public sealed record class NotifySendResponse : JsonModel
     /// For marketing messages, this may differ from the requested schedule_at due
     /// to automatic compliance adjustments.
     /// </summary>
-    public DateTimeOffset? ScheduleAt
+    public System::DateTimeOffset? ScheduleAt
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNullableStruct<DateTimeOffset>("schedule_at");
+            return this._rawData.GetNullableStruct<System::DateTimeOffset>("schedule_at");
         }
         init
         {
@@ -298,7 +298,7 @@ sealed class EncodingConverter : JsonConverter<Encoding>
 {
     public override Encoding Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

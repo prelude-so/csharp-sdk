@@ -119,6 +119,16 @@ public interface INotifyService
     );
 
     /// <summary>
+    /// Send a free-form text reply to an inbound WhatsApp message within the 24-hour
+    /// conversation window. See [WhatsApp 2-Way
+    /// Messaging](/notify/v2/documentation/whatsapp) for details.
+    /// </summary>
+    Task<NotifyReplyResponse> Reply(
+        NotifyReplyParams parameters,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
     /// Send transactional and marketing messages to your users via SMS, RCS and
     /// WhatsApp with automatic compliance enforcement.
     /// </summary>
@@ -223,6 +233,15 @@ public interface INotifyServiceWithRawResponse
     Task<HttpResponse<NotifyListSubscriptionPhoneNumbersResponse>> ListSubscriptionPhoneNumbers(
         string configID,
         NotifyListSubscriptionPhoneNumbersParams? parameters = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Returns a raw HTTP response for <c>post /v2/notify/reply</c>, but is otherwise the
+    /// same as <see cref="INotifyService.Reply(NotifyReplyParams, CancellationToken)"/>.
+    /// </summary>
+    Task<HttpResponse<NotifyReplyResponse>> Reply(
+        NotifyReplyParams parameters,
         CancellationToken cancellationToken = default
     );
 

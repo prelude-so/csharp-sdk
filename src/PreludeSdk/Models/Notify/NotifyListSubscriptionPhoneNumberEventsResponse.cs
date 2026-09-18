@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -7,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 
 namespace PreludeSdk.Models.Notify;
 
@@ -180,12 +180,12 @@ public sealed record class Event : JsonModel
     /// <summary>
     /// The date and time when the event occurred.
     /// </summary>
-    public required DateTimeOffset Timestamp
+    public required System::DateTimeOffset Timestamp
     {
         get
         {
             this._rawData.Freeze();
-            return this._rawData.GetNotNullStruct<DateTimeOffset>("timestamp");
+            return this._rawData.GetNotNullStruct<System::DateTimeOffset>("timestamp");
         }
         init { this._rawData.Set("timestamp", value); }
     }
@@ -275,7 +275,7 @@ sealed class EventSourceConverter : JsonConverter<EventSource>
 {
     public override EventSource Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {
@@ -327,7 +327,7 @@ sealed class EventStateConverter : JsonConverter<EventState>
 {
     public override EventState Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {

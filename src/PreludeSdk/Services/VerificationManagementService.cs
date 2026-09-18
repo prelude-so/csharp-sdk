@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using PreludeSdk.Services.VerificationManagement;
 using VerificationManagement = PreludeSdk.Models.VerificationManagement;
 
 namespace PreludeSdk.Services;
@@ -34,6 +35,13 @@ public sealed class VerificationManagementService : IVerificationManagementServi
         _withRawResponse = new(() =>
             new VerificationManagementServiceWithRawResponse(client.WithRawResponse)
         );
+        _sandbox = new(() => new SandboxService(client));
+    }
+
+    readonly Lazy<ISandboxService> _sandbox;
+    public ISandboxService Sandbox
+    {
+        get { return _sandbox.Value; }
     }
 
     /// <inheritdoc/>
@@ -152,6 +160,14 @@ public sealed class VerificationManagementServiceWithRawResponse
     public VerificationManagementServiceWithRawResponse(IPreludeClientWithRawResponse client)
     {
         _client = client;
+
+        _sandbox = new(() => new SandboxServiceWithRawResponse(client));
+    }
+
+    readonly Lazy<ISandboxServiceWithRawResponse> _sandbox;
+    public ISandboxServiceWithRawResponse Sandbox
+    {
+        get { return _sandbox.Value; }
     }
 
     /// <inheritdoc/>

@@ -65,6 +65,8 @@ public interface IPreludeClient : IDisposable
     IVerificationManagementService VerificationManagement { get; }
 
     IWatchService Watch { get; }
+
+    IIntelService Intel { get; }
 }
 
 /// <summary>
@@ -110,6 +112,8 @@ public interface IPreludeClientWithRawResponse : IDisposable
     IVerificationManagementServiceWithRawResponse VerificationManagement { get; }
 
     IWatchServiceWithRawResponse Watch { get; }
+
+    IIntelServiceWithRawResponse Intel { get; }
 
     /// <summary>
     /// Sends a request to the Prelude REST API.

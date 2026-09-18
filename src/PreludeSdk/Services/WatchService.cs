@@ -34,6 +34,18 @@ public sealed class WatchService : IWatchService
     }
 
     /// <inheritdoc/>
+    public async Task<WatchEvaluateResponse> Evaluate(
+        WatchEvaluateParams parameters,
+        CancellationToken cancellationToken = default
+    )
+    {
+        using var response = await this
+            .WithRawResponse.Evaluate(parameters, cancellationToken)
+            .ConfigureAwait(false);
+        return await response.Deserialize(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc/>
     public async Task<WatchPredictResponse> Predict(
         WatchPredictParams parameters,
         CancellationToken cancellationToken = default
@@ -84,6 +96,34 @@ public sealed class WatchServiceWithRawResponse : IWatchServiceWithRawResponse
     public WatchServiceWithRawResponse(IPreludeClientWithRawResponse client)
     {
         _client = client;
+    }
+
+    /// <inheritdoc/>
+    public async Task<HttpResponse<WatchEvaluateResponse>> Evaluate(
+        WatchEvaluateParams parameters,
+        CancellationToken cancellationToken = default
+    )
+    {
+        HttpRequest<WatchEvaluateParams> request = new()
+        {
+            Method = HttpMethod.Post,
+            Params = parameters,
+        };
+        var response = await this._client.Execute(request, cancellationToken).ConfigureAwait(false);
+        return new(
+            response,
+            async (token) =>
+            {
+                var deserializedResponse = await response
+                    .Deserialize<WatchEvaluateResponse>(token)
+                    .ConfigureAwait(false);
+                if (this._client.ResponseValidation)
+                {
+                    deserializedResponse.Validate();
+                }
+                return deserializedResponse;
+            }
+        );
     }
 
     /// <inheritdoc/>

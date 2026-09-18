@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -8,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PreludeSdk.Core;
 using PreludeSdk.Exceptions;
+using System = System;
 
 namespace PreludeSdk.Models.VerificationManagement;
 
@@ -32,10 +32,7 @@ public record class VerificationManagementDeletePhoneNumberParams : ParamsBase
         get { return this._rawBodyData.Freeze(); }
     }
 
-    public ApiEnum<
-        string,
-        global::PreludeSdk.Models.VerificationManagement.Action
-    >? Action { get; init; }
+    public ApiEnum<string, Action>? Action { get; init; }
 
     /// <summary>
     /// An E.164 formatted phone number to remove from the list.
@@ -82,7 +79,7 @@ public record class VerificationManagementDeletePhoneNumberParams : ParamsBase
         FrozenDictionary<string, JsonElement> rawHeaderData,
         FrozenDictionary<string, JsonElement> rawQueryData,
         FrozenDictionary<string, JsonElement> rawBodyData,
-        ApiEnum<string, global::PreludeSdk.Models.VerificationManagement.Action> action
+        ApiEnum<string, Action> action
     )
     {
         this._rawHeaderData = new(rawHeaderData);
@@ -97,7 +94,7 @@ public record class VerificationManagementDeletePhoneNumberParams : ParamsBase
         IReadOnlyDictionary<string, JsonElement> rawHeaderData,
         IReadOnlyDictionary<string, JsonElement> rawQueryData,
         IReadOnlyDictionary<string, JsonElement> rawBodyData,
-        ApiEnum<string, global::PreludeSdk.Models.VerificationManagement.Action> action
+        ApiEnum<string, Action> action
     )
     {
         return new(
@@ -138,9 +135,9 @@ public record class VerificationManagementDeletePhoneNumberParams : ParamsBase
             && this._rawBodyData.Equals(other._rawBodyData);
     }
 
-    public override Uri Url(ClientOptions options)
+    public override System::Uri Url(ClientOptions options)
     {
-        return new UriBuilder(
+        return new System::UriBuilder(
             options.BaseUrl.ToString().TrimEnd('/')
                 + string.Format("/v2/verification/management/phone-numbers/{0}", this.Action?.Raw())
         )
@@ -180,35 +177,30 @@ public enum Action
     Block,
 }
 
-sealed class ActionConverter
-    : JsonConverter<global::PreludeSdk.Models.VerificationManagement.Action>
+sealed class ActionConverter : JsonConverter<Action>
 {
-    public override global::PreludeSdk.Models.VerificationManagement.Action Read(
+    public override Action Read(
         ref Utf8JsonReader reader,
-        Type typeToConvert,
+        System::Type typeToConvert,
         JsonSerializerOptions options
     )
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "allow" => global::PreludeSdk.Models.VerificationManagement.Action.Allow,
-            "block" => global::PreludeSdk.Models.VerificationManagement.Action.Block,
-            _ => (global::PreludeSdk.Models.VerificationManagement.Action)(-1),
+            "allow" => Action.Allow,
+            "block" => Action.Block,
+            _ => (Action)(-1),
         };
     }
 
-    public override void Write(
-        Utf8JsonWriter writer,
-        global::PreludeSdk.Models.VerificationManagement.Action value,
-        JsonSerializerOptions options
-    )
+    public override void Write(Utf8JsonWriter writer, Action value, JsonSerializerOptions options)
     {
         JsonSerializer.Serialize(
             writer,
             value switch
             {
-                global::PreludeSdk.Models.VerificationManagement.Action.Allow => "allow",
-                global::PreludeSdk.Models.VerificationManagement.Action.Block => "block",
+                Action.Allow => "allow",
+                Action.Block => "block",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))
                 ),
