@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 (2026-09-18)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/prelude-so/csharp-sdk/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* **api:** manual updates ([7d8551b](https://github.com/prelude-so/csharp-sdk/commit/7d8551be0c36fd13dde4250fc430d65fb9f153b0))
+
 ## 0.4.0 (2026-09-15)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/prelude-so/csharp-sdk/compare/v0.3.0...v0.4.0)
