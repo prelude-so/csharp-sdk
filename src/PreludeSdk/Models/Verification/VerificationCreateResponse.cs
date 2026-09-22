@@ -118,9 +118,10 @@ public sealed record class VerificationCreateResponse : JsonModel
     /// block list.  * `invalid_phone_line` - The phone number is not a valid line
     /// number (e.g. landline).  * `invalid_phone_number` - The phone number is not
     /// a valid phone number (e.g. unallocated range).  * `invalid_signature` - The
-    /// signature of the SDK signals is invalid.  * `repeated_attempts` - The phone
-    /// number has made too many verification attempts.  * `suspicious` - The verification
-    /// attempt was deemed suspicious by the anti-fraud system.
+    /// SDK signature did not verify, so the request cannot be attributed to the device
+    /// it claims to come from.  * `repeated_attempts` - The phone number exceeded
+    /// the allowed number of verification attempts in a short period.  * `suspicious`
+    /// - The verification attempt was deemed suspicious by the anti-fraud system.
     /// </summary>
     public ApiEnum<string, Reason>? Reason
     {
@@ -161,21 +162,30 @@ public sealed record class VerificationCreateResponse : JsonModel
     /// <summary>
     /// The risk factors that contributed to the verification being blocked. Only
     /// present when status is "blocked" or "shadow_blocked" and the anti-fraud system
-    /// detected specific risk signals.  * `behavioral_pattern` - The phone number
-    /// past behavior during verification flows exhibits suspicious patterns.  * `device_attribute`
-    /// - The device exhibits characteristics associated with suspicious activity
-    /// patterns.  * `fraud_database` - The phone number has been flagged as suspicious
-    /// in one or more of our fraud databases.  * `location_discrepancy` - The phone
-    /// number prefix and IP address discrepancy indicates potential fraud.  * `network_fingerprint`
-    /// - The network connection exhibits characteristics associated with suspicious
-    /// activity patterns.  * `poor_conversion_history` - The phone number has a
-    /// history of poorly converting to a verified phone number.  * `prefix_concentration`
-    /// - The phone number is part of a range known to be associated with suspicious
-    /// activity patterns.  * `suspected_request_tampering` - The SDK signature is
-    /// invalid and the request is considered to be tampered with.  * `suspicious_ip_address`
-    /// - The IP address is deemed to be associated with suspicious activity patterns.
-    ///  * `temporary_phone_number` - The phone number is known to be a temporary
-    /// or disposable number.
+    /// detected specific risk signals.  * `automation_signature` - The request appears
+    /// to come from an automated client rather than a person.  * `carrier_not_permitted`
+    /// - The destination carrier is one this account does not accept traffic for.
+    ///  * `client_fingerprint_mismatch` - The client does not appear to be the platform
+    /// it identifies itself as.  * `custom_policy` - A rule configured for your account
+    /// matched this request.  * `device_emulator` - The request appears to come from
+    /// an emulator rather than a physical device.  * `device_not_permitted` - The
+    /// device platform is one your account blocks.  * `device_reuse` - One device
+    /// is driving verifications for an unusual number of phone numbers.  * `expired_signals`
+    /// - The SDK signals were collected too long before the request to still attest
+    /// to it.  * `fraud_database` - The phone number is flagged in one or more of
+    /// the fraud databases Prelude consults.  * `invalid_signature` - The SDK signature
+    /// did not verify, so the request cannot be attributed to the device it claims
+    /// to come from.  * `ip_concentration` - The request shares its origin with an
+    /// unusual volume of other verifications.  * `ip_reputation` - The originating
+    /// IP address is not trusted.  * `location_mismatch` - The network location and
+    /// the phone number's country are inconsistent.  * `missing_signals` - The verification
+    /// expected Prelude SDK signals and none arrived.  * `number_range_abuse` - The
+    /// phone number belongs to a range currently associated with abuse.  * `poor_conversion_history`
+    /// - Traffic resembling this request rarely completes a verification.  * `proxy_network`
+    /// - The request did not arrive over the subscriber's own access network.  *
+    /// `repeated_attempts` - The phone number exceeded the allowed number of verification
+    /// attempts in a short period.  * `temporary_phone_number` - The phone number
+    /// belongs to a disposable or short-lived numbering service.
     /// </summary>
     public IReadOnlyList<ApiEnum<string, RiskFactor>>? RiskFactors
     {
@@ -541,10 +551,11 @@ class VerificationCreateResponseMetadataFromRaw : IFromRawJson<VerificationCreat
 ///  * `in_block_list` - The phone number is part of the configured block list.  *
 /// `invalid_phone_line` - The phone number is not a valid line number (e.g. landline).
 ///  * `invalid_phone_number` - The phone number is not a valid phone number (e.g.
-/// unallocated range).  * `invalid_signature` - The signature of the SDK signals
-/// is invalid.  * `repeated_attempts` - The phone number has made too many verification
-/// attempts.  * `suspicious` - The verification attempt was deemed suspicious by
-/// the anti-fraud system.
+/// unallocated range).  * `invalid_signature` - The SDK signature did not verify,
+/// so the request cannot be attributed to the device it claims to come from.  *
+/// `repeated_attempts` - The phone number exceeded the allowed number of verification
+/// attempts in a short period.  * `suspicious` - The verification attempt was deemed
+/// suspicious by the anti-fraud system.
 /// </summary>
 [JsonConverter(typeof(ReasonConverter))]
 public enum Reason
@@ -604,15 +615,24 @@ sealed class ReasonConverter : JsonConverter<Reason>
 [JsonConverter(typeof(RiskFactorConverter))]
 public enum RiskFactor
 {
-    BehavioralPattern,
-    DeviceAttribute,
+    AutomationSignature,
+    CarrierNotPermitted,
+    ClientFingerprintMismatch,
+    CustomPolicy,
+    DeviceEmulator,
+    DeviceNotPermitted,
+    DeviceReuse,
+    ExpiredSignals,
     FraudDatabase,
-    LocationDiscrepancy,
-    NetworkFingerprint,
+    InvalidSignature,
+    IPConcentration,
+    IPReputation,
+    LocationMismatch,
+    MissingSignals,
+    NumberRangeAbuse,
     PoorConversionHistory,
-    PrefixConcentration,
-    SuspectedRequestTampering,
-    SuspiciousIPAddress,
+    ProxyNetwork,
+    RepeatedAttempts,
     TemporaryPhoneNumber,
 }
 
@@ -626,15 +646,24 @@ sealed class RiskFactorConverter : JsonConverter<RiskFactor>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "behavioral_pattern" => RiskFactor.BehavioralPattern,
-            "device_attribute" => RiskFactor.DeviceAttribute,
+            "automation_signature" => RiskFactor.AutomationSignature,
+            "carrier_not_permitted" => RiskFactor.CarrierNotPermitted,
+            "client_fingerprint_mismatch" => RiskFactor.ClientFingerprintMismatch,
+            "custom_policy" => RiskFactor.CustomPolicy,
+            "device_emulator" => RiskFactor.DeviceEmulator,
+            "device_not_permitted" => RiskFactor.DeviceNotPermitted,
+            "device_reuse" => RiskFactor.DeviceReuse,
+            "expired_signals" => RiskFactor.ExpiredSignals,
             "fraud_database" => RiskFactor.FraudDatabase,
-            "location_discrepancy" => RiskFactor.LocationDiscrepancy,
-            "network_fingerprint" => RiskFactor.NetworkFingerprint,
+            "invalid_signature" => RiskFactor.InvalidSignature,
+            "ip_concentration" => RiskFactor.IPConcentration,
+            "ip_reputation" => RiskFactor.IPReputation,
+            "location_mismatch" => RiskFactor.LocationMismatch,
+            "missing_signals" => RiskFactor.MissingSignals,
+            "number_range_abuse" => RiskFactor.NumberRangeAbuse,
             "poor_conversion_history" => RiskFactor.PoorConversionHistory,
-            "prefix_concentration" => RiskFactor.PrefixConcentration,
-            "suspected_request_tampering" => RiskFactor.SuspectedRequestTampering,
-            "suspicious_ip_address" => RiskFactor.SuspiciousIPAddress,
+            "proxy_network" => RiskFactor.ProxyNetwork,
+            "repeated_attempts" => RiskFactor.RepeatedAttempts,
             "temporary_phone_number" => RiskFactor.TemporaryPhoneNumber,
             _ => (RiskFactor)(-1),
         };
@@ -650,15 +679,24 @@ sealed class RiskFactorConverter : JsonConverter<RiskFactor>
             writer,
             value switch
             {
-                RiskFactor.BehavioralPattern => "behavioral_pattern",
-                RiskFactor.DeviceAttribute => "device_attribute",
+                RiskFactor.AutomationSignature => "automation_signature",
+                RiskFactor.CarrierNotPermitted => "carrier_not_permitted",
+                RiskFactor.ClientFingerprintMismatch => "client_fingerprint_mismatch",
+                RiskFactor.CustomPolicy => "custom_policy",
+                RiskFactor.DeviceEmulator => "device_emulator",
+                RiskFactor.DeviceNotPermitted => "device_not_permitted",
+                RiskFactor.DeviceReuse => "device_reuse",
+                RiskFactor.ExpiredSignals => "expired_signals",
                 RiskFactor.FraudDatabase => "fraud_database",
-                RiskFactor.LocationDiscrepancy => "location_discrepancy",
-                RiskFactor.NetworkFingerprint => "network_fingerprint",
+                RiskFactor.InvalidSignature => "invalid_signature",
+                RiskFactor.IPConcentration => "ip_concentration",
+                RiskFactor.IPReputation => "ip_reputation",
+                RiskFactor.LocationMismatch => "location_mismatch",
+                RiskFactor.MissingSignals => "missing_signals",
+                RiskFactor.NumberRangeAbuse => "number_range_abuse",
                 RiskFactor.PoorConversionHistory => "poor_conversion_history",
-                RiskFactor.PrefixConcentration => "prefix_concentration",
-                RiskFactor.SuspectedRequestTampering => "suspected_request_tampering",
-                RiskFactor.SuspiciousIPAddress => "suspicious_ip_address",
+                RiskFactor.ProxyNetwork => "proxy_network",
+                RiskFactor.RepeatedAttempts => "repeated_attempts",
                 RiskFactor.TemporaryPhoneNumber => "temporary_phone_number",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))

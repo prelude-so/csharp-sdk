@@ -20,7 +20,7 @@ public class VerificationCreateResponseTest : TestBase
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
             Silent = new("request_url"),
         };
 
@@ -40,7 +40,7 @@ public class VerificationCreateResponseTest : TestBase
         string expectedRequestID = "request_id";
         List<ApiEnum<string, RiskFactor>> expectedRiskFactors =
         [
-            RiskFactor.SuspiciousIPAddress,
+            RiskFactor.ProxyNetwork,
             RiskFactor.FraudDatabase,
         ];
         Silent expectedSilent = new("request_url");
@@ -78,7 +78,7 @@ public class VerificationCreateResponseTest : TestBase
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
             Silent = new("request_url"),
         };
 
@@ -103,7 +103,7 @@ public class VerificationCreateResponseTest : TestBase
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
             Silent = new("request_url"),
         };
 
@@ -130,7 +130,7 @@ public class VerificationCreateResponseTest : TestBase
         string expectedRequestID = "request_id";
         List<ApiEnum<string, RiskFactor>> expectedRiskFactors =
         [
-            RiskFactor.SuspiciousIPAddress,
+            RiskFactor.ProxyNetwork,
             RiskFactor.FraudDatabase,
         ];
         Silent expectedSilent = new("request_url");
@@ -168,7 +168,7 @@ public class VerificationCreateResponseTest : TestBase
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
             Silent = new("request_url"),
         };
 
@@ -277,7 +277,7 @@ public class VerificationCreateResponseTest : TestBase
             Metadata = new() { CorrelationID = "correlation_id" },
             Reason = Reason.InvalidPhoneNumber,
             RequestID = "request_id",
-            RiskFactors = [RiskFactor.SuspiciousIPAddress, RiskFactor.FraudDatabase],
+            RiskFactors = [RiskFactor.ProxyNetwork, RiskFactor.FraudDatabase],
             Silent = new("request_url"),
         };
 
@@ -654,15 +654,24 @@ public class ReasonTest : TestBase
 public class RiskFactorTest : TestBase
 {
     [Theory]
-    [InlineData(RiskFactor.BehavioralPattern)]
-    [InlineData(RiskFactor.DeviceAttribute)]
+    [InlineData(RiskFactor.AutomationSignature)]
+    [InlineData(RiskFactor.CarrierNotPermitted)]
+    [InlineData(RiskFactor.ClientFingerprintMismatch)]
+    [InlineData(RiskFactor.CustomPolicy)]
+    [InlineData(RiskFactor.DeviceEmulator)]
+    [InlineData(RiskFactor.DeviceNotPermitted)]
+    [InlineData(RiskFactor.DeviceReuse)]
+    [InlineData(RiskFactor.ExpiredSignals)]
     [InlineData(RiskFactor.FraudDatabase)]
-    [InlineData(RiskFactor.LocationDiscrepancy)]
-    [InlineData(RiskFactor.NetworkFingerprint)]
+    [InlineData(RiskFactor.InvalidSignature)]
+    [InlineData(RiskFactor.IPConcentration)]
+    [InlineData(RiskFactor.IPReputation)]
+    [InlineData(RiskFactor.LocationMismatch)]
+    [InlineData(RiskFactor.MissingSignals)]
+    [InlineData(RiskFactor.NumberRangeAbuse)]
     [InlineData(RiskFactor.PoorConversionHistory)]
-    [InlineData(RiskFactor.PrefixConcentration)]
-    [InlineData(RiskFactor.SuspectedRequestTampering)]
-    [InlineData(RiskFactor.SuspiciousIPAddress)]
+    [InlineData(RiskFactor.ProxyNetwork)]
+    [InlineData(RiskFactor.RepeatedAttempts)]
     [InlineData(RiskFactor.TemporaryPhoneNumber)]
     public void Validation_Works(RiskFactor rawValue)
     {
@@ -684,15 +693,24 @@ public class RiskFactorTest : TestBase
     }
 
     [Theory]
-    [InlineData(RiskFactor.BehavioralPattern)]
-    [InlineData(RiskFactor.DeviceAttribute)]
+    [InlineData(RiskFactor.AutomationSignature)]
+    [InlineData(RiskFactor.CarrierNotPermitted)]
+    [InlineData(RiskFactor.ClientFingerprintMismatch)]
+    [InlineData(RiskFactor.CustomPolicy)]
+    [InlineData(RiskFactor.DeviceEmulator)]
+    [InlineData(RiskFactor.DeviceNotPermitted)]
+    [InlineData(RiskFactor.DeviceReuse)]
+    [InlineData(RiskFactor.ExpiredSignals)]
     [InlineData(RiskFactor.FraudDatabase)]
-    [InlineData(RiskFactor.LocationDiscrepancy)]
-    [InlineData(RiskFactor.NetworkFingerprint)]
+    [InlineData(RiskFactor.InvalidSignature)]
+    [InlineData(RiskFactor.IPConcentration)]
+    [InlineData(RiskFactor.IPReputation)]
+    [InlineData(RiskFactor.LocationMismatch)]
+    [InlineData(RiskFactor.MissingSignals)]
+    [InlineData(RiskFactor.NumberRangeAbuse)]
     [InlineData(RiskFactor.PoorConversionHistory)]
-    [InlineData(RiskFactor.PrefixConcentration)]
-    [InlineData(RiskFactor.SuspectedRequestTampering)]
-    [InlineData(RiskFactor.SuspiciousIPAddress)]
+    [InlineData(RiskFactor.ProxyNetwork)]
+    [InlineData(RiskFactor.RepeatedAttempts)]
     [InlineData(RiskFactor.TemporaryPhoneNumber)]
     public void SerializationRoundtrip_Works(RiskFactor rawValue)
     {
