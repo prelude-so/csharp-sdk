@@ -73,8 +73,8 @@ public sealed record class HistoryRetrieveResponse : JsonModel
     /// `invalid_line` - The phone number is not a valid line type.  * `invalid_number`
     /// - The phone number is not a valid number.  * `rate_limited` - The verification
     /// was refused by a rate limit.  * `expired_signals` - The SDK signals were
-    /// collected too long before the request.  * `shadowed` - The anti-fraud system
-    /// flagged the verification without blocking it.
+    /// collected too long before the request to still attest to it.  * `shadowed`
+    /// - The anti-fraud system flagged the verification without blocking it.
     /// </summary>
     public required ApiEnum<string, HistoryRetrieveResponseStatus> Status
     {
@@ -110,21 +110,32 @@ public sealed record class HistoryRetrieveResponse : JsonModel
     }
 
     /// <summary>
-    /// Why the anti-fraud system blocked the verification. Empty unless it did.
-    /// * `behavioral_pattern` - The phone number past behavior during verification
-    /// flows exhibits suspicious patterns.  * `device_attribute` - The end-user
-    /// device reported attributes associated with fraud or emulation.  * `fraud_database`
-    /// - The phone number appears in a fraud database.  * `location_discrepancy`
-    /// - The phone number region and the observed location disagree.  * `missing_signals`
-    /// - The verification expected Prelude SDK signals and none arrived.  * `network_fingerprint`
-    /// - The network fingerprint matches known fraudulent traffic.  * `poor_conversion_history`
-    /// - The phone number rarely completes the verifications it starts.  * `prefix_concentration`
-    /// - The phone number is part of a range known to be associated with suspicious
-    /// activity patterns.  * `repeated_number` - The phone number was used far more
-    /// often than normal traffic would explain.  * `suspected_request_tampering`
-    /// - The SDK signals were altered or expired between collection and use.  * `suspicious_ip_address`
-    /// - The originating IP address is associated with suspicious activity.  * `temporary_phone_number`
-    /// - The phone number is known to be a temporary or disposable number.
+    /// Why the anti-fraud system blocked the verification. Empty unless it did. These
+    /// are the same labels the Verify and Watch APIs serve as `risk_factors`.  *
+    /// `automation_signature` - The request appears to come from an automated client
+    /// rather than a person.  * `carrier_not_permitted` - The destination carrier
+    /// is one this account does not accept traffic for.  * `client_fingerprint_mismatch`
+    /// - The client does not appear to be the platform it identifies itself as.
+    /// * `custom_policy` - A rule configured for your account matched this request.
+    ///  * `device_emulator` - The request appears to come from an emulator rather
+    /// than a physical device.  * `device_not_permitted` - The device platform is
+    /// one your account blocks.  * `device_reuse` - One device is driving verifications
+    /// for an unusual number of phone numbers.  * `expired_signals` - The SDK signals
+    /// were collected too long before the request to still attest to it.  * `fraud_database`
+    /// - The phone number is flagged in one or more of the fraud databases Prelude
+    /// consults.  * `invalid_signature` - The SDK signature did not verify, so the
+    /// request cannot be attributed to the device it claims to come from.  * `ip_concentration`
+    /// - The request shares its origin with an unusual volume of other verifications.
+    ///  * `ip_reputation` - The originating IP address is not trusted.  * `location_mismatch`
+    /// - The network location and the phone number's country are inconsistent.
+    /// * `missing_signals` - The verification expected Prelude SDK signals and none
+    /// arrived.  * `number_range_abuse` - The phone number belongs to a range currently
+    /// associated with abuse.  * `poor_conversion_history` - Traffic resembling this
+    /// request rarely completes a verification.  * `proxy_network` - The request
+    /// did not arrive over the subscriber's own access network.  * `repeated_attempts`
+    /// - The phone number exceeded the allowed number of verification attempts in
+    /// a short period.  * `temporary_phone_number` - The phone number belongs to
+    /// a disposable or short-lived numbering service.
     /// </summary>
     public IReadOnlyList<ApiEnum<string, BlockReason>>? BlockReasons
     {
@@ -531,8 +542,9 @@ class HistoryRetrieveResponseFromRaw : IFromRawJson<HistoryRetrieveResponse>
 /// number is on the configured block list.  * `invalid_line` - The phone number is
 /// not a valid line type.  * `invalid_number` - The phone number is not a valid number.
 ///  * `rate_limited` - The verification was refused by a rate limit.  * `expired_signals`
-/// - The SDK signals were collected too long before the request.  * `shadowed` -
-/// The anti-fraud system flagged the verification without blocking it.
+/// - The SDK signals were collected too long before the request to still attest to
+/// it.  * `shadowed` - The anti-fraud system flagged the verification without blocking
+/// it.
 /// </summary>
 [JsonConverter(typeof(HistoryRetrieveResponseStatusConverter))]
 public enum HistoryRetrieveResponseStatus
@@ -611,17 +623,24 @@ sealed class HistoryRetrieveResponseStatusConverter : JsonConverter<HistoryRetri
 [JsonConverter(typeof(BlockReasonConverter))]
 public enum BlockReason
 {
-    BehavioralPattern,
-    DeviceAttribute,
+    AutomationSignature,
+    CarrierNotPermitted,
+    ClientFingerprintMismatch,
+    CustomPolicy,
+    DeviceEmulator,
+    DeviceNotPermitted,
+    DeviceReuse,
+    ExpiredSignals,
     FraudDatabase,
-    LocationDiscrepancy,
+    InvalidSignature,
+    IPConcentration,
+    IPReputation,
+    LocationMismatch,
     MissingSignals,
-    NetworkFingerprint,
+    NumberRangeAbuse,
     PoorConversionHistory,
-    PrefixConcentration,
-    RepeatedNumber,
-    SuspectedRequestTampering,
-    SuspiciousIPAddress,
+    ProxyNetwork,
+    RepeatedAttempts,
     TemporaryPhoneNumber,
 }
 
@@ -635,17 +654,24 @@ sealed class BlockReasonConverter : JsonConverter<BlockReason>
     {
         return JsonSerializer.Deserialize<string>(ref reader, options) switch
         {
-            "behavioral_pattern" => BlockReason.BehavioralPattern,
-            "device_attribute" => BlockReason.DeviceAttribute,
+            "automation_signature" => BlockReason.AutomationSignature,
+            "carrier_not_permitted" => BlockReason.CarrierNotPermitted,
+            "client_fingerprint_mismatch" => BlockReason.ClientFingerprintMismatch,
+            "custom_policy" => BlockReason.CustomPolicy,
+            "device_emulator" => BlockReason.DeviceEmulator,
+            "device_not_permitted" => BlockReason.DeviceNotPermitted,
+            "device_reuse" => BlockReason.DeviceReuse,
+            "expired_signals" => BlockReason.ExpiredSignals,
             "fraud_database" => BlockReason.FraudDatabase,
-            "location_discrepancy" => BlockReason.LocationDiscrepancy,
+            "invalid_signature" => BlockReason.InvalidSignature,
+            "ip_concentration" => BlockReason.IPConcentration,
+            "ip_reputation" => BlockReason.IPReputation,
+            "location_mismatch" => BlockReason.LocationMismatch,
             "missing_signals" => BlockReason.MissingSignals,
-            "network_fingerprint" => BlockReason.NetworkFingerprint,
+            "number_range_abuse" => BlockReason.NumberRangeAbuse,
             "poor_conversion_history" => BlockReason.PoorConversionHistory,
-            "prefix_concentration" => BlockReason.PrefixConcentration,
-            "repeated_number" => BlockReason.RepeatedNumber,
-            "suspected_request_tampering" => BlockReason.SuspectedRequestTampering,
-            "suspicious_ip_address" => BlockReason.SuspiciousIPAddress,
+            "proxy_network" => BlockReason.ProxyNetwork,
+            "repeated_attempts" => BlockReason.RepeatedAttempts,
             "temporary_phone_number" => BlockReason.TemporaryPhoneNumber,
             _ => (BlockReason)(-1),
         };
@@ -661,17 +687,24 @@ sealed class BlockReasonConverter : JsonConverter<BlockReason>
             writer,
             value switch
             {
-                BlockReason.BehavioralPattern => "behavioral_pattern",
-                BlockReason.DeviceAttribute => "device_attribute",
+                BlockReason.AutomationSignature => "automation_signature",
+                BlockReason.CarrierNotPermitted => "carrier_not_permitted",
+                BlockReason.ClientFingerprintMismatch => "client_fingerprint_mismatch",
+                BlockReason.CustomPolicy => "custom_policy",
+                BlockReason.DeviceEmulator => "device_emulator",
+                BlockReason.DeviceNotPermitted => "device_not_permitted",
+                BlockReason.DeviceReuse => "device_reuse",
+                BlockReason.ExpiredSignals => "expired_signals",
                 BlockReason.FraudDatabase => "fraud_database",
-                BlockReason.LocationDiscrepancy => "location_discrepancy",
+                BlockReason.InvalidSignature => "invalid_signature",
+                BlockReason.IPConcentration => "ip_concentration",
+                BlockReason.IPReputation => "ip_reputation",
+                BlockReason.LocationMismatch => "location_mismatch",
                 BlockReason.MissingSignals => "missing_signals",
-                BlockReason.NetworkFingerprint => "network_fingerprint",
+                BlockReason.NumberRangeAbuse => "number_range_abuse",
                 BlockReason.PoorConversionHistory => "poor_conversion_history",
-                BlockReason.PrefixConcentration => "prefix_concentration",
-                BlockReason.RepeatedNumber => "repeated_number",
-                BlockReason.SuspectedRequestTampering => "suspected_request_tampering",
-                BlockReason.SuspiciousIPAddress => "suspicious_ip_address",
+                BlockReason.ProxyNetwork => "proxy_network",
+                BlockReason.RepeatedAttempts => "repeated_attempts",
                 BlockReason.TemporaryPhoneNumber => "temporary_phone_number",
                 _ => throw new PreludeInvalidDataException(
                     string.Format("Invalid value '{0}' in {1}", value, nameof(value))

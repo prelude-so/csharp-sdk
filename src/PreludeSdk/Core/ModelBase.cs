@@ -93,6 +93,7 @@ public abstract record class ModelBase
             new ApiEnumConverter<string, VerificationManagementSetPhoneNumberParamsAction>(),
             new ApiEnumConverter<string, Watch::Action>(),
             new ApiEnumConverter<string, Watch::Outcome>(),
+            new ApiEnumConverter<string, Watch::RuleType>(),
             new ApiEnumConverter<string, Watch::Verdict>(),
             new ApiEnumConverter<string, Watch::WatchEvaluateResponseVerdict>(),
             new ApiEnumConverter<string, Watch::Prediction>(),
